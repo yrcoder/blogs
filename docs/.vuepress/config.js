@@ -11,7 +11,7 @@ module.exports = {
         editLinks: false,
         head: [['link', { rel: 'icon', href: `/favicon.ico` }]],
         nav: [
-            { text: '语法', link: '/grammar/html+css' },
+            { text: '语法', link: '/grammar/htmlCss' },
             { text: '教育', link: '/education/theory' },
             { text: '记录', link: '/date/2018' },
             { text: '随笔', link: '/essay/2018' },
@@ -23,7 +23,7 @@ module.exports = {
                 {
                     title: '基础语法',
                     collapsable: false,
-                    children: ['html+css', 'BOM', 'DOM', 'js', 'es6', 'git'],
+                    children: ['htmlCss', 'bom', 'dom', 'js', 'es6', 'git'],
                 },
                 {
                     title: '其他语法',
