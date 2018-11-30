@@ -11,50 +11,58 @@ module.exports = {
         editLinks: false,
         nav: [
             { text: '语法', link: '/grammar/html' },
-            { text: 'demo', link: '/demo/iframe' },
-            { text: '思考', link: '/thinking/loan' },
-            { text: '其他', link: '/other/电商所用技术' },
-            { text: '记录', link: '/date/2018-09' },
+            { text: '教育', link: '/education/theory' },
+            { text: '其他', link: '/other/fingerling' },
+            { text: '记录', link: '/date/2018' },
+            { text: 'essay', link: '/essay/2018' },
+            { text: 'english', link: '/english/' },
         ],
         sidebar: {
             '/grammar/': [
                 {
                     title: '基础语法',
                     collapsable: false,
-                    children: ['html', 'css', 'BOM', 'DOM', 'js', 'es6'],
+                    children: ['html', 'css', 'BOM', 'DOM', 'js', 'es6', 'npm', 'git'],
                 },
                 {
-                    title: '框架语法',
+                    title: '其他语法',
                     collapsable: false,
-                    children: ['vue', 'react'],
-                },
-            ],
-            '/demo/': [
-                {
-                    title: '基础demo',
-                    collapsable: false,
-                    children: ['iframe'],
+                    children: ['vue', 'react', 'springBoot', 'node'],
                 },
             ],
-            '/thinking/': [
+            '/education/': [
                 {
-                    title: '项目',
+                    title: '教育',
                     collapsable: false,
-                    children: ['loan'],
+                    children: ['theory', 'exam', 'other'],
                 },
             ],
             '/other/': [
                 {
-                    title: '一些零碎的东西',
+                    title: '小东西',
                     collapsable: false,
-                    children: ['电商所用技术'],
+                    children: ['fingerling', 'project'],
                 },
             ],
             '/date/': [
                 {
-                    title: '2018',
+                    title: '日记',
                     collapsable: false,
-                    children: ['2018-09'],
+                    children: ['2018', '2019', '2020'],
+                },
+            ],
+            '/essay/': [
+                {
+                    title: '随笔',
+                    collapsable: false,
+                    children: ['2018'],
+                },
+            ],
+            '/english/': [
+                {
+                    title: 'english',
+                    collapsable: false,
+                    children: ['2018-12'],
                 },
             ],
         },
