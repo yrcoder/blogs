@@ -13,8 +13,8 @@ module.exports = {
             { text: '语法', link: '/grammar/html' },
             { text: '教育', link: '/education/theory' },
             { text: '记录', link: '/date/2018' },
-            { text: '其他', link: '/other/fingerling' },
             { text: '随笔', link: '/essay/2018' },
+            { text: '其他', link: '/other/fingerling' },
             { text: '英文小故事', link: '/english/2018-12' },
         ],
         sidebar: {
