@@ -195,66 +195,14 @@ import App from './App'
 ReactDOM.render(<App />, document.getElementById('root'))
 ```
 
-# mobx-react
+react 中事件必须不能执行，即不能带括号，否则就要在里面写一个箭头函数
 
 ```js
-// 定义store  store.js
-import { observable, action } from 'mobx'
-
-export default class LoginStore {
-    // @observable 定义state的关键字，@action 定义action的关键字，好像let，const。没有mutation。一个关键字只能定义一个变量
-    @observable
-    aaa = 1
-
-    @action
-    changeStatus1 = number => {
-        this.aaa = number
-    }
-}
-// 将定义好的store注入组件 index.js
-import ReactDOM from 'react-dom'
-import { Provider } from 'mobx-react'
-import AppStore from './stores/AppStore'
-const stores = {
-    appStore: new AppStore(),
-}
-ReactDOM.render(
-    <Provider {...stores}>
-        <app />
-    </Provider>,
-    document.getElementById('root')
-)
-
-// 组件中引用 app.js
-import { observer, inject } from 'mobx-react'
-// @inject() 注入；@observer 引用
-// store里的state被注入在props中，好像从父组件中传进来的
-@inject('appStore')
-@observer
-class App extends Component {
-    doSomething = async () => {
-        this.props.appStore.changeStatus(123123)
-    }
-    render() {
-        return (
-            <div>
-                <button
-                    onClick={() => {
-                        this.doSomething()
-                    }}
-                >
-                    获取
-                </button>
-                <p>{this.props.appStore.aaa}</p>
-            </div>
-        )
-    }
-}
+<button
+    onClick={() => {
+        this.props.nav.addMenus(+new Date())
+    }}
+>
+    添加menus
+</button>
 ```
-
-json 字符串，number
-两位小数
-"(-?\d+(.\d{1,2})?)"
-$1
-4 位小数
-"(-?\d+(.\d{1,4})?)"
