@@ -16,7 +16,7 @@
 3. react-router-dom 中包含了 react-router 的 API，直接安装 react-router-dom 就可以
    :::
 
-### 将 router 注入根组件
+## 将 router 注入根组件
 
 1. HashRouter BrowserRouter MemoryHistory
 2. <Router>是个包裹器，下面只能紧跟一个标签或者组件。其中，根组件<App>用 withRouter(app)包裹一层
@@ -36,7 +36,7 @@ ReactDOM.render(
 )
 ```
 
-### 配置路由文件
+## 配置路由文件
 
 1. <Route> 当前要展示的视图，当 url 和 Route 中 path 的值匹配时，就渲染 component 或者 render 中的内容
 2. 有 location，history，match 三大 props，在起对应的 component 组件中可以拿到。match 有 params、isExact、path、url 这些属性
@@ -60,7 +60,7 @@ export default (
 )
 ```
 
-### 组件中跳转
+## 组件中跳转
 
 1. 根组件中要用 withRouter(app) 包裹一层
 2. history 方法：push(),replace(),goBack()
@@ -107,7 +107,7 @@ class App extends Component {
 export default withRouter(App)
 ```
 
-### 组件中获值
+## 组件中获值
 
 query 和 params 都写在一块儿了
 
@@ -132,7 +132,7 @@ class test extends Component {
 }
 ```
 
-### 嵌套路由
+## 嵌套路由
 
 哪个页面里需要路由，就把<Route>配置在哪里。
 exact 精确匹配会导致匹配不上
@@ -166,7 +166,7 @@ class Nesting extends Component {
 }
 ```
 
-### react-router-config 改写
+## react-router-config 改写
 
 react-router-config 最主要就是用 renderRoutes 改写了 react-router 里的 Route, 即用自己的方式写了渲染组件。
 但是用法和 Route 大体相同，渲染路由的地方都要用，也同 vue 里的<router-view></router-view>
