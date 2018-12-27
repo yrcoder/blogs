@@ -1,18 +1,18 @@
-# router
+<!-- # router
 
 ## react-router
 
 ::: tip 吾注
 
 1. router 的配置，（与哪些组件做映射）和 router 的注入。在 react 根组件中引入 router 配置
-2. router 的渲染。<router-view /> <Route/> 标签写在要渲染到地方
-3. router 的渲染和参数的获取，this.$route.query.id，this.$router.push({name: '', query: {}})
+2. router 的渲染。`<router-view /> <Route/>` 标签写在要渲染到地方
+3. router 的渲染和参数的获取，`this.$route.query.id，this.$router.push({name: '', query: {}})`
    :::
 
 ::: warning
 
 1. 在根组件中用 withRouter(app) 才可以在 route 组件中用 this.props.history.push({pathname: 'test', search: '?id=1234'})
-2. <router></router> 标签中间只能有一个根组件（或者标签）
+2. `<router></router>` 标签中间只能有一个根组件（或者标签）
 3. react-router-dom 中包含了 react-router 的 API，直接安装 react-router-dom 就可以
    :::
 
@@ -29,10 +29,10 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import App from './view/home/app'
 // <Router>是个包裹器，下面只能紧跟一个标签或者组件。其中，根组件<App>用 withRouter(app)包裹一层
 ReactDOM.render(
-    <Router>
-        <App />
-    </Router>,
-    document.getElementId('root')
+	<Router>
+		<App />
+	</Router>,
+	document.getElementId('root')
 )
 ```
 
@@ -52,11 +52,11 @@ import nesting from '../view/nesting'
 // 有 location，history，match三大props，在起对应的component组件中可以拿到。match有params、isExact、path、url这些属性
 // exact精确匹配，不然 /test 也会匹配 / 对应的页面
 export default (
-    <div>
-        <Route exact path="/one/:id" component={one} />
-        <Route path="/test" component={test} />
-        <Route path="/nesting" component={nesting} />
-    </div>
+	<div>
+		<Route exact path="/one/:id" component={one} />
+		<Route path="/test" component={test} />
+		<Route path="/nesting" component={nesting} />
+	</div>
 )
 ```
 
@@ -74,34 +74,34 @@ import { Link, withRouter } from 'react-router-dom'
 import router from '../../router'
 
 class App extends Component {
-    render() {
-        return (
-            <section>
-                <nav>
-                    <Link to="/one/1234">one</Link>
-                    <Link to="test">test</Link>
-                    <Link to="/nesting">nesting</Link>
-                    <hr />
-                    <button
-                        onClick={() => {
-                            this.props.history.push({
-                                pathname: 'test',
-                                search: '?id=1234',
-                                params: {
-                                    id: 'params--111',
-                                },
-                                query: {
-                                    id: 'query--111',
-                                },
-                            })
-                            // this.props.history.replace('/test')
-                            // this.props.history.goBack() 返回上一页
-                        }}
-                    />
-                </nav>
-            </section>
-        )
-    }
+	render() {
+		return (
+			<section>
+				<nav>
+					<Link to="/one/1234">one</Link>
+					<Link to="test">test</Link>
+					<Link to="/nesting">nesting</Link>
+					<hr />
+					<button
+						onClick={() => {
+							this.props.history.push({
+								pathname: 'test',
+								search: '?id=1234',
+								params: {
+									id: 'params--111',
+								},
+								query: {
+									id: 'query--111',
+								},
+							})
+							// this.props.history.replace('/test')
+							// this.props.history.goBack() 返回上一页
+						}}
+					/>
+				</nav>
+			</section>
+		)
+	}
 }
 // 必须用withRouter(App)包裹，否则拿不到值
 export default withRouter(App)
@@ -115,20 +115,20 @@ query 和 params 都写在一块儿了
 import React, { Component } from 'react'
 
 class test extends Component {
-    render() {
-        const { history, match } = this.props
-        const search = new URLSearchParams(location.search)
-        return (
-            <section>
-                <div>{JSON.stringify(history.location)}</div>
-                <div>{JSON.stringify(match.params)}</div>
-                <div>{search.get('id')}</div>
-                <div>{location.query}</div>
-                <div>{location.params}</div>
-                <div>/one/:id ===> {match.params.id}</div>
-            </section>
-        )
-    }
+	render() {
+		const { history, match } = this.props
+		const search = new URLSearchParams(location.search)
+		return (
+			<section>
+				<div>{JSON.stringify(history.location)}</div>
+				<div>{JSON.stringify(match.params)}</div>
+				<div>{search.get('id')}</div>
+				<div>{location.query}</div>
+				<div>{location.params}</div>
+				<div>/one/:id ===> {match.params.id}</div>
+			</section>
+		)
+	}
 }
 ```
 
@@ -143,33 +143,33 @@ import React, { Component } from 'react'
 import { Link, Route } from 'react-router-dom'
 
 class Child extends Component {
-    render() {
-        return <div>我是子组件</div>
-    }
+	render() {
+		return <div>我是子组件</div>
+	}
 }
 
 class Nesting extends Component {
-    render() {
-        const { match } = this.props
-        return (
-            <section>
-                <Link to="/nesting/child-1">child-1</Link>
-                <Link to={`${match.url}/child-2`}>child-1</Link>
+	render() {
+		const { match } = this.props
+		return (
+			<section>
+				<Link to="/nesting/child-1">child-1</Link>
+				<Link to={`${match.url}/child-2`}>child-1</Link>
 
-                <hr />
+				<hr />
 
-                <Route path="/nesting/child-1" render={() => <div>child-1</div>} />
-                <Route path={`${match.path}/child-2`} component={Child} />
-            </section>
-        )
-    }
+				<Route path="/nesting/child-1" render={() => <div>child-1</div>} />
+				<Route path={`${match.path}/child-2`} component={Child} />
+			</section>
+		)
+	}
 }
 ```
 
 ## react-router-config 改写
 
 react-router-config 最主要就是用 renderRoutes 改写了 react-router 里的 Route, 即用自己的方式写了渲染组件。
-但是用法和 Route 大体相同，渲染路由的地方都要用，也同 vue 里的<router-view></router-view>
+但是用法和 Route 大体相同，渲染路由的地方都要用，也同 vue 里的 `<router-view></router-view>`
 renderRoutes(url->component 的映射, 传给组件的参数)，第一个参数是配好路径的组件，当 url 和组件的 path 相同时渲染该组件，渲染的地方就是 renderRoutes()函数所在的地方，如果配置文件中有子路由，则在引用子路由的地方要写一遍渲染函数。第二个参数是父组件传给子组件的参数，混合到子组件的 props 里。
 
 我同样可以在 App 组件中渲染路由，而不是在根标签处渲染。
@@ -243,4 +243,4 @@ export default withRouter(App)
 // 接受父组件的参数
 const { match, aaa } = this.props
 
-```
+``` -->
