@@ -16,7 +16,6 @@ module.exports = {
 			{ text: '记录', link: '/date/2018' },
 			{ text: '随笔', link: '/essay/2018' },
 			{ text: '其他', link: '/other/fingerling' },
-			{ text: '英文小故事', link: '/english/2018-12' },
 		],
 		sidebar: {
 			'/grammar/': [
@@ -57,13 +56,6 @@ module.exports = {
 					title: '随笔',
 					collapsable: false,
 					children: ['2018'],
-				},
-			],
-			'/english/': [
-				{
-					title: '英文小故事',
-					collapsable: false,
-					children: ['2018-12'],
 				},
 			],
 		},
