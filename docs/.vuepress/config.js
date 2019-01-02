@@ -56,7 +56,7 @@ module.exports = {
 				{
 					title: '随笔',
 					collapsable: false,
-					children: ['2018', '2018WorkReport'],
+					children: ['2018'],
 				},
 			],
 			'/english/': [
