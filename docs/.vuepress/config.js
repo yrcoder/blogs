@@ -14,7 +14,7 @@ module.exports = {
 			{ text: '语法', link: '/grammar/htmlCss' },
 			{ text: '教育', link: '/education/theory' },
 			{ text: '记录', link: '/date/2018' },
-			{ text: '随笔', link: '/essay/2018' },
+			{ text: '随笔', link: '/essay/2019' },
 			{ text: '其他', link: '/other/fingerling' },
 		],
 		sidebar: {
@@ -55,7 +55,7 @@ module.exports = {
 				{
 					title: '随笔',
 					collapsable: false,
-					children: ['2018'],
+					children: ['2019'],
 				},
 			],
 		},
