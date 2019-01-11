@@ -1,7 +1,9 @@
 # VUE
 
-<!-- this instanceof Vue
+```js
+this instanceof Vue
 function initMixin (Vue: Class<Component>) {}
 function (options?: Object){}
 Object.defineProperty()
-Object.defineProperty(Vue.prototype, '$data', dataDef) -->
+Object.defineProperty(Vue.prototype, '$data', dataDef)
+```

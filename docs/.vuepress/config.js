@@ -22,7 +22,7 @@ module.exports = {
 				{
 					title: '基础语法',
 					collapsable: false,
-					children: ['htmlCss', 'bom', 'dom', 'js', 'es6', 'git', 'weixin'],
+					children: ['htmlCss', 'bom', 'dom', 'js', 'es6', 'git'],
 				},
 				{
 					title: '其他语法',

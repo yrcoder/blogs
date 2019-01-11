@@ -74,51 +74,51 @@ class
 ```js
 // 类的修饰符有一个参数，类本身
 function log(target) {
-    // target被修饰的类 如Numberic
-    const desc = Object.getOwnPropertyDescriptors(target.prototype)
-    for (const key of Object.keys(desc)) {
-        // 忽略构造函数constructor
-        if (key === 'constructor') {
-            continue
-        }
-        const func = desc[key].value
-        if ('function' === typeof func) {
-            Object.defineProperty(target.prototype, key, {
-                value(...args) {
-                    console.log('before' + key)
-                    const ret = func.apply(this, args)
-                    console.log('after' + key)
-                    return ret
-                },
-            })
-        }
-    }
+	// target被修饰的类 如Numberic
+	const desc = Object.getOwnPropertyDescriptors(target.prototype)
+	for (const key of Object.keys(desc)) {
+		// 忽略构造函数constructor
+		if (key === 'constructor') {
+			continue
+		}
+		const func = desc[key].value
+		if ('function' === typeof func) {
+			Object.defineProperty(target.prototype, key, {
+				value(...args) {
+					console.log('before' + key)
+					const ret = func.apply(this, args)
+					console.log('after' + key)
+					return ret
+				},
+			})
+		}
+	}
 }
 // 类属性的修饰符有三个参数
 function readonly(target, key, descriptor) {
-    descriptor.writable = false
+	descriptor.writable = false
 }
 
 // 类方法修饰器,同属性
 function validate(target, key, descriptor) {
-    const func = descriptor.value
-    descriptor.value = function(...args) {
-        for (let num of args) {
-            if ('number' !== typeof num) {
-                throw new Error(`${num} is not a number`)
-            }
-        }
-        return func.apply(this, arrgs)
-    }
+	const func = descriptor.value
+	descriptor.value = function(...args) {
+		for (let num of args) {
+			if ('number' !== typeof num) {
+				throw new Error(`${num} is not a number`)
+			}
+		}
+		return func.apply(this, arrgs)
+	}
 }
 @log
 class Numberic {
-    @readonly PI = 3.14
+	@readonly PI = 3.14
 
-    @validate
-    add(...nums) {
-        return nums.reduce((p, n) => p + n, 0)
-    }
+	@validate
+	add(...nums) {
+		return nums.reduce((p, n) => p + n, 0)
+	}
 }
 
 new Numberic().add(1, 2) // 调用函数时会打印日志
