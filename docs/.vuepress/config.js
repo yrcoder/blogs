@@ -27,7 +27,7 @@ module.exports = {
 				{
 					title: '其他语法',
 					collapsable: false,
-					children: ['vue', 'react', 'springBoot', 'node', 'mobx', 'router'],
+					children: ['vue', 'react', 'springBoot', 'node', 'mobx', 'router', 'weixin'],
 				},
 			],
 			'/education/': [
