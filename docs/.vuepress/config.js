@@ -12,10 +12,8 @@ module.exports = {
 		head: [['link', { rel: 'icon', href: `/favicon.ico` }]],
 		nav: [
 			{ text: '语法', link: '/grammar/htmlCss' },
-			{ text: '记录', link: '/date/2018' },
-			{ text: '随笔', link: '/essay/2019' },
-			{ text: '教育', link: '/education/theory' },
-			{ text: '其他', link: '/other/fingerling' },
+			{ text: 'essay', link: '/essay/excerpt' },
+			{ text: 'education', link: '/education/theory' },
 		],
 		sidebar: {
 			'/grammar/': [
@@ -27,7 +25,7 @@ module.exports = {
 				{
 					title: '二层语法',
 					collapsable: false,
-					children: ['browser', 'http', 'webpack', 'git', 'editor'],
+					children: ['browser', 'http', 'webpack', 'git', 'editor', 'shell'],
 				},
 				{
 					title: '三层语法',
