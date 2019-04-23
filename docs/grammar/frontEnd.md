@@ -9,24 +9,24 @@
 
 ```js
 let a = new Proxy(
-    { count: 0 },
-    {
-        get: function(target, key, reciver) {
-            console.log('111')
-            return target[key]++
-        },
-        set: function(target, key, value, reciver) {
-            if (value === 23) {
-                target[key] = value
-            } else {
-                throw Error('error')
-            }
-        },
-    }
+	{ count: 0 },
+	{
+		get: function(target, key, reciver) {
+			console.log('111')
+			return target[key]++
+		},
+		set: function(target, key, value, reciver) {
+			if (value === 23) {
+				target[key] = value
+			} else {
+				throw Error('error')
+			}
+		},
+	}
 )
 
 if (a.count === 0 && a.count === 1 && a.count === 2) {
-    console.log(1)
+	console.log(1)
 }
 ```
 

@@ -12,52 +12,55 @@ module.exports = {
 		head: [['link', { rel: 'icon', href: `/favicon.ico` }]],
 		nav: [
 			{ text: '语法', link: '/grammar/htmlCss' },
-			{ text: '教育', link: '/education/theory' },
 			{ text: '记录', link: '/date/2018' },
 			{ text: '随笔', link: '/essay/2019' },
+			{ text: '教育', link: '/education/theory' },
 			{ text: '其他', link: '/other/fingerling' },
 		],
 		sidebar: {
 			'/grammar/': [
 				{
-					title: '基础语法',
+					title: '一层语法',
 					collapsable: false,
-					children: ['htmlCss', 'bom', 'dom', 'js', 'es6', 'git'],
+					children: ['htmlCss', 'js', 'es6', 'vue', 'react', 'managingState', 'router', 'weixin'],
 				},
 				{
-					title: '其他语法',
+					title: '二层语法',
 					collapsable: false,
-					children: ['vue', 'react', 'springBoot', 'node', 'mobx', 'router', 'weixin'],
+					children: ['browser', 'http', 'webpack', 'git', 'editor'],
 				},
-			],
-			'/education/': [
 				{
-					title: '教育',
+					title: '三层语法',
 					collapsable: false,
-					children: ['theory', 'exam', 'other'],
+					children: ['springBoot', 'node', 'r', 'computer'],
 				},
-			],
-			'/other/': [
 				{
 					title: '小东西',
 					collapsable: false,
-					children: ['fingerling', 'project'],
-				},
-			],
-			'/date/': [
-				{
-					title: '日记',
-					collapsable: false,
-					children: ['2018', '2019', '2020'],
+					children: ['project', 'frontEnd'],
 				},
 			],
 			'/essay/': [
 				{
 					title: '随笔',
 					collapsable: false,
-					children: ['2019'],
+					children: ['excerpt'],
 				},
 			],
+			'/education/': [
+				{
+					title: 'education',
+					collapsable: false,
+					children: ['theory', 'think'],
+				},
+			],
+			// '/date/': [
+			// 	{
+			// 		title: '日记',
+			// 		collapsable: false,
+			// 		children: ['2018', '2019'],
+			// 	},
+			// ],
 		},
 	},
 }
