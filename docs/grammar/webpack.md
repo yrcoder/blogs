@@ -1150,12 +1150,15 @@ module.exports = configs
 
 ## 如何编写一个 loader
 
+```js
+```
+
 ## 如何编写一个 plugin
+
+```js
+```
 
 ## bundler 源码编写
 
-# create-react-app 和 vue-cli 3.0
-
-## create-react-app
-
-## vue-cli 3.0
+```js
+```
