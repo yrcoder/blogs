@@ -25,12 +25,12 @@ module.exports = {
 				{
 					title: '二层语法',
 					collapsable: false,
-					children: ['browser', 'http', 'webpack', 'git', 'editor', 'shell'],
+					children: ['webpack', 'git', 'reactSSR', 'nginx'],
 				},
 				{
 					title: '三层语法',
 					collapsable: false,
-					children: ['springBoot', 'node', 'r', 'computer'],
+					children: ['springBoot', 'node', 'r', 'computer', 'http', 'shell', 'editor', 'browser'],
 				},
 				{
 					title: '小东西',
