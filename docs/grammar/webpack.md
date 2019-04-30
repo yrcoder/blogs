@@ -120,10 +120,10 @@ module.exports = {
 			},
 			{
 				// icon-front
-				text: /\.(eot|ttf|svg)$/,,
+				text: /\.(eot|ttf|svg)$/,
 				use: {
-                    loader: 'file-loader'
-                },
+					loader: 'file-loader',
+				},
 			},
 		],
 	},
