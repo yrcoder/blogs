@@ -13,7 +13,7 @@ module.exports = {
 		nav: [
 			{ text: '笔记', link: '/grammar/htmlCss' },
 			{ text: '小东西', link: '/other/createNote' },
-			{ text: '摘抄', link: '/essay/lines' },
+			{ text: '摘抄', link: '/excerpt/lines' },
 		],
 		sidebar: {
 			'/grammar/': [
