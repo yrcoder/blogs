@@ -1,4 +1,4 @@
-# REACT
+# react
 
 安装
 
@@ -7,6 +7,11 @@
 npm install -g create-react-app
 create-react-app react-mobx
 ```
+
+## bug
+
+Minified React error #200;
+id 或者 class 名写错
 
 ## react 组件
 
@@ -183,9 +188,9 @@ react-dom 把定义好的组件映射到 dom 上
 // react 定义 Component 组件
 import React, { Component } from 'react'
 class App extends Component {
-    render() {
-        return <div className="App" />
-    }
+	render() {
+		return <div className="App" />
+	}
 }
 export default App
 
@@ -199,10 +204,10 @@ react 中事件必须不能执行，即不能带括号，否则就要在里面�
 
 ```js
 <button
-    onClick={() => {
-        this.props.nav.addMenus(+new Date())
-    }}
+	onClick={() => {
+		this.props.nav.addMenus(+new Date())
+	}}
 >
-    添加menus
+	添加menus
 </button>
 ```

@@ -2,7 +2,36 @@
 
 webpack 代码管理工具，模块化管理
 
-# webpack 是什么
+## 报错
+
+Support for the experimental syntax 'decorators-legacy' isn't currently enabled
+装饰器写法不被支持
+Support for the experimental syntax 'classProperties' isn't currently enabled
+类属性
+npm install @babel/plugin-proposal-decorators -D
+npm i @babel/plugin-proposal-class-properties -D
+配置 babel
+
+```sh
+"babel": {
+    "plugins": [
+        [
+            "@babel/plugin-proposal-decorators",
+            {
+            "legacy": true
+            }
+        ],
+        [
+            "@babel/plugin-proposal-class-properties",
+            {
+                "loose": true
+            }
+        ]
+    ]
+},
+```
+
+## webpack 是什么
 
 -   模块打包工具, 这些模块引入方式都可以识别
     ES Moudule 模块引入方式: import export
@@ -443,7 +472,7 @@ window._ = _
 
 // 在写业务代码的时候，如果是异步加载的文件，webpack也会自动分割，默认名字是数字，0.js 往后排
 
-function getCOmponent() {
+function getComponent() {
     // import返回的是一个promise
     return import('lodash').then(({default: _ }) => {
         var ele = document.createElement('div')
@@ -455,7 +484,7 @@ function getCOmponent() {
 }
 
 // import返回的是一个promise，所以可以用.then
-getCOmponent().then(element => document.body.appendChild(element))
+getComponent().then(element => document.body.appendChild(element))
 
 // 上面的语法不支持，要装一个babel转译一下
 
@@ -517,7 +546,7 @@ optimization: {
 打包完成之后，生成的每个文件都是一个 chunk
 
 ```js
-async function getCOmponent() {
+async function getComponent() {
 	const { default: _ } = await import('lodash')
 	const ele = document.createElement('div')
 	ele.innerHTML = _.join(['a', 'b'], '-')
@@ -686,6 +715,8 @@ console.log(this === window) // true
 webpack.config.js 中 module.exports 可以接收一个全局变量
 在 package.json 的 script 里传进来
 
+env 是注入到 webpack 里面的
+
 ```js
 // webpack.config.js
 module.exports = env => {
@@ -707,6 +738,27 @@ module.exports = env => {
         "build": "webpack --env.production=abc --config webpack.config.js"
     }
 }
+```
+
+DefinePlugin: 把 webpack 中的变量传到源代码中使用
+
+```js
+// package.json
+"scripts": {
+    // NODE_ENV=dev 模式定义在打包命令前面
+    "serve": "NODE_ENV=dev webpack-dev-server --config ./webpack/webpack.dev.js",
+},
+// webpack.base.js
+// 没有JSON.stringify request拿到的是个变量
+const NODE_ENV = process.env.NODE_ENV;
+new webpack.DefinePlugin({
+    NODE_ENV: JSON.stringify(NODE_ENV),
+    APIURL: JSON.stringify(APIURL[NODE_ENV]),
+    SSOURL: JSON.stringify(SSOURL[NODE_ENV]),
+}),
+
+// request
+console.log(APIURL)
 ```
 
 # webpack 案例
@@ -950,7 +1002,15 @@ module.exports = {
         rules: [{
             test: /\.js$/,
             exclude: /node_modules/,
-            use: ['babel-loader', 'eslint-loader']
+            use: ['babel-loader', {
+						loader: 'eslint-loader',
+						// options:
+						// 	// 浅显的问题会自动的修复掉
+						// 	fix: true,
+						// },
+						// 强制eslint-loader先执行
+						// force: 'pre',
+					}]
         }]
     },
     devServer: {
@@ -1000,6 +1060,11 @@ module.exports = {
 创建一个打包库文件的 webpack 配置 webpack.dll.js
 在 package.json 中配置命令
 配置 webpack.base.config.js 文件
+
+目标：第三方模块只打包一次
+
+1. 第三方模块打包一次
+2. 引入第三方模块的时候去 dll 文件引入，在配置文件中用插件 webpack.dllPlugin()
 
 ```js
 // webpack.dll.js
@@ -1066,7 +1131,7 @@ files.forEach(file => {
     }
     if(/.*\.manifest.json/.test(file)) {
         plugins.push(new webpack.DllReferencePlugin({
-            filepath: path.resolve(__dirname, '../dll', file)
+            manifest: path.resolve(__dirname, '../dll', file)
         }))
     }
 })
@@ -1126,7 +1191,7 @@ const getPlugins = (configs) => {
         }
         if(/.*\.manifest.json/.test(file)) {
             plugins.push(new webpack.DllReferencePlugin({
-                filepath: path.resolve(__dirname, '../dll', file)
+                manifest: path.resolve(__dirname, '../dll', file)
             }))
         }
     })

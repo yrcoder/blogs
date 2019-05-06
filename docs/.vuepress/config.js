@@ -11,45 +11,40 @@ module.exports = {
 		editLinks: false,
 		head: [['link', { rel: 'icon', href: `/favicon.ico` }]],
 		nav: [
-			{ text: '语法', link: '/grammar/htmlCss' },
-			{ text: 'essay', link: '/essay/excerpt' },
-			{ text: 'education', link: '/education/theory' },
+			{ text: '笔记', link: '/grammar/htmlCss' },
+			{ text: '小东西', link: '/other/createNote' },
+			{ text: '摘抄', link: '/essay/lines' },
 		],
 		sidebar: {
 			'/grammar/': [
 				{
 					title: '一层语法',
 					collapsable: false,
-					children: ['htmlCss', 'js', 'es6', 'vue', 'react', 'managingState', 'router', 'weixin'],
+					children: ['htmlCss', 'less', 'js', 'es6', 'vue', 'react', 'managingState', 'router', 'weixin'],
 				},
 				{
 					title: '二层语法',
 					collapsable: false,
-					children: ['webpack', 'git', 'reactSSR', 'nginx'],
+					children: ['webpack', 'git', 'reactSSR', 'nginx', 'http', 'shell', 'editor', 'browser'],
 				},
 				{
 					title: '三层语法',
 					collapsable: false,
-					children: ['springBoot', 'node', 'r', 'computer', 'http', 'shell', 'editor', 'browser'],
-				},
-				{
-					title: '小东西',
-					collapsable: false,
-					children: ['project', 'frontEnd'],
+					children: ['springBoot', 'node', 'r', 'computer'],
 				},
 			],
-			'/essay/': [
+			'/excerpt/': [
 				{
-					title: '随笔',
+					title: '摘抄',
 					collapsable: false,
-					children: ['excerpt'],
+					children: ['lines', 'essay', 'poetry'],
 				},
 			],
-			'/education/': [
+			'/other/': [
 				{
-					title: 'education',
+					title: '小东西记录',
 					collapsable: false,
-					children: ['theory', 'think'],
+					children: ['createNote', 'bugs', 'smallKnowledge'],
 				},
 			],
 			// '/date/': [
