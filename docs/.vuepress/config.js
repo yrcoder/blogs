@@ -12,7 +12,7 @@ module.exports = {
 		head: [['link', { rel: 'icon', href: `/favicon.ico` }]],
 		nav: [
 			{ text: '语法', link: '/grammar/htmlCss' },
-			{ text: '读书笔记', link: '/readingNotes/lines' },
+			{ text: '读书笔记', link: '/readingNotes/reactDesignPattern' },
 			{ text: '小东西', link: '/other/createNote' },
 			{ text: '摘抄', link: '/excerpt/lines' },
 		],
@@ -38,7 +38,12 @@ module.exports = {
 				{
 					title: '读书笔记',
 					collapsable: false,
-					children: ['reactDesignPattern', 'javascript1', 'javascript2', 'javascript3', 'jsDesignPattern'],
+					children: ['reactDesignPattern', 'javascript', 'javascript1', 'javascript2', 'javascript3', 'jsDesignPattern'],
+				},
+				{
+					title: 'thinking',
+					collapsable: false,
+					children: ['html', 'css', 'js', 'react', 'project'],
 				},
 			],
 			'/excerpt/': [
