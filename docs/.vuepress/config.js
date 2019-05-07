@@ -11,7 +11,8 @@ module.exports = {
 		editLinks: false,
 		head: [['link', { rel: 'icon', href: `/favicon.ico` }]],
 		nav: [
-			{ text: '笔记', link: '/grammar/htmlCss' },
+			{ text: '语法', link: '/grammar/htmlCss' },
+			{ text: '读书笔记', link: '/readingNotes/lines' },
 			{ text: '小东西', link: '/other/createNote' },
 			{ text: '摘抄', link: '/excerpt/lines' },
 		],
@@ -31,6 +32,13 @@ module.exports = {
 					title: '三层语法',
 					collapsable: false,
 					children: ['springBoot', 'node', 'r', 'computer'],
+				},
+			],
+			'/readingNotes/': [
+				{
+					title: '读书笔记',
+					collapsable: false,
+					children: ['reactDesignPattern', 'javascript1', 'javascript2', 'javascript3', 'jsDesignPattern'],
 				},
 			],
 			'/excerpt/': [

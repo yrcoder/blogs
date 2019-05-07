@@ -83,6 +83,8 @@ vi [filename]
 vim [filename]
 # 在文件中开始编辑(插入)
 i
+# 结束编辑状态
+esc
 # 强制保存退出
 !wq
 # 退出(!强制)
@@ -95,6 +97,8 @@ ll
 ll -li
 # 登出
 exit
+# 重启
+nginx -s reload
 ```
 
 # 基础
