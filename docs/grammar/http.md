@@ -21,19 +21,19 @@ img 标签加载图片
 -   Cookie 保持会话信息
 -   CORS 实现跨域并保持安全性限制
 
-# 基础
+## 基础
 
-## 5 层网络模型介绍
+### 5 层网络模型介绍
 
-## 发展历史
+### 发展历史
 
-## HTTP 的三次握手
+### HTTP 的三次握手
 
-## URI、URL 和 URN
+### URI、URL 和 URN
 
-## HTTP 报文格式
+### HTTP 报文格式
 
-## node 创建 最简单 web 服务
+### node 创建 最简单 web 服务
 
 node server.js 启动
 
@@ -46,9 +46,9 @@ http.createServer(function(request, response) {
 }).listen(8888)
 ```
 
-# 各种特性
+## 各种特性
 
-## 认识 HTTP 客户端
+### 认识 HTTP 客户端
 
 HTTP 客户端 ==> 浏览器, curl
 curl baidu.com
@@ -56,33 +56,39 @@ curl www.baidu.com
 带各种请求信息
 curl -v www.baidu.com
 
-## CORS 跨越请求
+### CORS 跨越请求
 
 ```js
 ```
 
-## 缓存头 Cache-Control
+### 缓存头 Cache-Control
 
-## 缓存验证 last-modified 和 etag
+### 缓存验证 last-modified 和 etag
 
-## cookie 和 session
+### cookie 和 session
 
-## http 长链接
+### http 长链接
 
-## 数据协商
+### 数据协商
 
-## Redirect
+### Redirect
 
-## CSP
+### CSP
 
-# nginx 代理以及面向未来的 http
+## nginx 代理以及面向未来的 http
 
-## 安装和基础配置
+nginx 是纯粹的做 http 服务的
+mac 用 homebrew 装
+nginx 文件会放在 `/usr/local/etc/nginx` 下面
+nginx 的代理功能和缓存功能
+nginx.conf 是 server 的配置文件
 
-## nginx 代理配置和代理缓存
+### 安装和基础配置
 
-## https 解析
+### nginx 代理配置和代理缓存
 
-## 使用 Nginx 部署 https 服务
+### https 解析
 
-## http2 的优势和 nginx 配置 http2
+### 使用 Nginx 部署 https 服务
+
+### http2 的优势和 nginx 配置 http2

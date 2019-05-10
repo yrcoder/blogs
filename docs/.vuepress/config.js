@@ -26,7 +26,7 @@ module.exports = {
 				{
 					title: '二层语法',
 					collapsable: false,
-					children: ['webpack', 'git', 'reactSSR', 'nginx', 'http', 'shell', 'editor', 'browser'],
+					children: ['webpack', 'git', 'reactSSR', 'nginx', 'http', 'shell', 'editor', 'browser', 'websocket'],
 				},
 				{
 					title: '三层语法',
@@ -50,7 +50,7 @@ module.exports = {
 				{
 					title: '摘抄',
 					collapsable: false,
-					children: ['lines', 'essay', 'poetry'],
+					children: ['lines', 'essay', 'poetry', 'song'],
 				},
 			],
 			'/other/': [
