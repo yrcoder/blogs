@@ -780,6 +780,9 @@ bindEvent(ele, 'click', fn)
 
 ## 观察者模式（行为型）
 
+发布订阅
+一对多
+
 ```js
 ```
 
@@ -790,12 +793,105 @@ bindEvent(ele, 'click', fn)
 
 ## 迭代器模式（行为型）
 
+顺序访问一个有序集合（array,map,set,string,TypedArray,Arguments,nodeList）object 不是，可以变成 map
+使用者无需知道集合的内部结构（封装）
+
 ```js
+const arr = [1, 2, 3]
+const nodeList = document.getElementsByTagName('a')
+const $a = $('a')
+// 如果逐个遍历要用不同的方法
+arr.forEach(item => {
+	console.log(item)
+})
+
+let i
+let length = nodeList.length
+for (i = 0; i < length; i++) {
+	console.log(nodeList[i])
+}
+
+$a.each(function(key, ele) {
+	console.log(key, ele)
+})
+// 用同一种方法完成上面3种的遍历
+function each(data) {
+	var $data = $(data) // 生成迭代器
+	$data.each(function(key, val) {
+		console.log(key, val)
+	})
+}
+
+/*
+	es6的写法
+*/
+class Iterator {
+	constructor(Container) {
+		this.list = Container.list
+		this.index = 0
+	}
+	next() {
+		if (this.hasNext()) {
+			return this.list[this.index++]
+		}
+		return null
+	}
+	hasNext() {
+		if (this.index >= this.list.length) {
+			return false
+		}
+		return true
+	}
+}
+
+class Container {
+	constructor(list) {
+		this.list = list
+	}
+	// 生成遍历器
+	getIterator() {
+		return new Iterator(this)
+	}
+}
+
+// 应用
+let arr = [1, 2, 3]
+let container = new Container(arr)
+let iterator = container.getIterator()
+while (iterator.hasNext()) {
+	console.log(iterator.next())
+}
 ```
 
 场景
+es6 Iterator
+array,map,set,string,TypedArray,Arguments,nodeList
+都有一个[Symbol.iterator]属性
+属性是一个函数，执行函数返回迭代器
+迭代器有 next 方法可以顺序迭代子元素
+返回的值中有 done 为 true 时遍历结束
+可运行 Array.prototype[Symbol.iterator]().next()来测试
 
 ```js
+// 封装迭代器
+function each(data) {
+	// 生成迭代器
+	let iterator = data[Symbol.iterator]()
+	let item = { done: false }
+	while (!item.done) {
+		item = iterator.next()
+		if (!item.done) {
+			console.log(item.value)
+		}
+	}
+}
+
+// es6的语法 for...of 就是遍历迭代器的
+function each(data) {
+	for (let item of data) {
+		console.log(item)
+	}
+}
 ```
 
 ## 状态模式（行为型）
@@ -902,6 +998,75 @@ updateText()
 /*
 promise
 */
+promise是一个class
+promise的参数是一个函数
+传人的函数有两个参数resolve，reject
+返回的promise有一个then方法
+
+// 状态机模型
+let fsm = new StateMachine({
+	init: 'pending', // 初始化状态
+	transitions: [
+		{
+			name: 'resolve', // 事件名称
+			from: 'pending',
+			to: 'fullfilled',
+		},
+		{
+			name: 'reject',
+			from: 'pending',
+			to: 'rejected',
+		},
+	],
+	methods: {
+		// state状态机的实例，data传的参数， data - fsm.resolve(xxx) data就是xxx
+		onResolve: function(state, data) {
+			data.succesList.forEach(fn => fn())
+		},
+		onReject: function() {
+			data.failList.forEach(fn => fn())
+		},
+	},
+})
+
+// 定义promise
+class MyPromise {
+	constructor(fn) {
+		this.successList = []
+		this.failList = []
+		fn(() => {
+			// resolve
+			fsm.resolve(this)
+		}, () => {
+			// reject
+			fsm.reject(this)
+		})
+	}
+	then(successFn, failFn) {
+		this.succesList.push(successFn)
+		this.failList.push(failFn)
+	}
+}
+// 应用
+function loadImg(src) {
+	return new MyPromise(function(resolve, reject) {
+		let img = document.createElement('img')
+		img.onload = function() {
+			resolve(img)
+		}
+		img.onerror = function() {
+			reject()
+		}
+		img.src = src
+	})
+}
+let src = ''
+let result = loadImg(src)
+result.then(data => {
+	console.log('data')
+}, error => {
+	console.log('error')
+})
 ```
 
 ## 其他模式

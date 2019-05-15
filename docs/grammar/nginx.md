@@ -1,5 +1,7 @@
 # nginx
 
+cd /etc/nginx/conf.d
+
 把公钥放到 ssh 文件下就不用输密码了
 
 ```sh

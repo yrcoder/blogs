@@ -1,5 +1,17 @@
 # react
 
+react 中子组件中调用父组件的方法，在传递的过程中 this 指向会发生变化,从父组件中传一个 this
+
+```js
+// 父组件
+<Child formViewEvent={(option, form) => this.formViewEvent(option, form, this)} />
+
+// 子组件
+<Button onClick={formViewEvent(btn, formData)}>
+	{btn.title}
+</Button>
+```
+
 安装
 
 ```shell
