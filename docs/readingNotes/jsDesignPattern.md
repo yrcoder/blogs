@@ -783,13 +783,58 @@ bindEvent(ele, 'click', fn)
 发布订阅
 一对多
 
+观察者：等待被触发
+发布者：状态更改对所有观察者发布消息
+
 ```js
+// 主题，保存状态，状态变化之后触发所有观察者对象
+class Subject {
+	constructor() {
+		this.state = 0
+		this.observers = []
+	}
+	getState() {
+		return this.state
+	}
+	setState(state) {
+		this.state = state
+		this.notifyAllObservers()
+	}
+	notifyAllObservers() {
+		this.observers.forEach(observer => {
+			observer.update()
+		})
+	}
+	attach(observer) {
+		this.observers.push(observer)
+	}
+}
+
+// 观察者
+class Observer {
+	constructor(name, subject) {
+		this.name = name
+		this.subject = subject
+		this.subject.attach(this)
+	}
+	update() {
+		console.log(this.name, this.subject.getState())
+	}
+}
+
+// 应用
+let s = new Subject()
+let o1 = new Observer('o1', s)
+let o2 = new Observer('o2', s)
+let o3 = new Observer('o3', s)
+s.setState(1)
 ```
 
 场景
-
-```js
-```
+网页事件绑定
+promise （then）
+jq callbacks
+nodejs 自定义事件
 
 ## 迭代器模式（行为型）
 
@@ -1075,6 +1120,7 @@ result.then(data => {
 ```
 
 场景
+jq 购物车
 
 ```js
 ```
