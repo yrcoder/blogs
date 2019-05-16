@@ -1120,11 +1120,10 @@ result.then(data => {
 ```
 
 场景
-jq 购物车
 
 ```js
 ```
 
-## 综合示例
+## 综合实例
 
-用 jquery 做购物车
+![购物车UML类图](./img/jsDesignPattern.png)
