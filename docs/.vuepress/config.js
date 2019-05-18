@@ -41,9 +41,9 @@ module.exports = {
 					children: ['reactDesignPattern', 'javascript', 'javascript1', 'javascript2', 'javascript3', 'jsDesignPattern'],
 				},
 				{
-					title: 'thinking',
+					title: '源码',
 					collapsable: false,
-					children: ['html', 'css', 'js', 'react', 'project'],
+					children: ['zpoto', 'vue', 'react', 'project'],
 				},
 			],
 			'/excerpt/': [
