@@ -1,5 +1,211 @@
 # JavaScript
 
+## js 面试技巧
+
+基础工程师：基础知识
+高级工程师：项目经验
+架构师：解决方案
+
+### 几个面试题
+
+-   typeof 能得到哪些类型 `==>` 考点：数据类型
+-   === 和 == `==>` 考点：数据类型强制转换
+-   window.onload 和 DOMContentLoaded 的区别 `==>` 考点：浏览器渲染过程
+-   用 js 创建 10 个 a 标签，点击的时候弹出对应的序号 `==>` 考点：作用域 (为什么不是事件委托？)
+-   简述如何实现一个模块加载器，实现类似 require.js 的基本功能 `==>` 考点：模块化
+-   实现数组的随机排序 `==>` js 基础算法
+
+## js 基础知识
+
+原型，原型链
+作用域，闭包
+异步，单线程
+
+### 原型，原型链
+
+### 作用域，闭包
+
+### 异步，单线程
+
+## js-web-api
+
+DOM 操作
+Ajax
+事件绑定
+
+### DOM 操作
+
+### Ajax
+
+### 事件绑定
+
+## 开发环境
+
+版本管理
+模块化
+打包工具
+
+### 版本管理
+
+### 模块化
+
+### 打包工具
+
+## 运行环境
+
+页面渲染
+性能优化
+
+浏览器可以通过访问链接来得到页面的内容
+通过绘制和渲染，显示出页面的最终样子
+整个过程中，我们需要考虑什么问题？
+
+1. 页面加载过程
+2. 性能优化
+3. 安全性
+
+### 页面渲染
+
+题目 1: 从输入 url 到得到 html 的详细过程
+题目 2: window.onload 和 DOMContentLoaded 的区别
+
+-   加载资源的形式
+    -   输入 url(或者跳转页面)加载 html（如：http:baidu.com）
+    -   加载 html 中的静态资源（js 文件，css 文件，图片等等）
+-   加载一个资源的过程
+    1. 浏览器根据 DNS 服务器得到域名的 IP 地址
+    2. 向这个 IP 的机器发送一个 http 请求
+    3. 服务器收到，处理并返回 http 请求
+    4. 浏览器得到返回内容
+-   浏览器渲染页面的过程
+    1. 根据 html 结构生成一个 DOM Tree
+    2. 根据 css 生成 CSSOM （DOM Tree, 和 CSSOM 都是结构化处理）
+    3. 将 DOM 和 CSSOM 整合成 RenderTree
+    4. 根据 RenderTree 开始渲染和展示
+    5. 遇到`<script>`时，会执行并阻塞渲染（因为 js 会改变 DOM，所以，js 执行完之后才会继续渲染 RenderTree）
+
+为什么把 css 文件放在 head 中 ？
+因为 html 文件是顺序执行的。如果 css 放在 dom 后面，当渲染 dom 的时候会先按照默认的样式渲染，渲染完后发现还有 css 文件就会再渲染一次。
+页面会出现跳动或者卡住的状况，性能太差
+
+为什么把 js 文件在 body 后面 ？
+因为 js 可以改变 dom 的结构或者内容。js 又是阻塞渲染，放在 html 前面 dom 还没有渲染，无法操作。js 放下面会让页面更快的出来
+
+window.onload 和 DOMContentLoaded 的区别 ？
+window.onload：是把所有资源全部加载完才会执行，包括图片视频等
+DOMContentLoaded：dom 渲染完即可执行，此时图片视频没有加载完
+
+window.addEventListener('load', function() {
+执行该段 js 文件等的时间较长
+})
+window.addEventListener('DOMContentLoaded', function() {
+执行该段 js 文件等的时间较短
+})
+
+### 性能优化
+
+-   多使用内存，缓存或者其他方法
+-   减少 cpu 计算，减少网络
+
+入手：
+
+-   加载页面和静态资源
+    -   静态资源的合并压缩（webpack 打包）
+    -   静态资源缓存
+    -   使用 CDN 让资源加载更快（在不同区域访问，cnd 会转到就近的地址访问）
+    -   使用 ssr 后端渲染，数据直接输出到 html 中（而不是前端写页面，在 ajax 请求数据）
+-   页面渲染
+    -   css 放在前，js 放在后面
+    -   懒加载（图片懒加载，下拉加载更多）
+    -   减少 dom 查询，对 dom 查询做缓存
+    -   减少 dom 操作，多个 dam 尽量合并在一起执行
+    -   事件节流
+    -   尽早执行操作（DOMContentLoaded）
+
+```js
+// 静态资源缓存：通过链接名称控制缓存，名字变了，链接名称才改变
+<script src="abc_1.js"></srcript>
+// 懒加载
+```
+
+### 安全性
+
+XSS
+XSRF
+
+# 高级 js 面试
+
+## 高级基础
+
+ES6 常用语法 - Class Module Promise
+原型高级应用 - 结合 JQ 和 zepto 源码
+异步全面讲解 - 从 JQ 再到 promise
+
+### ES6 常用语法
+
+模块的使用和编译环境
+class 与 js 构造函数的区别
+promise 的用法
+ES6 其他常用功能
+
+### 原型高级应用
+
+原型如何实际应用
+原型如何满足扩展
+
+### 异步全面讲解
+
+什么是单线程和异步有什么关系
+什么是 event-loop
+目前 js 解决异步的方案有哪些
+如果只用 jq 如何解决异步
+promise 的标准
+async/await 的使用
+
+## 框架原理
+
+虚拟 DOM - 存在价值，如何使用，diff 算法
+MVVM vue - MVVM，vue 响应式，模版解析，渲染
+组件化 React - 组件化，JSX，vdom， setState
+
+### 虚拟 DOM
+
+什么是 vdom，为何用 vdom
+vdom 如何使用，核心函数有哪些
+了解 diff 算法吗（vdom 的核心算法）
+
+### MVVM vue
+
+jq 和 vue 或者 react 的区别
+你如何了解 mvvm
+vue 如何实现响应式
+vue 如何解析模版
+介绍 vue 的实现流程
+
+### 组件化 React
+
+对组件化的理解
+jsx 是什么
+jsx 和 vdom 的关系
+简述 setState
+如何比较 react 和 vue
+
+## app 混合开发
+
+hybrid - 基础，和 H5 的对比，上线流程（前端和 APP 一起开发）
+前端客户端通讯：通讯原理，JS-Bridge 封装
+
+### hybrid
+
+hybrid 是什么，为何用 hybrid
+hybrid 如何更新上线
+hybrid 和 h5 有何区别
+js 如何与客户端通信
+
+### 前端客户端通讯
+
+# js 基本知识点
+
 ## js 概观
 
 -   一种基于对象和事件驱动的客户端脚本语言。
