@@ -124,7 +124,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 ```js
 // 静态资源缓存：通过链接名称控制缓存，名字变了，链接名称才改变
-<script src="abc_1.js"></srcript>
+// <script src="abc_1.js"></srcript>
 // 懒加载
 ```
 
@@ -210,7 +210,7 @@ js 如何与客户端通信
 
 -   一种基于对象和事件驱动的客户端脚本语言。
 
--   注释：// , /\*\*/
+-   注释：`// , /\*\*/`
 
 -   变量：区分大小写。声明变量：var
 

@@ -38,12 +38,12 @@ module.exports = {
 				{
 					title: '读书笔记',
 					collapsable: false,
-					children: ['reactDesignPattern', 'javascript', 'javascript1', 'javascript2', 'javascript3', 'jsDesignPattern'],
+					children: ['reactDesignPattern', 'javascript1', 'javascript2', 'javascript3', 'jsDesignPattern'],
 				},
 				{
 					title: '源码',
 					collapsable: false,
-					children: ['zpoto', 'vue', 'react', 'project'],
+					children: ['zepto', 'vue', 'react', 'project'],
 				},
 			],
 			'/excerpt/': [
