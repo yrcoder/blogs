@@ -41,9 +41,10 @@ Ajax
 
 ## 开发环境
 
-版本管理
+版本管理--git
 模块化
 打包工具
+上线回滚
 
 ### 版本管理
 
@@ -122,16 +123,78 @@ window.addEventListener('DOMContentLoaded', function() {
     -   事件节流
     -   尽早执行操作（DOMContentLoaded）
 
-```js
-// 静态资源缓存：通过链接名称控制缓存，名字变了，链接名称才改变
-// <script src="abc_1.js"></srcript>
-// 懒加载
+```html
+<!-- 静态资源缓存：通过链接名称控制缓存，名字变了，链接名称才改变
+ <script src="abc_1.js"></srcript> -->
+
+<!-- 懒加载：图片，先用一个很小的图片占位，等页面加载好之后用js获取真正的图片地址 -->
+<img id="myImg" src="small.png" data-realsrc="abc.png" />
+<script>
+	const img1 = document.getElementById('myImg')
+	img1.src = img1.getAttribute('abc.png')
+</script>
+
+<!-- 缓存DOM查询 -->
+<script>
+	// 没有缓存
+	let i
+	for (i = 0; i < document.getElementsByTagName('p').length; i++) {}
+	// 缓存
+	let i
+	const pList = document.getElementsByTagName('p')
+	for (i = 0; i < pList.length; i++) {}
+</script>
+
+<!-- 合并DOM插入 -->
+<script>
+	const listNode = document.getElementById('list')
+	// 要插入10个li标签
+	// createDocumentFragment不会触发dom操作
+	const frag = document.createDocumentFragment()
+	let x, li
+	for (x = 0; x < 10; x++) {
+		li = document.createElement('li')
+		li.innerHTML = 'List item'
+		frag.appendChild(li)
+	}
+
+	listNode.appendChild(frag)
+</script>
+
+<!-- 事件节流 -->
+<script>
+	const textarea = document.getElementById('text');
+	const timeoutId
+	textarea.addEventListener('keyup', () => {
+	    if(timeoutId) {
+	        clearTimeout(timeoutId)
+	    }
+	    timeoutId = setTimeout(() => {
+	           // 连着输入的时候不超过100ms就什么都不管
+	    }, 100)
+	})
+</script>
 ```
 
 ### 安全性
 
-XSS
-XSRF
+XSS：跨站请求攻击，在 input 等输入框中插入 script 脚本，写一段程序，
+预防：把 < 替换为 `&lt;` > 替换为 `&gt;`，前端替换影响性能，后台替换比较好
+
+XSRF：跨站请求伪造，当你在 A 站生成一个订单，别人收到一个有同样订单信息的的图片，点击之后别人就替你付费了
+预防：增加验证流程，如指纹，密码，短信验证码
+
+### 面试技巧
+
+简历：
+简单明了，重点突出项目经历和解决方案
+博客放入简历中，定期维护更新博客
+开源项目
+
+过程中：
+加班就像借钱，救急不救穷
+千万不要挑战面试官，不要反考面试官（素质）
+遇到不会的问题，说出知道的就可以
 
 # 高级 js 面试
 
