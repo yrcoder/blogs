@@ -223,3 +223,62 @@ react 中事件必须不能执行，即不能带括号，否则就要在里面�
 	添加menus
 </button>
 ```
+
+## react 高阶
+
+## context && contextType
+
+能够让数据在组件树中传递而不必一级一级手动传递
+
+context: <Provider> <Consumer>
+createContext(defaultValue)
+
+```js
+// index.jsx(创建，发起)
+const BatteryContext = createContext()
+render() {
+    return (
+        <BatteryContext.Provider value={60}>
+            <app></app>
+        </BatteryContext.Provider>
+    )
+}
+// 子组件(应用)
+
+render() {
+    return <BatteryContext.Consumer value={60}>
+            {
+                data => <div>data</div>
+            }
+        </BatteryContext.Consumer>
+}
+
+// 两个的话就两级嵌套,但是一般只用一个就好
+<AContext.Provider value={60}>
+<BContext.Provider value={60}>
+    <app></app>
+</BContext.Provider>
+</AContext.Provider>
+
+<AContext.Consumer>
+    {
+        a => (
+            <AContext.Consumer>
+                {
+                    b => <div>{`${a}_${b}`}</div>
+                }
+            </AContext.Consumer>
+        )
+    }
+</AContext.Consumer>
+
+// 如果只有一个context,子组件(应用)可以用 contextType 代替Consumer
+
+class Child extends Component {
+    static contextType = BatteryContext
+    render() {
+        const data = this.context
+        return <div>{data}</div>
+    }
+}
+```
