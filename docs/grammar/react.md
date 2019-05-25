@@ -282,3 +282,63 @@ class Child extends Component {
     }
 }
 ```
+
+## hooks redux
+
+redux 原则
+单一数据源：应用程序的所有数据都挂载在同一对象下面，方便管理。同一信息量的数据只有一份，避免不同步。
+状态不可变：修改数据的前后，数据源不再是同一个对象，可以实现应用程序状态的保存，实现时间旅行的功能。可以避免不按照规定去直接修改数据的行为。
+纯函数修改状态：纯函数是没有副作用，不依赖外部变量，同样的输入产生同样的输出。可以精确实现对数据的修改行为。
+
+-   并没有向任何子组件传递，就不用 useCallback
+-   用 map 的时候应该用单独的组件把 item 渲染出来，这样才不至于当 list 发生变化的时候所有的 item 都重新渲染一遍
+-   useEffect 副作用，当某个 useState 中的值发生变化的时候执行，如果项目中只用执行一次，那么，第二个参数设置为空数组。
+-   useEffect 的执行是有顺序的
+-   函数组件用 memo 包裹起来 `memo(function() {})`
+
+```js
+const inputRef = useRef()
+
+const onSubmit = (e) => {
+    e.preventDefault()
+    const newText = inputRef.current.value.trim()
+    addTodo(newText)
+    inputRef.current.value = ""
+}
+<form onSubmit={onSubmit}>
+    <input ref={inputRef}>
+</from>
+```
+
+用 const [todo, setTodo] = useState([]) 当添加删除 todolist 的时候，不同的操作调用的是同一种方法 setTodos
+现在有一种新的写法,用一种纯对象的方法描述对数据的操作
+
+```js
+// 整个对象称之为action，然后让每个action都经过一个中心节点函数，在这个函数里面集中处理一些副作用，或者连带更新的行为
+{
+    // 描述对数据进行了怎样的操作
+    type: 'add',
+    // 用来描述执行这个操作需要什么额外的参数，可以为空
+    payload: todo
+}
+
+// 中心函数叫：dispatch
+// dispatch如果需要传递到子组件中要用一个useCallback包裹起来, 除了setTodo没有对任何参数进行以来，第二个参数是空数组
+const dispatch = useCallback((action) => {
+    const { type, payload } = action
+    switch(type) {
+        case 'set':
+            setTodo(payload)
+            break;
+        case 'add':
+            setTodo(todo => [...todo, payload])
+            break;
+        default:
+    }
+}, [])
+
+// 调用
+useEffect(() => {
+    dispatch({type: 'set', payload: todo})
+}, [])
+```
