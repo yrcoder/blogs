@@ -21,17 +21,17 @@ module.exports = {
 				{
 					title: '一层语法',
 					collapsable: false,
-					children: ['htmlCss', 'less', 'js', 'es6', 'vue', 'react', 'managingState', 'router', 'weixin'],
+					children: ['htmlCss', 'less', 'js', 'es6', 'vue', 'react', 'managingState', 'router', 'weixin', 'debug'],
 				},
 				{
 					title: '二层语法',
 					collapsable: false,
-					children: ['webpack', 'git', 'reactSSR', 'nginx', 'http', 'shell', 'editor', 'browser', 'websocket'],
+					children: ['webpack', 'git', 'reactSSR', 'nginx', 'http', 'shell', 'editor', 'browser', 'websocket', 'typeScript'],
 				},
 				{
 					title: '三层语法',
 					collapsable: false,
-					children: ['springBoot', 'node', 'r', 'computer'],
+					children: ['springBoot', 'node', 'r', 'computer', 'electron'],
 				},
 			],
 			'/readingNotes/': [
