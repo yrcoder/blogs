@@ -26,7 +26,7 @@ module.exports = {
 				{
 					title: '二层语法',
 					collapsable: false,
-					children: ['webpack', 'git', 'reactSSR', 'nginx', 'http', 'shell', 'editor', 'browser', 'websocket', 'typeScript'],
+					children: ['webpack', 'git', 'vueSSR','reactSSR', 'nginx', 'http', 'shell', 'editor', 'browser', 'websocket', 'typeScript'],
 				},
 				{
 					title: '三层语法',
