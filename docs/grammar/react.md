@@ -182,6 +182,7 @@ const test = React.createClass({
 
 ### create-react-app 生成的项目文件解读
 
+```
 <code>code 标签中间写代码</code>
 
 引入一个 svg 图片，直接放在 img 标签的 src 即可
@@ -195,6 +196,7 @@ import './App.css';
 
 react 定义 Component 组件
 react-dom 把定义好的组件映射到 dom 上
+```
 
 ```js
 // react 定义 Component 组件

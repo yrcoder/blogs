@@ -23,13 +23,13 @@
 
 ### 代码 SEO 优化
 
--   <title></title>标题
--   <meta name="keywords" content="关键词"/>
--   <meta name="description" content="网页描述" />
+-   `<title>标题</title>`
+-   `<meta name="keywords" content="关键词"/>`
+-   `<meta name="description" content="网页描述" />`
 -   body，语义化标签
--   <a title="加上说明" rel="nofollow"> 指向其他网址的链接加上 rel nofollow
+-   `<a title="加上说明" rel="nofollow">` 指向其他网址的链接加上 rel nofollow
 -   h1:主标题，h2:副标题
--   p: 内容的换行才用<br>
+-   p: 内容的换行才用 `<br />`
 -   table:的名称用 caption 定义表格名称
 -   img: 加上 alt 说明
 -   重要代码放在前面
@@ -37,4 +37,4 @@
 -   尽量少用 iframe 框架，小蜘蛛不会读取里面的内容
 -   小蜘蛛会过滤掉 display:none 中的内容
 
-## nuxt.js 的使用
+## nuxt.js 的使用 
