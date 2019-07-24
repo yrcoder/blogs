@@ -415,4 +415,448 @@ sudo vi /usr/local/etc/nginx/nginx.conf
 
 ## 日志
 
+access log（访问日志）：时间，请求类型，请求路径，客户端信息
+自定义日志：包括自定义事件，错误记录
+怎么存日志：放在文件中，数据量大。
+日志可能拷贝到各个服务器中
+
+1. nodejs 文件操作，nodejs stream
+
+```js
+const fs = require('fs')
+const path = require('path') // 各个操作系统，文件路径不通，统一一下。
+
+const fileName = path.resolve(__dirname, 'data.text') // 当前目录的data.text
+
+// 读取文件
+fs.readFile(fileName, (err, data) => {
+	if (err) {
+		console.error(err)
+		return
+	}
+	// data是二进制类型，需要转化成字符串
+	// 如果内容太多，data也是全部的内容，性能不好
+	console.log(data.toString())
+})
+
+// 写入文件,如果内容太多，data也是全部的内容，性能不好
+const content = '新的内容'
+const opt = {
+	flag: 'a', // 追加写入。覆盖用w
+}
+fs.writeFile(fileName, content, opt, err => {
+	if (err) {
+		console.error(err)
+		return
+	}
+})
+
+// 判断文件是否存在
+fs.exists(fileName, exist => {
+	console.log(exist) // true, false
+})
+
+// IO操作的性能瓶颈
+IO：网络IO，文件IO
+相比于cpu计算和内存读写，io就是慢
+有限的硬件资源下提高io的效率
+
+stream: 就是一个流，两个水桶中间插一个管子, 数据量太大，字符串拼接也是这个原理
+标准输入输出，pipe就是管道
+process.stdin 获取数据，直接通过管道传递给process.stdout
+process.stdin.pipe(process.stdout)
+
+http.createServer((req, res) => {
+    if(req.method === 'POST') {
+        req.pipe(res) // 一旦接收到请求就把参数返回出去
+    }
+})
+
+// stream 读取文件, 把one.text中的数据拷贝到two.text
+const = fileName1 = path.resolve(__dirname, 'one.text')
+const = fileName2 = path.resolve(__dirname, 'two.text')
+
+const readStream = fs.createReadStream(fileName1)
+const writeStream = fs.createWriteStream(fileName2)
+
+readStream.pie(writeStream)
+readStream.on('data', (chunk) => {
+    console.log(chunk.toString())
+})
+readStream.on('end', () => {
+    console.log('copy done')
+})
+
+// http请求，返回一个文件内容
+http.createServer((req, res) => {
+    if(req.method === 'GET') {
+        const = fileName1 = path.resolve(__dirname, 'one.text')
+        fileName1.pie(res)
+    }
+})
+```
+
+2. 日志的功能开发和使用
+   按天拆分日志
+   实现方式：linux 的 crontab 命令，即定时任务
+   设置定时任务， 格式: `*****command` 分时天月星期
+   将 access.log 拷贝并重命名为 2019-02-10.access.log
+   清空 access.log 文件，继续积累日志
+
+3. 日志文件拆分，日志内容分析
+   日志是按行存储的，一行就是一条日志
+   使用 nodejs 的 readline (基于 stream， 效率高)
+
+    日志分析 chrome 的占比
+
+```js
+const fs = require('fs')
+const path = require('path')
+const readline = require('readline')
+
+// 文件名
+const fileName = path.resolve(__dirname, 'data.text')
+// 创建read Stream （源水桶）
+const readStream = fs.createReadStream(filName)
+
+// 创建readline对象
+const rl = readline.createInterface({
+	input: readStream,
+})
+
+let chromeNum = 0
+let num = 0
+
+// 逐行读区
+rl.on('line', lineData => {
+	if (!lineData) {
+		return
+	}
+	// 记录总行数
+	sum++
+	const arr = lineData.split(' -- ')
+	if (arr[2] && arr[2].indexOf('Chrome') > 0) {
+		// 累加chrome的数量
+		chromeNum++
+	}
+})
+
+// 监听读取完成
+rl.on('close', () => {
+	console.log('chrome 的占比:' + chromeNum / sum)
+})
+```
+
 ## 安全
+
+sql 注入：窃取数据库内容
+xss 攻击：窃取前端 cookie 内容
+密码加密：保障用户信息安全（重要！）
+DDOS 攻击：需要硬件和服务来支持（需要 OP 支持），阿里云什么的会做
+
+1. sql 注入
+   攻击方式：输入一个 sql 片段，最终拼接成一段攻击代码（字符串，攻击 sql 语句）
+   如，输入用户名的地方，不是输入用户名，而是输入一段 sql 片段
+   预防措施：使用 mysql 的 escape 函数处理输入内容即可
+
+```sql
+select username, realname from users where username='lyr' and password='123';
+-- 当输入的是不是用户名，而是 用户名加杠杠空格（-- ）就会变成下面，这样密码就无效了
+select username, realname from users where username='lyr'--' and password='123';
+-- 当输入 lyr';delete from users; -- 。就会把该用户删除
+select username, realname from users where username='lyr';delete from users; --' and password='123';
+
+
+-- 在js文件中引用 mysql.escape
+-- const login = (username, password) => {
+--     username = mysql.escape(username)
+--     password = mysql.escape(password)
+
+--     username='${username}' ==> username=${username} 单引号去掉
+--     const sql = `select username, realname form users where username=${username} and password=${password}`
+-- }
+```
+
+2. xss 攻击
+   攻击方式：在页面展示内容中参杂 js 代码，以获取网页信息
+   预防措施：转换生成 js 的特殊字符，安装一个 xss 工具 npm install xss --save
+   把尖括号转化基本上就好了，要转的特殊字符：`& => &amp; < => &lt; > => &gt; " => &quot; ' => &#x27; / => &#x2f;`
+
+    ```js
+    const xss = require('xss')
+
+    xss(str)
+    ```
+
+3. 密码加密
+   万一数据库被用户攻破，最不应该泄露的就是用户信息
+   攻击方式：获取用户名和密码，再去尝试登录其他系统
+   预防措施：将密码加密，即使拿到密码也不知道明文。nodejs 提供的一个库 crypto
+
+```js
+const crypto = require('crypto')
+// 密匙(随便写,但是要保密)
+const SECRET_KEY = 'sdfW_98393#'
+// md5 加密
+function md5(content) {
+	let md5 = crypto.createHash('md5')
+	return mds.update(content).digest('hex')
+}
+// 加密函数
+function genPassword(password) {
+	const str = `password=${password}&key=${SECRET_KEY}`
+}
+
+// 测试
+genPassword('123')
+```
+
+# express 重构
+
+一个框架就是要
+
+1. 封装一些 api，工具函数
+2. 提供一套解决方案
+   express 的解决方案就是中间件机制
+
+express 和 koa2 类似于前端的 vue 和 react
+express 中间件机制
+中间件: 就是一个函数
+
+安装
+使用脚手架安装 express-generator
+npm install express-generator -g
+
+```js
+// app.use() next 参数
+const express = require('express')
+
+// 本次http请求的实例
+const app = express()
+
+// 如果没有第一个参数，默认执行该中间件，有的话，url命中才执行
+// next() 会执行下一个app.use 或者app.get，但是app.post不会执行
+app.use((req, res, next) => {
+	console.log('aaa', req.method, req.url)
+	next()
+})
+
+app.use((req, res, next) => {
+	req.cookie = {
+		userId: 'lyr',
+	}
+	next()
+})
+
+app.use((req, res, next) => {
+	setTimeout(() => {
+		req.body = {
+			a: 100,
+			b: 200,
+		}
+		next()
+	})
+})
+
+app.use('/api', (req, res, next) => {
+	console.log('use', req.method, req.url)
+	next()
+})
+
+app.get('/api', (req, res, next) => {
+	console.log('get', req.method, req.url)
+	next()
+})
+
+// next不会执行
+app.post('/api', (req, res, next) => {
+	console.log('post', req.method, req.url)
+	next()
+})
+
+// 其实这种写法就是中间件中套中间件
+function loginCheck(req, res, next) {
+	console.log('模拟登录成功')
+	setTimeout(() => {
+		next()
+	})
+}
+
+app.get('/api/get-cookie', loginCheck, (req, res, next) => {
+	console.log('/get-cookie', req.method, req.url)
+	res.json({
+		errno: 0,
+		data: req.cookie,
+	})
+})
+
+app.post('/api/get-post-data', (req, res, next) => {
+	console.log('/get-post-data', req.method, req.url)
+	res.json({
+		errno: 0,
+		data: req.body,
+	})
+})
+
+app.use((req, res, next) => {
+	console.log('404')
+	res.json({
+		errno: 0,
+		data: 'not fund',
+	})
+})
+
+app.listen(3000, () => {
+	console.log('start')
+})
+```
+
+## 登录
+
+## 日志
+
+express 推荐的 morgan 插件
+
+```js
+const logger = require('morgan')
+const app = express()
+app.use(logger('dev'))
+// 默认的第二个参数是(即默认输出到控制台上)
+app.use(logger('dev'), {
+	stream: process.stdout,
+})
+// 第一个参数的值
+// 'dev': 日志的格式, 还有很多
+
+// 线上环境，将日志写入文件
+const logFileName = path.join(__dirname, 'logs', 'access.log')
+const writeStream = fs.createWriteStream(logFileName, {
+	flages: 'a',
+})
+app.use(
+	logger('combined', {
+		stream: writeStream,
+	})
+)
+```
+
+## 实现一个简单的中间件
+
+核心 api:app.listen,app.use,app.get,app.post,next 往下传
+app.use: 用来注册中间件，先收集起来
+遇到 http 请求，根据 path 和 method 判断触发哪些
+实现 next 机制，上一个通过 next 触发下一个
+
+思路：
+将通过各种方法传人的中间件，依次执行，然后返回
+先存储不同类型的中间件，调用 listen 时，通过监听 url 的变化来执行中间件
+
+```js
+//
+const http = require('http')
+const slice = (Array = Array.prototype.slice)
+
+class LikeExpress {
+	constructor() {
+		// 存放中间件的列表
+		this.routes = {
+			all: [], // 存储通过app.use()传人的中间件
+			get: [],
+			post: [],
+		}
+	}
+
+	register(path) {
+		const info = {}
+		if (typeof path === 'string') {
+			info.path = path
+			// 从第二个参数开始，转换为数组，存入stack
+			info.stack = slice.call(arguments, 1)
+		} else {
+			info.path = '/'
+			// 从第一个参数开始，转换为数组，存入stack
+			info.stack = slice.call(arguments, 0)
+		}
+		return info
+	}
+	use() {
+		const info = this.register.apply(this, arguments)
+		this.routes.all.push(info)
+	}
+	get() {
+		const info = this.register.apply(this, arguments)
+		this.routes.get.push(info)
+	}
+	post() {
+		const info = this.register.apply(this, arguments)
+		this.routes.post.push(info)
+	}
+	match(method, url) {
+		let stack = []
+		if (url === '/favicon.ico') {
+			return stack
+		}
+		// 通过routes, 获取可用的中间件
+		let curRoutes = []
+		curRoutes = curRoutes.concat(this.routes.all)
+		curRoutes = curRoutes.concat(this.routes[method])
+
+		curRoutes.forEach(routeInfo => {
+			// 通过路由匹配一层
+			if (url.indexOf(routeInfo.path) === 0) {
+				stack = stack.concat(routeInfo.stack)
+			}
+		})
+		return stack
+	}
+	handle(req, res, stack) {
+		const next = () => {
+			// 拿到第一个匹配的中间件
+			const middleware = stack.shift()
+			if (middleware) {
+				// 执行中间件函数
+				middleware(req, res, next)
+			}
+		}
+		next()
+	}
+	callback() {
+		return (req, res) => {
+			res.json = data => {
+				res.setHeader('Constent-type', 'application/json')
+				res.end(JSON.stringify(data))
+			}
+			const url = req.url
+			const method = req.method.toLowerCase()
+
+			// 匹配可用的中间件列表
+			const resultList = this.match(method, url)
+			// 执行中间件，处理next机制
+			this.handle(req, res, resultList)
+		}
+	}
+	listen(...args) {
+		// 回调函数中处理请求头和返回数据等东西
+		const server = http.createServer(this.callback())
+		server.listen(...args)
+	}
+}
+
+// 工厂函数
+module.exports = () => {
+	return new LikeExpress()
+}
+```
+
+# koa2 重构
+
+## 中间件原理
+
+app.use 用来注册中间件，先收集起来
+实现 next 机制，
+不涉及路由，没有 method 和 path 判断
+
+```js
+```
+
+# 上线
