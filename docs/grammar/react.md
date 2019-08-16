@@ -344,3 +344,78 @@ useEffect(() => {
     dispatch({type: 'set', payload: todo})
 }, [])
 ```
+
+# 高阶组件
+
+高阶函数：函数可以作为参数被传递，函数可以作为返回值被输出
+高阶组件：接收一个组件作为参数并返回一个新组件的函数，高阶组件是一个函数，并不是一个组件
+
+```js
+// 函数可以作为参数被传递
+// 数组中： some(),map(),forEach(),filter() 都是
+setTimeout(() => {
+	console.log(1)
+}, 1000)
+
+$.get('/api/get', function() {
+	console.log('OK')
+})
+
+// 函数可以作为返回值被输出
+function foo(x) {
+	return function() {
+		return x
+	}
+}
+
+// 高阶组件
+import React, { Component } from 'react'
+function Wrap(Content) {
+	return class A extends Component {
+		render() {
+			return (
+				<div>
+					<header>公共部分</header>
+					<main>
+						<Content />
+					</main>
+				</div>
+			)
+		}
+	}
+}
+export default Wrap
+
+// 应用
+import React, { Component } from 'react'
+import Wrap from './wrap'
+class A extends Component {
+	render() {
+		return <div>组件A</div>
+	}
+}
+export default Wrap(A)
+
+// es6语法，装饰器
+// 安装依赖：npm i -D babel-preset-stage-2 babel-preset-react-native-stage-0
+// .babelrc配置：{"presets": ["react-native-stage-0/decorator-support"]}
+import React, { Component } from 'react'
+import wrap from './wrap'
+@wrap
+class A extends Component {
+	render() {
+		return <div>组件A</div>
+	}
+}
+export default A
+
+```
+
+## 代理方式的高阶组件
+
+返回的新组件类直接继承自 React.Component 类，新组件扮演的角色传人参数组件的一个代理，
+在新组件的 render 函数中，将被包裹组件渲染出来，除了高阶组件自己要做的工作，其余功能全都转手给了被包裹的组件
+
+## 继承方式的高阶组件
+
+采用
