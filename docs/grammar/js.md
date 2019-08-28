@@ -248,11 +248,10 @@ vue 如何解析模版
 ### 组件化 React
 
 1. 对组件化的理解
-封装，复用
+   封装，复用
 
-* 封装：视图,数据,变化逻辑（数据驱动视图变化）
-* 复用：props传递数据
-
+-   封装：视图,数据,变化逻辑（数据驱动视图变化）
+-   复用：props 传递数据
 
 2. jsx 是什么
 3. jsx 和 vdom 的关系
@@ -753,3 +752,114 @@ ele.removeAttribute('attribute') // attribute：要删除的属性名称
 2. 定位时，如果有 left，则再有 right 时，left 先起作用。若想让 right 起作用，让 left: auto
 
 3. 如果有背景图片，再设 background: #fff; 这时会把图片覆盖，这时要用 background-color: #fff;
+
+## 正则表达式
+
+有两种字符: 字符+元字符
+元字符(特殊字符): `* + ? \$ ^ . | \ () {} []`
+\t: 水平制表符
+\v: 垂直制表符
+\n: 换行符
+\r: 回车符
+\0: 空字符
+\f: 换页符
+\cX: 与 X 对应的控制字符（ctrl + X）
+
+```js
+/*
+匹配字符串的规则
+*/
+// 类，[abc]
+[abc]: abc中的一个
+// 类取反 [^abc]
+[^abc]: 不是字符abc的内容
+// 范围类[a-z]
+[a-z]: 从a到z的任意字符
+[a-zA-Z]: a-z,A-Z
+[0-9-]: 从0-9和字符-
+// 预定义类
+. : 除了回车换行之外的所有字符 [^/r/n]
+\d: 数字字符[0-9]
+\D: 非数字字符[^0-9]
+\s: 空白符[\t\n\x0B\f\r]
+\S: 非空白符[^\t\n\x0B\f\r]
+\w: 单词字符（字母数字下划线）[a-zA-Z_0-0]
+\W: 非单词字符[^a-zA-Z_0-0]
+// 边界
+^: 开头
+$: 结尾
+\b: 单词边界
+\B: 非单词边界
+// 量词, {}
+?: 出现0次或者一次，最多一次
++: 出现1次或者多次，最少一次
+*: 出现0次或者多次，任意次
+{n}: 出现n次
+{n,m}: 出现n到m次
+{n,}: 至少出现n次
+// 贪婪模式: 尽可能多的匹配
+'12345678'.replace(/\d{3-6}/g, 'X') // X78, 会匹配最大的次数
+// 非贪婪模式：一旦匹配成功就不再继续，只要在量词后面加上?即可
+'12345678'.replace(/\d{3-6}?/g, 'X') // XX78, 一旦匹配成功就不再继续 123->X 456->X
+'123456789'.match(/\d{3-5}?/g)// ["123", '456', '789']
+// 分组(): 使量词作用于分组,而不是一个字符; 或 |作用于分组;反向引用 $1可以拿到组匹配到的内容; 忽略分组，在分组内加上?:即可
+'a1b2c3d4'.replace(/([a-z]\d){3}/g, "X") // Xd4, 匹配一个字母加一个数字连续出现3次的情况
+'2015-02-23'.replace(/(\d{4})-(\d{2})-(\d{2})/g, '$1$2$3')
+(?:Byron).(ok)
+// 前瞻(?=)(?!), 断言, js不支持后顾
+正则表达式是从文本 头->尾，文本尾部方向成为"前"
+匹配到一个人叫张三的时候，还得判断他爸爸是不是叫张二
+断言要匹配，但是不会被替换
+exp(?=assert)
+exp(?!assert)
+\w(?=\d) //匹配是不是文字, 且该文字后面是数字
+// 正则对象的属性,方法
+// 属性
+global: 是否全文搜索，默认false
+ignore case: 是否大小写敏感，默认false
+multiline: 多行搜索，默认false
+lastIndex: 这一轮匹配完了，下一轮的开始位置。在非全局情况下lastindex不生效
+sourch: 正则表达式
+
+const reg = /\w/gim;
+reg.global // true
+reg.ignoreCase // true
+reg.multiline // true
+reg.lastIndex // true
+reg.sourch // "\w"
+// 方法
+RegExp.prototype.test(str)
+reg.test('dkfsdkfsd') // true
+reg.test('$') // false
+RegExp.prototype.exec(str)// 没有匹配到返回null,否则返回一个结果数组
+
+// 字符串对象的正则方法
+String.prototype.search(reg) // 忽略全局搜索，index或者-1
+'dfdsfsd'.search('d')
+String.prototype.match(reg)// 数组
+String.prototype.split(reg) // 数组
+String.prototype.replace(reg, '替换成谁') // 数组， '替换成谁'可以是function(匹配结果,group1 ...groupx ,index,原字符串)
+
+/*
+IDE 中规则复杂的字符串查找替换
+*/
+// 匹配 单词is，\b是单词边界
+\bis\b
+// http://aaa/bbb/ccc.jpg 去掉所有jpg文件的协议头。 .+任意字符至少一次, 小括号是分组, 用$1可以获取匹配到的内容
+http:(\/\/.+\.jps)
+$1
+// 日期替换： \d数字，{4}重复次数，[-/]或者, ^开头，$结尾, ()分组
+^(\d{4})[/-](\d{2})[/-](\d{2})$
+$1-$2-$3
+
+/*
+js 正则处理字符串
+*/
+js中通过内置对象RegExp支持正则表达式
+
+有两种方法实例化RegExp对象
+字面量: const reg = /\bis\b/g;
+构造函数: const reg = new RegExp('\\bis\\b', 'g')
+修饰符: g全文搜索, i忽略大小写, m多行搜索（有换行符默认第二行开头也不会匹配,加上m会被匹配）
+字符串:  'my name is lyr'.replace(reg, "要替换成的字符串");
+```

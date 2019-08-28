@@ -419,3 +419,23 @@ export default A
 ## 继承方式的高阶组件
 
 采用
+
+## 右键列表
+
+方法一:
+onContextMenu: (event) => {
+console.log("鼠标右击了 1")
+},
+
+方法二:
+onMouseUp:(e)=>{
+if (e.button===2) {
+console.log('鼠标右击了 2')
+}
+},
+
+全局阻止浏览器默认事件（鼠标右击事件等）
+
+document.oncontextmenu = function(){
+return false;
+}

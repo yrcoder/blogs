@@ -1,5 +1,9 @@
 # nginx
 
+云主机重装了一下系统后，再登录本机会有之前服务器的信息，将之删掉即可
+错误信息中有：Add correct host key in /Users/dashu/.ssh/known_hosts to get rid of this message.
+在/Users/dashu/.ssh/known_hosts 该文件下删除重装主机的信息，重新登录即可
+
 cd /etc/nginx/conf.d
 
 把公钥放到 ssh 文件下就不用输密码了
@@ -211,7 +215,6 @@ linux 常用命令
 whereis node # node: /root/.nvm/versions/node/v12.7.0/bin/node
 whereis git # git: /usr/bin/git /usr/share/man/man1/git.1.gz
 whereis nginx # nginx: /usr/sbin/nginx /usr/lib64/nginx /etc/nginx /usr/share/nginx /usr/share/man/man3/nginx.3pm.gz /usr/share/man/man8/nginx.8.gz
-whereis mysql # mysql: /usr/bin/mysql /usr/lib64/mysql /usr/share/mysql /usr/share/man/man1/mysql.1.gz
 
 # 已经安装的但是不包含在资源库中的rpm包
 yum list # 列出资源库中所有可以安装或更新的rpm包
@@ -253,10 +256,11 @@ cat id_rsa.pub
 # 让node项目稳定跑起来
 pm2 start app.js # node app.js
 
+# nginx 开机自动重启
 # nginx 代理80端口的请求，分发给别的地址
 # nginx的配置文件命名，一般会起程 对应的域名+要分发的端口
-cd /etc/nginc/conf.d
-vi liyueru.com.cn-8080.conf # 创建文件
+cd /etc/nginx/conf.d
+vi liyueru.com.cn_8080.conf # 创建文件
 # 内容如下： 将域名liyueru.com.cn指向服务器本地的8080端口
 upstream blog {
 	server 127.0.0.1:8080;
@@ -281,5 +285,42 @@ nginx -t # 检测配置文件有没有问题
 nginx # 启动
 nginx  -s  stop # 关闭
 nginx -s reload # 重启
-http://111.231.145.233:8080/
+# 前端和后端整合的配置
+server {
+    listen  80;
+    server_name liyueru.com.cn;
+
+    location /  {
+        root  /usr/share/nginx/liyueru.com.cn-8080/;
+        try_files $uri $uri/ @routerSso;
+        index   index.html index.htm;
+    }
+
+    location @routerSso {
+        rewrite ^.*$  / last;
+    }
+
+    location /gateway {
+        proxy_pass  http://192.168.5.89:8190/;
+        proxy_set_header Host     $host;
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header X-Forwarded-For  $proxy_add_x_forwarded_for;
+        proxy_read_timeout 3600s;
+        client_max_body_size    1000m;
+    }
+}
+
+# 服务器重启之后 重启nginx; nginx: [error] open() "/run/nginx.pid" failed (2: No such file or directory)
+因为强制终止nginx之后，不能直接用重启命令，先执行nginx命令之后才
+
+# 安装mysql https://www.cnblogs.com/shalldou/p/10767043.html   https://www.jianshu.com/p/455b93c451fd
+# 查看mysql可允许登录的用户名和主机
+select user,host from user;
+# 删除mysql用户和主机（将上面的查询的到的用户名和主机写入即可）
+DROP USER 'username'@'host';
+# 添加用户和主机权限(host为%代表所有的都可以)
+grant all on *.* to 'username'@'host' identified by 'password' with grant option;
+grant all on *.* to 'root'@'%' identified by '123456' with grant option;
+# 重新加载权限
+flush privileges
 ```
