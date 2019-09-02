@@ -12,52 +12,47 @@ module.exports = {
 		head: [['link', { rel: 'icon', href: `/favicon.ico` }]],
 		nav: [
 			{ text: '语法', link: '/grammar/htmlCss' },
-			{ text: '读书笔记', link: '/readingNotes/reactDesignPattern' },
-			{ text: '小东西', link: '/other/createNote' },
-			{ text: '摘抄', link: '/excerpt/lines' },
+			{ text: '反刍', link: '/ruminate/前端的总结' },
+			{ text: 'other', link: '/other/createNote' },
+			{ text: '摘抄', link: '/excerpt/excerpt' },
 		],
 		sidebar: {
 			'/grammar/': [
 				{
 					title: '一层语法',
 					collapsable: false,
-					children: ['htmlCss', 'less', 'js', 'es6', 'vue', 'react', 'managingState', 'router', 'weixin', 'debug'],
+					children: ['htmlCss', 'less', 'js', 'es6', 'vue', 'react', 'managingState', 'router', 'debug'],
 				},
 				{
 					title: '二层语法',
 					collapsable: false,
-					children: ['webpack', 'git', 'vueSSR','reactSSR', 'nginx', 'http', 'shell', 'editor', 'browser', 'websocket', 'typeScript'],
+					children: ['webpack', 'git', 'vueSSR', 'reactSSR', 'nginx', 'http', 'node'],
 				},
 				{
 					title: '三层语法',
 					collapsable: false,
-					children: ['springBoot', 'node', 'r', 'computer', 'electron'],
+					children: ['reactDesignPattern', 'jsDesignPattern', 'zepto源码', 'vue源码', 'react源码'],
 				},
 			],
-			'/readingNotes/': [
+			'/ruminate/': [
 				{
-					title: '读书笔记',
+					title: '反刍',
 					collapsable: false,
-					children: ['reactDesignPattern', 'javascript1', 'javascript2', 'javascript3', 'jsDesignPattern'],
-				},
-				{
-					title: '源码',
-					collapsable: false,
-					children: ['zepto', 'vue', 'react', 'project'],
+					children: ['前端的总结'],
 				},
 			],
 			'/excerpt/': [
 				{
 					title: '摘抄',
 					collapsable: false,
-					children: ['lines', 'essay', 'poetry', 'song'],
+					children: ['excerpt'],
 				},
 			],
 			'/other/': [
 				{
 					title: '小东西记录',
 					collapsable: false,
-					children: ['createNote', 'bugs', 'smallKnowledge'],
+					children: ['createNote', 'smallKnowledge', 'project'],
 				},
 			],
 			// '/date/': [

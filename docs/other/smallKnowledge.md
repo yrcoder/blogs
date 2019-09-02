@@ -42,3 +42,32 @@ json 字符串，number
 \$1
 4 位小数
 "(-?\d+(.\d{1,4})?)"
+
+# 微信
+
+## 小程序
+
+pages 第一个一定是要是最先显示的，tabBar 第一个必须是 pages 的第一个 否则会出现底部导航看不到
+
+mpvue 加载图片不用写 require 之间路径 `/static/swiper/${name}.png`
+
+# mock 和上传文件会冲突
+
+```html
+<tr>
+	<th>检查结论</th>
+	<td colspan="4">
+		<textarea v-model="info.inspectResult" :readonly="readonly" />
+	</td>
+</tr>
+<style>
+	/* textarea display 为 inline, 此时th 的字体会在最下面，block时才会起来*/
+	textarea {
+		display: block;
+		width: 500px;
+		height: 50px;
+		border: none;
+		resize: none;
+	}
+</style>
+```

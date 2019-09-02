@@ -860,3 +860,59 @@ app.use 用来注册中间件，先收集起来
 ```
 
 # 上线
+
+# node 原生
+
+es5,6 等的 runtime
+事件驱动：观察者模式
+非阻塞 IO：读写磁盘，进行一些网络操作都算是 IO 操作，数据库的操作主要也是放在 IO 中。
+
+nodejs 优势 web 场景，cpu 密集不合适
+擅长处理高并发和 I/O 密集场景
+cpu 密集：压缩，解压，加密，解密
+I/O 密集：文件操作，网络操作，数据库
+web 常见场景：静态资源的读取，数据库操作，渲染页面
+进程：执行中的程序就是进程
+多进程：启动多个进程，多个进程一块执行多个任务
+线程：进程里面的调用资源的最小单元
+多线程：
+nodejs 单线程：单线程只针对主进程，I/O 操作系统底层还是多进程调度（多线程是操作系统的事情不是 nodejs 的事情，nodejs 是在单线程中通知底层要做某事）
+单线程并不是单进程：nodejs 中有一个集群的模块，专门出理多进程，cpu 有多少个核就可以起多少个进程。
+
+作用：
+webserver
+本地代码的构建：webpack 等是 node 写的
+实用工具开发小工具：爬虫什么的
+
+## 环境和调试
+
+commonjs：
+每个文件都是一个模块，有自己的作用域
+在模块内部 module 变量代表模块本身
+module.exports 属性代码模块对外的接口
+require 引用：支持 js,json,node 拓展名，不写依次尝试，不写路径认为是 build-in 模块（自带的模块）或者各级 node_modules 内的第三方模块。
+require 特性：module 被加载的时候是执行的，加载后缓存（module 的内容只执行一次）。一旦模块被循环加载（a -> b, b->a），就只输出已经执行的部分，还未执行的部分不会输出。
+
+module.exports 和 exports 区别：
+
+```js
+;(function(exports, require, modele, __filename, __dirname) {
+	// code
+})()
+```
+
+## global
+
+## process，挂在 global 上的
+
+## path
+
+## buffer(缓存，二进制，toString()才可以看懂)
+
+## event
+
+## fs
+
+## web server
+
+## 爬虫

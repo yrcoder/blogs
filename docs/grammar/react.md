@@ -182,20 +182,20 @@ const test = React.createClass({
 
 ### create-react-app 生成的项目文件解读
 
-```
-<code>code 标签中间写代码</code>
+```js
+// <code>code 标签中间写代码</code>
 
-引入一个 svg 图片，直接放在 img 标签的 src 即可
-import logo from './logo.svg';
-<img src={logo} alt="logo" />
+// 引入一个 svg 图片，直接放在 img 标签的 src 即可
+// import logo from './logo.svg';
+// <img src={logo} alt="logo" />
 
-引入 css 文件，标签上用 className 直接用
-import './App.css';
+// 引入 css 文件，标签上用 className 直接用
+// import './App.css'
 
-<header className="App-header"></header>
+// <header className="App-header" />
 
-react 定义 Component 组件
-react-dom 把定义好的组件映射到 dom 上
+// react 定义 Component 组件
+// react-dom 把定义好的组件映射到 dom 上
 ```
 
 ```js
@@ -232,7 +232,7 @@ react 中事件必须不能执行，即不能带括号，否则就要在里面�
 
 能够让数据在组件树中传递而不必一级一级手动传递
 
-context: <Provider> <Consumer>
+context: `<Provider> <Consumer>`
 createContext(defaultValue)
 
 ```js
@@ -422,6 +422,7 @@ export default A
 
 ## 右键列表
 
+```js
 方法一:
 onContextMenu: (event) => {
 console.log("鼠标右击了 1")
@@ -439,3 +440,4 @@ console.log('鼠标右击了 2')
 document.oncontextmenu = function(){
 return false;
 }
+```
