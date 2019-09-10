@@ -95,6 +95,25 @@ td {
 }
 ```
 
+## 搜索框特效
+语音输入: chrome有
+`<input type="text" x-webkie-speech="">`
+
+## 取消选择和事件代理
+当元素中的子元素是动态生成的，不知道具体有什么或者没有什么，就要在父级元素上代理
+```js
+    wrap.onClick = function(e) {
+        const event = e || window.event
+        const el = event.srcElement; // srcElement或者target
+        if(el.className === 'del') {
+            const index = el.getAttribute('index')
+            const input = tr[index].getElementsByTagName('input')[0]
+            input.checked = false
+            input.onclick() // 这样就是手动触发onclick事件
+        }
+    }
+```
+
 ## 手风琴
 
 鼠标悬停：css hover, js mouseover
@@ -198,58 +217,109 @@ const toMax = () => {
 }
 ```
 
-回到顶部：
 信息滚动: <marquee direction="right" scrolldelay="500" behavitor="alternate" loop="3" onmouseover="this.stop()" onmouseout="this.start()">默认向左滚动</marquee>
 div 模拟，无缝滚动: 克隆一个内容 dom，当第一个内容到底部的时候继续展示第二个。scrollTop, offsetHeight,
-轮播图 1（旋转木马幻灯片）:
-轮播图 2（焦点轮播特效）:
-轮播图 3（预览图幻灯片）:
 
 ## 图片展示
-
-散列画廊：
 移动端 web 相册：
 css3 3D 特效：
 css 动画实用技巧：
-js 插件图片画廊：
 
-# 工具条
-
-侧栏工具条：
-导航条菜单：
-商城分类导航：
-固定边栏滚动：
-tab 选项卡:
-js 插件 tab 选项卡:
 
 # 其他
+## 固定边栏滚动
+思路
+1. css position fixed
+2. 监听window上的滚动事件
+3. 设置fixed条件判断：滚动高度 scrollTop + 屏幕高度 screenHeight > 边栏高度 sideDom.style.height
 
-## 弹出层
+```js
+const $ = function(id) {
+    return document.getElementById(id)
+}
+const addEvent = function(obj, event, fn) {
+    if(obj.addEventListener) {
+        obj.addEventListener(event, fn, false)
+    } else {
+        obj.attachEvent('on' + event, fn)
+    }
+}
+const domSider = $('side')
+const scrollEvent = function() {
+    const sideHeight = domSider.offsetHeight
+    const screenHeight = document.documentElement.clientHeight || document.body.clientHeight
+    const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop
+    if(crollHeight + screenHeight > sideHeight) {
+        domSider.style.cssText = `position: fixed; right: 0; top: ${-(sideHeight - screenHeight)}px`
+    } else {
+        domSider.style.position = 'static'
+    }
+}
+addEvent(window, 'scroll', scrollEvent())
+addEvent(window, 'resize', scrollEvent())
+```
+## 回到顶部
+锚链接：
+document.documentElement.scrollTop: 滚动条的数值，可以读写
+setInerval()
+事件：window.onload window.onsrcoll
+阻止a链接的默认行为：`<a href="javascript:;">`
+`<a href="">` 如果是空的则跳到最顶部
+```js
+window.onload = function() {
+    // 页面可视区域的高度
+    const clientHeight = document.documentElement.clientHeight
+    const btn = document.getElementById('btn')
+    const timer = null
+    let isTop = true
+    btn.onclick = function() {
+        timer = setInterval(function() {
+            // 获取滚动条的高度
+            const osTop = document.documentElement.scrollTop || document.body.scrollTop
+            const ispeed = Math.floor(-osTop / 5)
+            document.documentElement.scrollTop = document.body.scrollTop = osTop + ispeed
+            isTop = true
+            if(osTop === 0) {
+                clearInterval(timer)
+            }
+        }, 30)
+    }
+    window.onscroll = function() {
+        // 按钮的显示隐藏
+        const osTop = document.documentElement.scrollTop || document.body.scrollTop
+        if(osTop > = clientHeight) {
+            obtn.style.display = 'block'
+        } else {
+            obtn.style.display = 'none'
+        }
+        // 这个没有弄明白（滚动条滚动的时候用户是否滚动滚轮）
+        if(!isTop) {
+            clearInterval(timer)
+        }
+        isTop = false
+    }
+}
+```
+## QQ 时光轴
+年月为菜单，点击跳转对应日志。滚动日志高亮对应的菜单
+1. 页面滚动固定时间菜单
+2. 页面滚动的动画效果，日历到农历的转化
+3. 菜单点击展开和高亮，同时滚动页面
+4. 滚动页面内容自动展开和高亮时序菜单
 
-DOM: scrollHeight, clientHeight, createElement, appendChild, removeChild
-页面的宽高：const sH = document.documentElement.scrollHeight/scrollWidth
-可是区域宽高：const cH = document.documentElement.clientHeight/clientWidth(定位内容中心用)
-弹出层：创建一个遮罩层 maskDom，宽高为页面的宽高 maskDom.style.height= sH + 'px', document.body.appendChild(maskDom); 点击遮罩层删除自身和弹窗内容 document.body.removeChild(maskDom)
-创建内容 mainDom, 将之定位, 设置定位位置，left=(可视区域的宽度-自身宽度)/2 + 'px'，可视区域的宽度 = 页面的宽; top=(可视区域的高度-自身高度)/2 + 'px'
+根据数据找到对应的dom，获取上面的属性值，通过window.onscroll等控制进行操作，
+变量的东西可以通过模版字符串写上去，模版和数据进行组合
+```js
 
-## 搜索框特效
-
-## 按钮特效
+```
 
 ## 新手引导
+将每个步骤应该定位的位置事先写好，把每个步骤的框放在一个div中。
+每个步骤有对应的index, 循环执行通过index确定要display: block的步骤，其余隐藏。
+关闭时将父级关闭。点击下一步index加1。
+新手导引，第二次登录就没有了，需要设置cookie, 和后天做个约定就好
 
-## 表单美化
-
-## QQ 时光轴
-
-## 购物车特效
-
-## 评论功能
-
+## 按钮特效
 ## 移动 web
 
-## 自定义滚动条
-
-鼠标拖动事件处理，
-鼠标滚轮事件处理，
-发布-订阅模式
+## hybrid
