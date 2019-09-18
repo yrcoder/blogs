@@ -150,3 +150,57 @@ if(window.dispatchEvent) {
 }
 ```
 
+复制到剪贴板
+```js
+render: (text) => {
+    const wrap = {
+        style: {
+            position: 'relative'
+        },
+    }
+    const showText = {
+style: {
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    cursor: 'pointer'
+},
+        onMouseOver: (e) => {
+            if (e.target.offsetWidth < e.target.scrollWidth) {
+                e.target.nextSibling.style.display = 'block'
+            }
+        },
+        onMouseOut: (e) => {
+            if (e.target.offsetWidth < e.target.scrollWidth) {
+                e.target.nextSibling.style.display = 'none'
+            }
+        },
+        onClick: () => {
+            const save = (e) => {
+                e.clipboardData.setData('text/plain', text); // 剪贴板内容设置
+                e.preventDefault();
+            }
+            document.addEventListener('copy', save)
+            document.execCommand('copy'); // 执行copy事件，这时监听函数会执行save函数。
+            document.removeEventListener('copy', save); // 移除copy事件
+            message.success('拷贝成功!')
+        }
+    }
+    const tooltip = {
+        style: {
+            display: 'none',
+            position: 'absolute',
+            top: '30px',
+            zIndex: '100',
+            width: '100%',
+            background: '#fff',
+            padding: '10px',
+            borderRadius: '6px',
+            boxShadow: '1px 1px 8px 0px rgba(0, 0, 0, 0.5)',
+            wordBreak: 'break-all'
+        }
+    }
+    return React.createElement('div', wrap, React.createElement('div', showText, text), React.createElement('div', tooltip, text));
+},
+```
+
