@@ -22,22 +22,710 @@
 异步，单线程
 
 ### 原型，原型链
+知识点
+1. 构造函数
+```js
+function Foo(name,age) {
+    this.name = name
+    this.age = age
+    this.class = 'class-1'
+    // return this // 默认有这一行
+}
+
+const f = new Foo('lyr', 20) // new 的时候this会先变成一个空对象，
+
+// 扩展
+const a = {}; 是 const a = new Object() 的语法糖
+const a = []; 是 const a = new Array() 的语法糖
+function Foo() {} 是 const a = new Function() 的语法糖
+
+// 使用 instanceof 判断一个函数是否是一个变量的构造函数
+// 判断变量是不是数组
+// 变量 instanceof Array
+```
+2. 原型规则和实例, 原型链和instanceof
+* 所有的引用类型除了null（数组，对象，函数）都具有对象的特性，可自由扩展属性
+* 所有的引用类型除了null（数组，对象，函数）都具有__proto__属性(隐式原型), 属性值是一个普通的对象
+* 所有的函数都有一个prototype属性(显式原型), 属性值也是一个普通的对象
+* 所有的引用类型除了null（数组，对象，函数）, __proto__属性值指向它的构造函数的prototype属性值
+* 当试图得到一个对象的某个属性时，如果这个对象本身没有这个属性，那么会去它的__proto__(也就是它的构造函数的prototype)中寻找
+
+```js
+const obj = {}
+const arr = []
+function fn() {}
+// 所有的引用类型除了null（数组，对象，函数）都具有对象的特性，可自由扩展属性
+obj.a = 100
+arr.a = 100
+fn.a = 100
+// 所有的引用类型除了null（数组，对象，函数）都具有__proto__属性, 属性值是一个普通的对象
+console.log(obj.__proto__)
+console.log(arr.__proto__)
+console.log(fn.__proto__)
+// 所有的函数都有一个prototype属性, 属性值也是一个普通的对象
+console.log(fn.prototype)
+// 所有的引用类型除了null（数组，对象，函数）, __proto__属性值指向它的构造函数的prototype属性值
+console.log(obj.__proto__ === Object.prototype)
+// 当试图得到一个对象的某个属性时，如果这个对象本身没有这个属性，那么会去它的__proto__(也就是它的构造函数的prototype)中寻找
+function Foo(name, age) {
+    this.name = name // this指的时实例f
+}
+Foo.prototype.alertName = function() {
+    alert(this.name) // this指的时实例f
+}
+const f = new Foo('lyr')
+f.printName = function() {
+    console.log(this.name) // this指的时实例f
+}
+f.printName()
+f.alertName()
+for (var item in f) {
+    if(f.hasOwnProperty(item)) {
+        // 只遍历本身的属性，不遍历原型的属性
+        // 高级浏览器已经在for in中屏蔽的来自原型的属性
+    }
+}
+
+// 原型链
+f.toString() // 要去f.__proto__.__proto__ ... 中去找
+
+// instanceof
+f instanceof Foo; // f的__proto__ 一层一层往上，能否对应到 Foo.prototype
+f instanceof Object; // f的__proto__ 一层一层往上，能否对应到 Object.prototype
+```
+
+题目1: 如何准确判断一个变量是数组类型: `arr instanceOf Array`
+题目2: 描述new一个对象的过程
+1. 创建一个新对象
+2. this指向这个新对象
+3. 执行代码，即对this赋值
+4. 返回 this
+题目3: 写一个原型链继承的例子
+```js
+// 封装dom查询到例子
+function Elem(id) {
+    this.elem = document.getElementById(id)
+}
+Elem.prototype.html = function(val) {
+    var elem = this.elem
+    if(val) {
+        elem.innerHTML = val
+        return this // 链式操作
+    } else {
+        return elem.innerHTML
+    }
+}
+Elem.prototype.on = function(type, fn) {
+    var elem = this.elem
+    elem.addEventListener(type, fn)
+    return this // 链式操作
+}
+
+var div1 = new Elem('div1')
+console.log(div1.html())
+div1.html('<a>点击</a>').on('click', function() {
+    console.log(111)
+})
+```
 
 ### 作用域，闭包
+知识点：
+1. 执行上下文
+js 是解释型语言, 在函数执行之前会把变量定义和函数声明先拿出来占个位，然后解析
+范围: 一段script或者一个函数
+全局(script): 变量定义, 函数声明
+函数: 变量定义, 函数声明, this, arguments
 
+PS: 函数声明 不是 函数表达式 `const a = function() {}`
+
+```js
+console.log(a) // undefined
+var a = 100
+// 等价于
+var a = undefined
+console.log(a)
+a = 100
+
+fn('lyr') // 'lyr' 20
+function fn(name) {
+    age = 20
+    console.log(name, age)
+    var age
+
+    console.log(this)
+    console.log(arguments)
+}
+// 等价于
+function fn(name) {
+    var age
+    age = 20
+    console.log(name, age)
+
+    console.log(this) // window
+    console.log(arguments)
+}
+fn('lyr')
+```
+
+2. this
+this在执行时才能确认值, 定义时无法确认
+执行的场景：
+作为构造函数执行: this指的是实例
+作为对象属性执行: this指的是那个对象
+作为普通函数执行: this指的是window
+call apply bind: this是绑定的那个对象
+```js
+const a = {
+    name: 'a',
+    fn: function() {
+        console.log(this.name)
+    }
+}
+const b = {name: 'b'}
+a.fn() // this === a
+a.fn.call(b) // this === b
+const fn = a.fn
+fn() // this === window
+
+// 构造函数
+function Foo(name) {
+    const this = {}
+    this.name = name
+    return this
+}
+const f = new Foo('lyr')
+
+// call apply bind
+function fn1(name, age) {
+    console.log(name, this)
+}
+fn1.call({x: 100}, 'call', 20)
+fn1.apply({x: 200}, ['apply', 20])
+
+const fn2 = function(name, age) {
+    console.log(name, this)
+}.bind({x: 300})
+fn2('bind', 20)
+```
+
+3. 作用域
+没有块级作用域(大括号)
+只有函数和全局作用域
+es6中有块级作用域
+```js
+// 没有块级作用域
+if(true) {
+    var name = 'lyr'
+}
+console.log(name) // lyr
+
+for(var i = 0; i < 10; i++) {}
+console.log(i) // 10
+// es6
+if(true) {
+    const age = 10
+}
+console.log(age) // error: age is not defined
+
+for(let i = 0; i < 10; i++) {}
+console.log(i) // i is not defined
+// 函数和全局作用域
+var a = 100
+function fn() {
+    var a = 200
+    console.log('fn', a)
+}
+console.log('global', a)
+fn()
+```
+4. 作用域链
+自由变量：当前作用域没有定义的变量
+```js
+// 定义时的父级作用域
+var a = 100
+function fn1() {
+    var b = 200
+    function fn2() {
+        var c = 300
+        console.log(a, b, c)
+    }
+    fn2()
+}
+fn1()
+```
+5. 闭包
+```js
+// 父级作用域是定义时候的作用域，而不是执行时候的作用域
+
+// 函数作为返回值
+function F1() {
+    var a = 100
+    const b = function() {
+        console.log(a) // a 自由变量，向父级作用域去寻找 -- 函数定义的父级作用域
+    }
+    return b
+}
+var f1 = F1() // f1 === b
+var a = 2000
+f1() // 100, 函数执行是全局作用域
+
+// 函数作为参数
+function F1() {
+    var a = 100
+    const b = function() {
+        console.log(a) // a 自由变量，向父级作用域去寻找 -- 函数定义的父级作用域
+    }
+    return b
+}
+var f1 = F1() // fn === b
+function F2(fn) {
+    var a = 300
+    fn()
+}
+F2(f1)
+```
+
+题目1: 对变量提升的理解
+题目2: this几种不同的使用场景
+题目3: 创建10个a标签，点击弹出对应的序号
+```js
+// 错误
+var i, a
+for(i = 0; i<10;i++) {
+    a = document.createElement('a')
+    a.innerHTML = i + '<br>'
+    a.addEventListener('click', function(e) {
+        e.preventDefault()
+        alert(i) // 自由变量，要去父作用域取值, 所有点击的结果都是10
+    })
+}
+// 正确
+var i, a
+for(i = 0; i<10;i++) {
+    (function(i) {
+        a = document.createElement('a')
+        a.innerHTML = i + '<br>'
+        a.addEventListener('click', function(e) {
+            e.preventDefault()
+            alert(i) // 自由变量，要去父作用域取值
+        })
+    })(i)
+}
+```
+题目4: 如何理解作用域
+    自由变量，作用域链，即自由变量的查找，闭包的两个场景
+题目5: 实际开发中闭包的应用：封装变量，收敛权限
+```js
+function isFirstLoad() {
+    var _list = []
+    return function(id) {
+        if(_list.indexOf(id) >= 0) {
+            return false
+        } else {
+            _list.push(id)
+            return true
+        }
+    }
+}
+var firstLoad = isFirstLoad()
+firstLoad(10) // true
+firstLoad(10) // false
+firstLoad(20) // true
+```
 ### 异步，单线程
+知识点:
+1. 什么是异步:
+同步: 阻塞
+异步: 执行完之后在回来执行。
+等待的场景都需要异步
+定时任务: setTimeout, setInverval
+网络请求: ajax, 动态img加载
+事件绑定
+2. 前端使用异步的场景
+3. 异步和单线程
+
+题目1: 同步和异步的区别？各举一例
+题目2: 一个关于setTimeout的笔试题
+题目3: 前端使用异步的场景
+```js
+// alert() 同步
+
+// 结果：start, end, ajax
+console.log('start')
+$.get('/a.json',function(data) {
+    console.log('ajax')
+})
+console.log('end')
+
+// 结果：start, end, img
+console.log('start')
+const img = document.createElement('img')
+img.onload = function() {
+    console.log('img')
+}
+// img.onerror = function() {
+//     console.log('onerror')
+// }
+console.log('end')
+
+// 结果：start, end, button
+console.log('start')
+const btn = document.getElementById('btn')
+btn.addEventListener('click', function() {
+    console.log('btn')
+})
+console.log('end')
+
+// 异步和单线程
+console.log(1)
+setTimeout(function() {
+    console.log(2)
+})
+console.log(3)
+
+```
+### 其他
+知识点
+```js
+// 日期和math
+Date.now() // 当前时间毫秒数
+const dt = new Date()
+dt.getTime() // 毫秒数
+dt.getFullYear() // 年
+dt.getMonth() // 月 0-11
+dt.getDate() // 日 0-31
+dt.getHours() // 时 0-23
+dt.getMinutes() // 分 0-59
+dt.getSeconds() // 秒 0-59
+
+获取随机数 Math.random()
+// 数组和对象
+const arr = [1, 2, 3]
+arr.forEach((item, index) => {
+    console.log(item, index)
+})
+arr.every((item, index) => {
+    if(item < 5) {
+        return true
+    }
+})
+arr.some((item, index) => {
+    if(item < 5) {
+        return true
+    }
+})
+
+arr.filter((item, index) => {
+    if(item < 2) {
+        return true
+    }
+})
+arr.sort((a, b) => (a-b))
+arr.map((item, index) => {
+    return
+})
+
+const obj = {a: 1, b: 2}
+var key
+for(key in obj) {
+    if(obj.hasOwnProperty(key)) {
+        console.log(key, obj[key])
+    }
+}
+```
+
+1. 获取 2017-06-10 格式的日期
+```js
+function formatDate(dt) {
+    if(!dt) {
+        dt = new Date()
+    }
+    const year = dt.getFullYear()
+    const month = dt.getMonth() + 1
+    const date = dt.getDate()
+    if(month < 10) {
+        month = '0' + month
+    }
+    if(date < 10) {
+        date = '0' + date
+    }
+    return `${year}-${month}-${date}`
+}
+```
+2. 获取随机数，要求是长度一致的字符串格式
+```js
+const random = Math.random()
+random = random = '0000000000'
+random = random.slice(0, 10)
+console.log(random)
+
+```
+3. 一个能遍历对象和数组的通用的forEach函数
+```js
+function forEach(obj, fn) {
+    var key
+    if (obj instanceof Array) {
+        obj.forEach((item, index) => fn(index, item))
+    } else {
+        for(key in obj) {
+            if(obj.hasOwnProperty(key)) {
+                fn(key, obj[key])
+            }
+        }
+    }
+}
+// 应用
+const arr = [1,2,3]
+const obj = { x: 1, y: 2}
+forEach(arr, (index, item) => {
+    console.log(index, item)
+})
+forEach(obj, (key, val) => {
+    console.log(index, item)
+})
+```
 
 ## js-web-api
-
-DOM 操作
-Ajax
-事件绑定
+JS基础知识： ECMA 262标准：定义js基础相关的东西，包括变量类型、原型、作用域、异步（Object, Array, Boolean, String, Math, JSON等）
+js-web-api： W3C标准：定义js操作页面的API和全局变量(window, document, navigator.userAgent等)
+W3C js相关：DOM 操作、BOM操作、Ajax（包括http协议）、事件绑定、存储（W3C还包括CSS和HTML）
 
 ### DOM 操作
+Document Object Model: 文档对象模型
+知识点：
+1. DOM 本质
+xml: 可扩展的语言，可以描述任何一个结构化的数据, 标签组成的树，标签可以自定义
+html: 特殊的xml，就是一个字符串。这个文件要让js可以处理，就要转化，什么好处理，结构化的东西好处理，浏览器把这个字符串结构化成树，每个元素就是一个对象，让js可以操作。
+DOM: 浏览器把拿到等html代码，结构化一个浏览器可以识别并且js可以操作的一个模型。
+2. DOM节点操作
+Attribute: 标签的属性 style, getAttribute, setAttribute 赋值，取值
+prototype: js对象的属性，className 像普通的一样 赋值，取值
+```js
+// 获取dom节点
+docuemnt.getElementById('div1') // 元素
+document.getElementsByTagName('div') // 集合
+document.getElementsByClassName('.container') // 集合
+const pList = document.querySelectorAll('p') // 集合
+集合就是类数组: length, arr[0]
+const p = pList[0]
+p.style.width // 获取样式
+p.style.width = '100px' // 修改样式
+p.className // 获取class
+p.className = 'p1' // 修改class
 
-### Ajax
+// prototype
+p.nodeName // p 获取元素标签名
+p.nodeType // 获取元素标签类型
+const obj = { a: 111, b: 222} // obj.a 就是prototype
+
+// Attribute
+p.getAttribute('data-name')
+p.setAttribute('data-name', 'lyr')
+p.getAttribute('style')
+p.setAttribute('style', 'font-size: 20px;')
+```
+3. DOM结构操作（一个树的操作）
+新增节点
+获取父元素
+获取子元素
+删除节点
+遍历，递归什么的
+```js
+// 新增节点
+var div1 = document.getElementById('div1')
+// 新增新节点
+var p1 = document.createElement('p')
+p1.innerHTML = '1111'
+div1.appendChild(p1)
+// 移动已有节点(原来的地方就没有了)
+var p2 = document.getElementById('p2')
+div1.appendChild(p2)
+// 获取父元素
+p1.parentElement
+div1.parentElement
+// 获取子元素
+div1.childNodes // 数组 [text, p#p1, text, p#p2, text] 会把换行，空格等作为文本显示出来
+// 把空节点获取出来，nodeType === 3 是text，nodeType === 1是常规的标签节点。nodeName === 'P' nodeName=== '#text'
+// 删除节点
+const childNodes = div1.childNodes
+div1.removeChild(childNodes[1])
+```
+题目1: DOM是哪种基本的数据结构？
+树
+题目2: DOM操作的常用API？
+获取DOM节点，以及节点的property和Attribute
+获取父节点，子节点
+新增节点，删除节点
+题目3: DOM节点等attr和property有什么区别？
+property: 只是一个js对象的属性修改
+attribute：是对html标签属性的修改
+
+### BOM操作
+Browser Object Model：浏览器对象模型
+知识点
+navigator
+screen
+location
+history
+```js
+// navigator
+var ua = navigator.userAgent
+var isChrome = ua.indexOf('Chrome')
+// screen
+screen.width
+screen.height
+// location
+location.href // 全部
+location.protocol // 协议 http
+location.host // 域名 XXX.com
+locatoin.pathname // /aaa.html
+location.search // ?a=1111
+location.hash // #mid=100
+// history
+history.back()
+history.forward()
+```
+题目1: 检测浏览器的类型
+题目2: 解析url的各部分
 
 ### 事件绑定
+知识点：
+1. 通用事件绑定
+2. 事件冒泡
+3. 代理
+```js
+// 一个通用的事件监听函数
+var btn = document.getElementById('btn1')
+btn.addEventListener('click', function(event) {
+    console.log('clicked')
+})
+function bindEvent(elem, type, fn) {
+    elem.addEventListener(type, fn)
+}
+var a = document.getElementById('link1')
+bindEvent(a, 'click', function(e) {
+    e.preventDefault() // 阻止默认行为
+    alert('clicked')
+})
+// IE兼容问题
+attachEvent
+
+// 事件冒泡, 先触发本身节点事件-->父级元素事件--> ... --> body事件
+var child = document.getElementsByTagName('a')
+var wrap = document.getElementById('wrap')
+var body = document.body
+e.stopPropatation() // 阻止冒泡，child不会触发wrap和body事件
+// 代理(会随时增加子元素)
+wrap.addEventListener('click', function(e) {
+    const target = e.target // 事件在哪儿触发的就是target
+    if(target.nodeName === 'A') {
+        alert(target.innerHTML)
+    }
+})
+```
+题目1: 编写一个通用的事件监听函数
+```js
+function bindEvent(elem, type, selector, fn) {
+    if(fn === null) {
+        fn = selector
+        selector = null
+    }
+    elem.addEventListener(type, function(e) {
+        var target
+        if(selector) {
+            target = e.targert
+            if(target.matches(selector)) {
+                fn.call(target, e)
+            }
+        } else {
+            fn(e)
+        }
+    })
+}
+
+// 使用代理
+var wrap = document.getElementById('wrap')
+bindEvent(wrap, 'click', 'a', function(e) {
+    console.log(this.innerHTML)
+})
+// 不适用代理
+var child = document.getElementById('a1')
+bindEvent(child, 'click', function(e) {
+    console.log(child.innerHTML)
+})
+```
+题目2: 描述事件冒泡流程
+DOM 树形结构
+冒泡
+阻止冒泡
+题目3: 对于一个无限下拉加载图片的页面，如何给每个图片绑定事件
+代理
+### Ajax
+知识点：
+1. XMLHttpRequest
+```js
+// XMLHttpRequest
+// IE低版本使用 ActiveXObject
+var xhr = new XMLHttpRequest()
+xhr.open('GET', '/api', false)  // false说明是异步
+xhr.onreadystatechange = function() {
+    // 这个函数是异步执行的
+    if(xhr.readyState === 4) {
+        if(xhr.status === 200) {
+            alert(xhr.responseText)
+        }
+    }
+}
+xhr.send(null)
+```
+2. 状态码
+readyState:
+0:未初始化，还没有调用send()方法
+1:载入，已经调用send()方法， 正在发送请求
+2:载入完成，send()方法执行完成，已经接收全部响应内容
+3:交互，正在解析响应内容
+4:完成，响应内容解析完成，可以在客户端调用了
+status：
+2XX: 成功处理请求，如200
+3XX: 需要重定向，浏览器直接跳转
+4XX：客户端请求错误，404, 未定义的地址
+5XX：服务器端错误，500
+3. 跨域
+前端解决跨域：JSONP
+服务器端设置 http header`response.setHeader("Access-Control-Allow-Origin", "http://a.com, http://b.com")`
+跨域：浏览器的同源策略，不允许ajax访问其他域的接口，跨域条件：协议、域名、端口，有一个不同就是跨域
+但是有3个标签允许跨域加载资源
+`<img src="">` 图片提供方可以做一个防盗链的处理,可以用于大点统计，统计网站可能是其他域
+`<link href=""></link>` 可以用CDN
+`<script src=""></script>`
+加载 http://aaa.bbb.com/xxx.html, 服务器不一定真的有一个xxx.html文件, 服务器可以根据请求，动态生成一个文件，返回
+同理 `<script src="http://aaa.bbb.com/xxx.html"></script>`
+```html
+<script>
+window.callback = function(data) {
+    // 这是我们跨域得到的信息
+    console.log(data)
+}
+</script>
+<!-- /该srcipt返回 callback({a: 100, b:200, c: 300}) -->
+<script src="ttp://aaa.bbb.com/xxx.js"></script>
+```
+
+题目1: 手动编写一个ajax，不依赖三方库
+题目2: 跨域的几种实现方式
+
+### 存储
+
+题目1: 描述一下cookie, sessionStorage 和 localStorage 的区别
+cookie: 本身用于客户端和服务器端通信，它本身有本地存储功能是被借用的。
+使用 document.cookei = xxx 获取和修改内容
+存储量：4KB
+所有http请求都带着
+sessionStorage 和 localStorage
+存储量：5M
+setItem(key, value)
+getItem(key)
+IOS safari隐藏模式下，localStorage.getItem会报错，建议统一使用try-catch封装
 
 ## 开发环境
 
