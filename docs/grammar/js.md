@@ -891,18 +891,367 @@ XSRF：跨站请求伪造，当你在 A 站生成一个订单，别人收到一�
 ES6 常用语法 - Class Module Promise
 原型高级应用 - 结合 JQ 和 zepto 源码
 异步全面讲解 - 从 JQ 再到 promise
+虚拟dom - 存在价值，如何使用，diff算法
+vue - MVVM, vue响应式, 模版解析， 渲染
+React - 组件化，jsx, vdom, setState
+hybrid - 基础，和h5对比，上线流程
+通讯 - 通讯原理，JS-Bridge封装
+
 
 ### ES6 常用语法
 
-模块的使用和编译环境
-class 与 js 构造函数的区别
-promise 的用法
-ES6 其他常用功能
+题目1: ES6 模块化如何使用，开发环境如何打包
+1. 模块化的基本语法
+```js
+export default {
+    a: 100
+}
+import utils from './utils'
+export function fn1 {}
+export const a = {}
+import {fn1, a } from './utils'
+```
+2. 开发环境配置
+babel: 将es6转换成es5
+webpack: 打包编译，模块化
+rollup: 对vue，react等库项目打包
+
+```bash
+# babel
+npm init
+npm install babel-core --save-dev
+npm install babel-preset-es2015 babel-preset-latest --save-dev  # 两个preset
+创建.babelrc文件
+{
+    "preset": ["es2015", "latest"], # 最后一个单词是别名
+    "plugins": []
+}
+npm install babel-cli --global
+babel --version
+创建 index.js文件
+运行 babel ./index.js 编译
+
+# webpack
+npm install webpack webpack-cli babel-loader@7 --save-dev
+配置 webpack.config.js
+
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: __dirname,
+        filename: './build/bundle.js'
+    },
+    module: {
+        rules: [{
+            test: /\.js?$/,
+            exclude: /(node_modules)/,
+            loader: 'babel-loader'
+        }]
+    }
+}
+
+配置 package.json 中的scripts
+"scripts": {
+    "start": "webpack",
+}
+运行 npm start
+
+# rollup , 暂时放弃，报错解决不了
+npm init
+npm i rollup rollup-plugin-node-resolve rollup-plugin-babel --save-dev # rollup
+npm i @babel/core babel-plugin-external-helpers babel-preset-latest --save-dev # babel
+配置 .babelrc
+{
+    "presets": [
+        [
+            "latest",
+            {
+                "es2015": {
+                    "modules": false
+                }
+            }
+        ]
+    ],
+    "plugins": [
+        "external-helpers"
+    ]
+}
+# 配置 rollup.config.js
+
+import babel from 'rollup-plugin-babel'
+import resolve from "rollup-plugin-node-resolve"
+
+export default {
+    entry: 'src/index.js',
+    format: 'iife', # amd /  es6 / iife / umd
+    plugins: [
+        resolve(),
+        babel({
+            exclude: 'node_modules/**'
+        })
+    ],
+    dest: 'build/bundle.js'
+}
+# 配置 package.json
+"scripts": {
+    "start": "rollup -c rollup.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+},
+```
+3. js的众多模块化标准
+AMD： require.js, CMD：commonjs
+ES6: import export
+
+```js
+```
+
+题目2: class 与 js 构造函数的区别
+new 一个对象，以构造函数为模版创造一个对象。该对象有方法有属性，在构造函数中操作将要创造的新对象就叫this
+class 是构造函数的语法糖
+```js
+// JS 构造函数
+function Test(x,y) {
+    this.x = x;
+    this.y = y
+}
+Test.prototype.add = function() {
+    return this.x + this.y
+}
+const test = new Test(1,2)
+console.log(test.add())
+// class 基本语法
+// typeof Test // function
+// Test === Test.prototype.constructor
+// test.__proto__ === Test.prototype
+class Test extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            data: []
+        }
+    }
+    render() {
+        return (<div>hello</div>)
+    }
+    componentDidMount() {}
+}
+class Test {
+    constructor(x,y) {
+        this.x = x
+        this.y = y
+    }
+    add() {
+        return this.x + this.y
+    }
+}
+const test = new Test(1,2)
+console.log(m.add())
+// 继承
+function Animal() {
+    this.eat = function() {
+        console.log('animal eat')
+    }
+}
+function Dog() {
+    this.bark = function() {
+        console.log('dog bard')
+    }
+}
+Dog.prototype = new Animal()
+const hashiqi = new Dog()
+
+class Animal {
+    constructor(name) {
+        this.name = name
+    }
+    eat() {
+        console.log(this.name, 'eat')
+    }
+}
+class Dog extends Animal {
+    constructor(name) {
+        super(name) // 指的就是 Animal, 就是 Animal.prototype.constructor, 只要有extents就要把super() 写上
+        this.name = name
+    }
+    say() {
+        console.log(this.name, 'say')
+    }
+}
+const dog = new Dog('哈士奇')
+dog.say()
+dog.eat()
+```
+
+题目3: promise 的基本使用和原理
+promise解决callback hell
+new Promise 实例，而且要return
+new promise 时要传入函数，函数有 resolve reject两个函数
+成功时执行resolve() 失败时执行reject()
+then监听结果
+```js
+// promise方法定义
+function loadImg(src) {
+    return new Promise(function(resolve, reject) {
+        const img = document.createElement('img')
+        img.onload = function() {
+            resolve(img)
+        }
+        img.onerror = function() {
+            reject()
+        }
+        img.src = src
+    })
+}
+// promise方法使用
+const src = "http://xxx.png"
+const result = loadImg(src)
+
+result.then(function(img) {
+    console.log(img.width)
+}, function() {
+    console.log('failed')
+})
+// 可以分步骤写很多个回调函数
+result.then(function(img) {
+    console.log(img.height)
+}, function() {
+    console.log('failed')
+})
+```
+
+题目4: ES6 其他常用功能
+
+let/const
+模版变量
+解构赋值
+块级作用域
+函数默认参数
+箭头函数（this指向绑定）
+
+```js
+const obj = {a: 10, b: 20, c: 30}
+const { a, b } = obj
+const arr = [1,2,3]
+const [x,y,z] = arr // x === arr[0] y === arr[1] z === arr[2]
+
+for(let item in obj) { // var就可以在外部访问到了
+    console.log(item)
+}
+// 编译之后为
+for(var _item in obj) {
+    console.log(_item)
+}
+console.log(item) // undefined
+
+function (a, b = 0) {}
+
+() => {
+    this // this指向函数体中最近的一层作用域, 而不是window
+}
+function fn() {
+    console.log(this) // { a: 100}
+    arr.map(item => {
+        console.log(this) // { a: 100 }
+    })
+    arr.map(function(item) {
+        console.log(this) // window
+    })
+}
+fn.call({a: 100})
+```
 
 ### 原型高级应用
 
 原型如何实际应用
-原型如何满足扩展
+
+```js
+// 使用
+var $p = $('p')
+var $div1 = $('#div1')
+// css html 是原型方法
+$p.css('color', 'red')
+$p.html()
+$div1.css('color', 'blue')
+$div1.html()
+// jq和zepto通过$()方法实例化对象，每个实例都可以从原型中访问到事先定义好的各种方法
+
+// zepto(从下往上读)
+(function(window) {
+    var zepto = {}
+    function Z (dom, selector) {
+        var i, len = dom ? dom.length : 0
+        for(i = 0; i<len; i++) {
+            this[i] = dom[i]
+        }
+        this.length = len
+        this.selector = selector || ''
+    }
+    zepto.Z = function(dom, selector) {
+        // 出现了new关键字
+        return new Z(dom, selector)
+    }
+    zepto.init = function(selector) {
+        // 弱化了源码，只针对原型
+        var slice = Array.prototype.slice
+        const dom = slice.call(document.querySelectorAll(selector))
+        return zepto.Z(dom, selector)
+    }
+    var $ = function(seletor) {
+        return zepto.init(seletor)
+    }
+    window.$ = $
+
+    $.fn = {
+        constructor: zepto.z,
+        css: function(key, value) {},
+        html: function(value) {
+            return 'html: 这是一个字符串'
+        }
+    }
+    Z.prototype = $.fn
+})(window)
+// jq
+(function(window) {
+    var jQuery = function(selector) {
+        return new jQuery.fn.init(selector)
+    }
+
+    jQuery.fn = {
+        css: function() {console.log('css')},
+        html: function() {return 111}
+    }
+
+    // 定义构造函数
+    var init = jQuery.fn.init = function(selector) {
+        var slice = Array.prototype.slice
+        const dom = slice.call(document.querySelectorAll(selector))
+
+        var i, len = dom ? dom.length : 0
+        for(i = 0; i<len; i++) {
+            this[i] = dom[i]
+        }
+        this.length = len
+        this.selector = selector || ''
+    }
+
+    init.prototype = jQuery.fn
+
+    window.$ = jQuery
+})(window)
+```
+
+原型如何体现它的扩展性（jq,zepto 插件机制）
+为什么要将原型赋值给 $.fn 或者 jQuery.fn ？
+因为要扩展插件
+```js
+    // 一个简单的插件
+    $.fn.getNodeName = function() {
+        return this[0].nodeName
+    }
+    // 给$.fn增加一个新的属性,增加一个新的功能（一个插件）
+    // 为什么要加在 $ 上面，而不是别的什么内部变量，因为只有$会暴露在window上
+    // 将插件扩展统一到$.fn.xxx上面
+```
 
 ### 异步全面讲解
 
