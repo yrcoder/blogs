@@ -1255,12 +1255,179 @@ $div1.html()
 
 ### 异步全面讲解
 
-什么是单线程和异步有什么关系
-什么是 event-loop
-目前 js 解决异步的方案有哪些
-如果只用 jq 如何解决异步
-promise 的标准
-async/await 的使用
+题目1: 什么是单线程和异步有什么关系
+
+单线程：只有一个线程，只能做一件事
+原因：避免DOM渲染冲突（解决方案：异步）
+浏览器需要渲染DOM,
+js可以修改DOM结构
+js执行的时候，浏览器DOM渲染会停止
+两段js也不能同时执行（都修改DOM就冲突了）
+webworker支持多线程，但是不能访问DOM
+异步缺点：没有按照书写顺序执行，回调不容易模块化
+
+题目2: 什么是 event-loop 事件轮询
+异步的实现方案：event-loop
+同步代码直接执行，异步函数放在 异步队列 中，同步代码执行完，轮询执行异步队列的函数
+异步队列何时被放入：立即被放入，指定一段时间被放入，ajax请求成功之后被放入
+
+题目3: 是否用过jQuery的Deferred（延迟）
+jq1.5之后推出 Deferred
+deferred: 无法改变js异步和单线程本质，只能从写法上杜绝 callback 这种形式，但是解耦了代码（语法糖），体现了开放封闭原则
+promise标准: 任何不符合标准的东西，终将会被用户抛弃（全球的项目经理认证）
+1. 状态变化：pending, fulfilled, rejected
+初始状态pending
+状态变化：不可逆
+pending --> fulfilled
+pending --> rejected
+2. then
+Promise实例必须实现then这个方法
+then()必须接收两个函数作为参数，成功失败的回调函数
+then()必须返回一个Promise实例，如果没有显式返回，默认就会返回then前面的那个实例
+
+```js
+// jq 1.5之前, 现在也可以这么写，但是1.5之前只支持这么写
+var ajax = $.ajax({
+    url: 'data.json',
+    success: function() {
+        console.log(1)
+    },
+    error: function() {
+        console.log(0)
+    }
+})
+console.log(ajax) // 返回一个 XHR 对象
+
+// jq 1.5之后
+var ajax = $.ajax('data.json')
+ajax.done(function() {
+    console.log(1)
+}).fail(function() {
+    console.log(0)
+}).done(function() {
+    console.log(222)
+})
+ajax.then(function() {
+    console.log(1)
+}, function() {
+    console.log(0)
+}).then(function() {
+    console.log(1)
+}, function() {
+    console.log(0)
+})
+console.log(ajax) // 返回一个 deferred 对象
+
+// deferred 应用1
+var wait = function() {
+    var task = function() {
+        console.log('执行完成')
+        // 1
+        // 2
+        // 3
+    }
+    setTimeout(task, 200)
+}
+wait()
+// 在执行完task之后，还要进行一些复杂的操作
+function waitHandle() {
+    var dtd = $.Deferred()
+    // 将 Deferred 适量 dtd, 进行一系列封装之后，返回
+    var wait = function(dtd) {
+        var task = function() {
+            console.log('执行完成')
+            dtd.resolve()
+            // dtd.reject()
+        }
+        setTimeout(task, 2000)
+        return dtd
+    }
+
+    // 返回值是 dtd
+    return wait(dtd)
+}
+
+var w = waitHandle()
+w.then(function() {
+    console.log('ok1')
+}, function() {
+    console.log('error1')
+})
+w. then(function() {
+    console.log('ok2')
+}, function() {
+    console.log('error2')
+})
+
+// dtd的API分为两类，用意不同
+第一类：dtd.resolve dtd.reject（主动触发）
+第二类：dtd.then dtd.done dtd.fail（被动受监听）
+这两类要分开，在外部不能主动触发
+var w = waitHandle()
+w.reject() // 主动执行完之后，后面的then函数将执行失败的回调
+w.then(function() {
+    console.log('ok')
+}, function() {
+    console.log('error')
+})
+// 解决方法 promise(), 不再返回dtd实例，而是返回promise() 里面只有被动触发的方法
+function waitHandle() {
+    var dtd = $.Deferred()
+    var wait = function(dtd) {
+        var task = function() {
+            console.log('执行完成')
+            dtd.resolve()
+            // dtd.reject()
+        }
+        setTimeout(task, 2000)
+        return dtd.promise() // 只有被动触发的方法, 外部不能调用resolve，reject
+    }
+    return wait(dtd)
+}
+```
+
+题目4: promise 的标准
+
+```js
+// 异常捕获
+result.then(function() {
+    // 只处理成功的函数
+}).then(function() {
+}).catch(function(error) {
+    // 统一捕获异常
+    // 语法报错，和reject报错都可以捕获
+})
+// 多个串联（A请求的结果是B请求的参数）
+var resultA = loadImg(src1)
+var resultB = loadImg(src2)
+resultA.then(function(dataA) {
+    console.log(dataA)
+    return resultB
+}).then(function(dataB) {
+    console.log(dataB)
+}).catch(function(ex) {
+    console.error(ex)
+})
+// promise.all() 全部完成, promise.rece() 只有一个完成
+// Promise.all Promise.rece 接收一个promise对象数组，待全部完成之后统一执行success
+Promise.all([result1, result2]).then(datas => {
+    console.log(datas, datas[0], datas[1])
+})
+Promise.race([result1, result2]).then(data => {
+    // 最先执行完成的data
+    console.log(data)
+})
+```
+
+题目5: async/await 的使用(和promise的区别、联系)
+
+```js
+```
+
+题目6: 当前解决异步的方案
+
+```js
+```
 
 ## 框架原理
 
