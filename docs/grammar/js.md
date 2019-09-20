@@ -1420,13 +1420,14 @@ Promise.race([result1, result2]).then(data => {
 ```
 
 题目5: async/await 的使用(和promise的区别、联系)
-
+then只是将callback拆分了
+async/await 是可以用同步的方法写
+await 后面必须跟一个Promise实例
+需要 babel-polyfill
 ```js
-```
-
-题目6: 当前解决异步的方案
-
-```js
+const load = async function() {
+    const result = await loadImg('http://xxx.png')
+}
 ```
 
 ## 框架原理
@@ -1435,12 +1436,166 @@ Promise.race([result1, result2]).then(data => {
 MVVM vue - MVVM，vue 响应式，模版解析，渲染
 组件化 React - 组件化，JSX，vdom， setState
 
-### 虚拟 DOM
+### 虚拟 DOM(virtual dom)
+vdom是一类库
+vDom: 用js模拟DOM结构，DOM变化的对比放在js层来做（图灵完备的语言），提高重绘性能
+图灵完备的语言：能实现各种逻辑的语言，能做到判断、循环、递归，能实现无限循环无限执行的语言，能实现高复杂逻辑的语言，能实现任何数学算法的语言。
+题目1: vdom是什么，为何用会存在vdom?
+DOM操作是昂贵的，js运行效率高
+尽量减少dom操作，不要推到重来
+```js
+<ul id="list">
+    <li class="item">item1</li>
+    <li class="item">item2</li>
+</ul>
 
-什么是 vdom，为何用 vdom
-vdom 如何使用，核心函数有哪些
-了解 diff 算法吗（vdom 的核心算法）
+// 用js模拟
+{
+    tag: 'ul',
+    attrs: {
+        id: 'list'
+    },
+    children: [{
+        tag: 'li',
+        attrs: {
+            className: 'item', // class js的关键字, 所以用className
+            children: ['Item 1']
+        }
+    }, {
+        tag: 'li',
+        attrs: {
+            className: 'item',
+            children: ['Item 2']
+        }
+    }]
+}
 
+// 用jq和vDOM分别实现：将一个对象数组展示成一个表格，当修改数组信息，表格也跟着修改。
+<div id="container"></div>
+<button id="btn-change">change</button>
+const data = [{
+    name: '张三',
+    age: 20
+}, {
+    name: '李四',
+    age: 21
+}, {
+    name: '王五',
+    age: 22
+}]
+/*jq实现*/
+// 每次改变table的整个都会改变，性能不好
+// 渲染函数
+function render(data) {
+    var $container = $('#container')
+    // 清空容器
+    $container.html('')
+    // 拼接table
+    var $table = $('<table>')
+    $table.append($('<th><td>name</td><td>age</td></th>'))
+    data.forEach(item => {
+        $table.append($(`<tr><td>${item.name}</td><td>${item.age}</td></tr>`))
+    })
+    // 渲染到页面
+    $container.addend($table)
+}
+$('#btn-change').click(function() {
+    // 修改某一行数据
+    data[1].age = 30
+    data[2].name = '朱六'
+    // 再重新渲染 re-render
+    render(data)
+})
+// 页面加载完立即执行（初次渲染）
+render(data)
+```
+题目2: vdom 如何使用，核心API是什么？
+snabbdom: 一个vdom的技术实现库
+h('标签名', {...属性...}, [...子元素...])
+h('标签名', {...属性...}, '...')
+patch(container, vnode)
+patch(vnode, newVnode)
+```js
+<ul id="list">
+    <li class="item">item1</li>
+    <li class="item">item2</li>
+</ul>
+var vnode = h('ul#list', {}, [
+    h('li.item', {}, 'Item1'),
+    h('li.item', {}, 'Item2'),
+])
+patch(doucment.getElementById('container'), vnode)
+var newVnode = h('ul#list', {}, [
+    h('li.item', {}, 'aaaaa'),
+    h('li.item', {}, 'bbbbb'),
+])
+patch(vnode, newVnode) // 找出新的vnode和旧的有什么区别，然后替换
+
+// 应用
+// 引入snabbdom文件 有 snabbdom.js snabbdom-class.js snabbdom-props.js snabbdom-style.js snabbdom-eventlist.js h.js 这一堆文件
+// 引入之后 window.snabbdom就已经有值了
+var snabbdom = window.snabbdom
+// 定义path
+var patch = snabbdom.init([
+    snabbdom_class,
+    snabbdom_props,
+    snabbdom_style,
+    snabbdom_eventlisteners
+])
+// 定义h
+var h = snabbdom.h
+// 生成 vnode
+var vnode = h('ul#list', {}, [
+    h('li.item', {}, 'Item1'),
+    h('li.item', {}, 'Item2'),
+])
+patch(doucment.getElementById('container'), vnode)
+document.getElementById('btn-change').addEventListener('click', function() {
+    // 生成 newVnode
+    var newVnode = h('ul#list', {}, [
+        h('li.item', {}, 'Item1'),
+        h('li.item', {}, 'bbb'),
+    ])
+    patch(vnode, vnode)
+})
+
+/*重做demo*/
+var vnode
+function render(data) {
+    var newVnode = h('table', {}, data.map(item => {
+        var tds = []
+        var i
+        for(i in item) {
+            if(item.hasOwnProperty(i)) {
+                tds.push(h('td', {}, item[i] + ''))
+            }
+        }
+        return h('tr', {}, tds)
+    }))
+    if(vnode) {
+        // re-render
+        patch(vnode, newVnode)
+    } else {
+        // 初次渲染
+        patch(container, newVnode)
+    }
+    // 存储当前newVode结果
+    vnode = newVnode
+}
+
+// 初次渲染
+render(data)
+// 更改变化
+document.getElementById('btn-change').addEventListener('click', function() {
+    data[1].age = 30
+    data[2].name = '朱六'
+    // re-render
+    render(data)
+})
+```
+题目3: 了解 diff 算法（vdom 的核心算法）
+```js
+```
 ### MVVM vue
 
 jq 和 vue 或者 react 的区别
