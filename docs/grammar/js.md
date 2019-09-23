@@ -1594,15 +1594,362 @@ document.getElementById('btn-change').addEventListener('click', function() {
 })
 ```
 题目3: 了解 diff 算法（vdom 的核心算法）
+1. 什么是diff算法
+linux命令: diff log1.txt log2.txt; 返回两个文件中哪里不一样
+git命令: git diff ./index.js; 修改前后的不同
+对比两个vDom的异同
+2. vdom为何使用diff算法
+dom操作要尽量减少，找出必须要更新的，其他不变，找出的过程就要diff算法
+3. diff算法的实现流程
+patch(container, vnode)
+递归，vdom --> 真实的dom节点
+patch(vnode, newVnode)
+newVnode --> vnode，递归对比，真实的dom节点替换
 ```js
+// patch(container, vnode)
+function createElement(vnode) {
+    const { tag, attrs, children } = vnode
+    if(!tag) {
+        return null
+    }
+    // 创建元素
+    const elem = document.createElement(tag)
+    // 属性
+    let attrName
+    for(attrName in attrs) {
+        if(attrs.hasOwnProperty(attrName)) {
+            elem.setAttribute(attrName, attrs[attrName])
+        }
+    }
+    // 子元素
+    children.forEach(childVnode => {
+        // 给elem添加子元素
+        createElement(childVnode)
+    })
+    // 返回真实的DOM元素
+    return elem
+}
+// patch(vnode, newVnode)
+// 根节点不会变，递归比较变化
+function updateChildren(vnode, newVnode) {
+    const children = vnode.children || []
+    const newChildren = newVnode.children || []
+
+    children.forEach((childVnode, index) => {
+        const newChildVnode = newChildren[index]
+        if(childVnode.tag === newChildVnode.tag) {
+            // 一样，就深层次对比，递归
+            updateChildren(childVnode, newChildVnode)
+        } else {
+            // 不一样，就替换, 替换需要真实的dom节点
+            replaceNode(childVnode, newChildVnode)
+        }
+    })
+}
+function replaceNode(vnode, newVnode) {
+    // 替换需要真实的dom节点
+    const elem = vnode.elem
+    const newElem = createElement(newVnode)
+    // dom替换
+}
 ```
 ### MVVM vue
+BootCDN 引入jq等框架
 
-jq 和 vue 或者 react 的区别
-你如何了解 mvvm
-vue 如何实现响应式
-vue 如何解析模版
-介绍 vue 的实现流程
+题目1: 使用jq和使用框架的区别（ vue 或者 react ）
+数据和视图分离（解耦，开放封闭原则）：jq中都混在一起了，`var $li = $('<li>${title}</li>')`, ul只是一个空壳。
+以数据驱动视图，只关心数据变化，DOM操作被封装：只改数据，不用管视图。jq是直接干预了dom，vue是只更改数据。DOM操作被封装。
+```js
+// jq 实现todo-list
+<input type="text" name="" id="txt-title"/>
+<button id="btn-submit">submit</button>
+<ul id="ul-list"></ul>
+const $txtTitle = $('#txt-title')
+const $btnSubmit = $('#btn-submit')
+const $ulList = $('#ul-list')
+$btnSubmit.click(function() {
+    const title = $txtTitle.val()
+    if(!title) {
+        return
+    }
+    var $li = $(`<li>${title}</li>`)
+    $ulList.append($li)
+    $txtTitle.val('')
+})
+// vue 实现todo-list
+<div id="app">
+    <input v-model="title"/>
+    <button v-on:click="add">submit</button>
+    <ul>
+        <li v-for="item in list">{{item}}</li>
+    </ul>
+</div>
+const vm = new Vue({
+    el: '#app',
+    data: {
+        title: '',
+        list: []
+    },
+    methods: {
+        add: function() {
+            this.list.push(this.title)
+            this.title = ''
+        }
+    }
+})
+```
+
+题目2: 如何理解 MVVM
+MVC:
+model: 数据
+view: 视图，界面
+controller： 控制器，逻辑处理
+用户 --> view --> controller --> model --> view
+用户 --> controller --> model --> view
+
+MVVM:
+view: 视图、模版（视图和模型是分离的）
+model: 数据，模型，js对象
+vm: viewModel, vue实例，链接view、model。view 通过事件监听操作model(v-on 和 methods), model通过数据绑定来操作view
+MVVM三要素:
+1. 响应式：vue如何监听到data的每个属性变化？ 我们只是 this.title = '' this.list.push(this.title)
+2. 模版引擎：vue的模版如何被解析，指令如何处理？模版中并不是真正的html
+3. 渲染：vue的模版如何被渲染成html? 以及渲染过程。
+
+题目3: vue 如何实现响应式
+关键是 Object.defineProperty
+将data的属性代理到vm上
+
+1. 什么是响应式？
+修改data属性后，vue立刻监听到
+data属性被代理到 vm 上
+```js
+// data.name, 被代理到vm上了, vm.name 就是data.name
+var vm = new Vue({
+    el: '#app',
+    data: {
+        name: 'lyr',
+        age: 20
+    }
+})
+```
+
+2. Object.defineProperty IE9以上
+```js
+// 将对象属性到获取和设置都变成函数, 对象被访问时可以监听到，被设置到时候可以监听到
+var obj = {}
+var _name = 'lyr'
+Object.defineProperty(obj, 'name', {
+    get: function() {
+        console.log('get')
+        return _name
+    },
+    set: function(newVal) {
+        console.log('set')
+        _name = newVal
+    }
+})
+console.log(obj.name) // 可以监听到
+obj.name = '李月茹' // 可以监听到
+```
+
+3. 模拟
+```js
+// 模拟vue怎么监听name,age
+// var vm = new Vue({
+//     el: '#app',
+//     data: {
+//         name: 'lyr',
+//         age: 20
+//     }
+// })
+
+var vm = {}
+var data = {
+    age: 10,
+    name: 'lyr'
+}
+
+var key, value
+for(key in data) {
+    // 命中闭包，新建一个函数，保证key的独立作用域
+    (function (key) {
+        // 将data属性代理到vm上, data是实例化的时候传进来到参数
+        Object.defineProperty(vm, key, {
+            get: function() {
+                console.log('get')
+                return data[key]
+            },
+            set: function(newVal) {
+                console.log('set')
+                data[key] = newVal
+            }
+        })
+    })(key)
+}
+```
+
+题目4: vue 如何解析模版
+1. 模版是什么？
+本质: 字符串
+有逻辑: 如 v-if v-for等
+与html格式很像, 但是有很大区别（html是静态的，没有逻辑）
+最终要转换为html来显示
+模版最终必须转化成js代码，因为：有逻辑（v-if v-for）必须使用js才能实现（图灵完备）；转换成html渲染页面，必须用js才能实现；因此模版最重要要转换成一个js函数（render函数）
+* 模版：字符串，有逻辑，嵌入js变量...
+* 模版必须转换成js代码（有逻辑，渲染html，js变量）
+* render函数什么样子
+* render函数执行返回vnode
+* updateComponent
+```js
+// with的用法
+var obj = {
+    name: 'lyr',
+    age: 20,
+    getAddress: function() {
+        console.log('aaa')
+    }
+}
+// 不用with
+function fn() {
+    console.log(obj.name)
+    console.log(obj.age)
+    obj.getAddress()
+}
+fn()
+// 使用with, with有解构的作用
+function fn() {
+    with(obj) {
+        console.log(name)
+        console.log(age)
+        getAddress()
+    }
+}
+```
+2. render函数
+模版中所有信息都包含在render函数中
+this即vm
+price 即this.price即vm.price，即data中的price
+_c即this._c即vm._c
+```js
+<div id="app">
+    <p>{{price}}</p>
+</div>
+
+// 模版最终转化为
+function render() {
+    with(this) {
+        // this就是vm这个vue实例，_c === vm._c; _v === vm._v; _s === vm._s
+        return _c(
+            'div',
+            {
+                attrs: {"id": "app"}
+            },
+            [
+                _c('p', [_v(_s(price))]) // _s 就是toString, _v创建文本节点，_c创建标签
+            ]
+        )
+    }
+}
+
+// 从哪里可以看到render函数: 源码中搜索code.render, 打印,就可以找到模版的render函数
+// 复杂一点儿的例子，render函数是什么样子的
+// v-if v-for v-on都是怎么处理的
+// vue2.0开始支持预编译，开发环境写模版，经过工具编译打包，生产环境就是js代码，即上面的render函数。
+// react 组件化 jsx模版，经过编译生成js代码，jsx语法已经标准化。
+    with(this) {
+        return _c(
+            'div',
+            {
+                attrs: {"id": "app"}
+            },
+            [
+                _c('div', [
+                    _c(
+                        'input',
+                        {
+                            directives: [{
+                                name: 'model',
+                                rawName: 'v-model',
+                                value: (title),
+                                expression: 'title'
+                            }],
+                            domProps: {
+                                value: (title)
+                            },
+                            on: {
+                                input: function($event) {
+                                    if($event) {
+                                        return title = $event.target.value // vm.title = $event.target.value
+                                    }
+                                }
+                            }
+                        }
+                    ),
+                    _v(""),
+                    _c("button", {
+                        on: {
+                            click: add // vm.add
+                        }
+                    }, [_v('submit')])
+                ]),
+                _v(""),
+                _c("div", [
+                    _c('ul', _l((list), function(item) { // vm._l 是个for循环
+                        return _c('li', [_v(_s((item)))])
+                    }))
+                ])
+            ]
+        )
+    }
+```
+3. render函数和vdom
+vdom核心API: h函数，patch函数
+vm._c其实相当于 snabbdom 中的h函数
+render函数执行之后返回的是 vnode
+updateComponent 实现了vdom的patch, 新旧对比
+页面首次渲染执行updateComponent
+data每次修改都执行updateComponent
+```js
+
+function updateComponent() {
+    // vm._render 即上面的render函数，返回 vnode
+    vm._update(vm._render())
+}
+vm._update(vnode) {
+    const prevVnode = vm._vnode
+    vm._vnode = vnode
+    if(!prevVnode) {
+        vm.$el = vm.__patch__(vm.$el, vnode)
+    } else {
+        vm.$el = vm.__patch__(prevVnode, vnode)
+    }
+}
+```
+
+题目5: 介绍 vue 的实现流程
+第一步: 解析模版成render函数（h 函数）
+* 模版打包的时候就解析成render函数了, 创建vnode的过程，添加属性，事件，解析指令等等。
+* with的用法
+* 模版中的所有信息都被render函数包含
+* 模版中用到的data中的属性，都变成了js变量
+* 模版中的v-model v-for v-on 都变成了js逻辑
+* render 函数返回 vnode
+第二步: 响应式开始监听
+* Object.defineProperty
+* 将data的属性代理到vm上（with）
+第三步: 首次渲染，显示页面，且绑定依赖
+* 初次渲染，执行updateComponent执行vm.render()
+* 执行render函数，会访问到vm.list vm.title
+* 会被响应式的get方法监听到，为什么不监听set（data中有很多属性，用到到走get，没用到不走。未走get的属性，set的时候也无需关心，避免不必要到重复渲染）
+* 执行updateComponent,会走到vdom的patch方法
+* patch将vnode渲染成DOM, 初次渲染完成
+第四步: data属性变化，触发rerender
+* 修改属性`this.title = 'aaa'`，被响应式的set监听
+* set中执行 updateComponent
+* updateComponent 重新执行vm._render()
+* 生成vnode和preVnode，通过patch进行对比
+* 渲染到html中
 
 ### 组件化 React
 
