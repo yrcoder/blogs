@@ -2777,3 +2777,112 @@ js中通过内置对象RegExp支持正则表达式
 修饰符: g全文搜索, i忽略大小写, m多行搜索（有换行符默认第二行开头也不会匹配,加上m会被匹配）
 字符串:  'my name is lyr'.replace(reg, "要替换成的字符串");
 ```
+## js事件循环，宏微任务
+异步执行顺序的差异: 要明白这个问题需要去了解js的事件循环模型 (js的执行栈，作用域链，变量提升，js的单线程原因)
+关键字：marcotask microtask queue 执行上下文context 堆heap 栈stack 作用域
+
+宏任务: setTimeout，setTimeInterval, setTimeout在0ms后将callback加入到宏任务的queue中
+微任务: promise.then中的回调, promise的回调放在微任务的queue中
+
+先去微任务的queue，再去执行宏任务队列中的callback。
+
+## js事件轮询event loop
+一个进程由一个或多个线程组成，线程是一个进程中代码的不同执行路线
+一个进程的内存空间是共享的，每个线程都可用这些共享内存。但进程之间是独立的。
+多进程: 在同一个时间里，同一个计算机系统中允许两个或两个以上的进程处于运行状态。
+多线程：程序中包含多个执行流。一个程序中可以同时运行多个不同的线程来执行不同的任务。
+以Chrome浏览器中为例，当你打开一个 Tab 页时，其实就是创建了一个进程，一个进程中可以有多个线程，如渲染线程、JS 引擎线程、HTTP 请求线程等等。
+当你发起一个请求时，其实就是创建了一个线程，当请求结束后，该线程可能就会被销毁。
+
+浏览器主要由4个进程组成
+1. browser主进程: 就是浏览器的主进程,一般只有一个,用于管理,协调,调配,前进后退一些大的功能
+2. GPU渲染进程: 主要用于渲染一些3d动画,也是只有一个
+3. 第三方插件进程: 处理第三方插件的
+4. 浏览器渲染进程: 这个对于前端来说比较重要,每个tab都是拥有一个进程,每个tab互不干扰。
+
+浏览器渲染进程（浏览器内核，也被称为渲染引擎）
+多线程，5个线程
+对于异步，如果有回调函数，才会异步执行。
+1. GUI线程: 负责渲染页面,dom树css树render树的构成,重绘,回流都是利用这个线程。GUI线程的js线程会互斥,也就是js线程跑的时候,GUI线程就不会跑,反之亦然
+2. 网络请求线程: 主要处理一些http异步请求,接受到请求之后会把回调函数交给事件队列线程,然后再给js线程去执行代码
+3. 定时器线程: setTimeOut和setInterVal,主线程依次执行代码时遇到定时器，会将定时器交给该线程处理，当计数完毕后，事件触发线程会将计数完毕后的事件加入到任务队列的尾部，等待JS引擎线程执行。
+4. js解析线程: 解析js的脚本程序, 也主要处理异步回调。每个tab都拥有独立的js解析线程
+5. 事件触发线程: 主要就是存放一些,异步的回调事件,当达成某个条件后,就会触发回调函数,推入事件触发线程,事件触发线程会根据js解析线程是否空闲去推到js解析线程上解析代码。
+
+宏任务(macrotask): setTimeout、setInterval、script（整体代码块）、 I/O 操作、UI 渲染等, 宏任务是放到事件触发队列里面的。
+微任务(microtask): Promise，process.nextTick, MutationObserver(html5新特性)等, 是放到微任务队列里面的,由js线程掌管。微任务在es6里面被规范为jobs queue
+
+js在执行宏任务前先会把微任务执行完清空,执行完一个宏任务去清空一次微任务
+流程如下：
+1. js解析线程先执行完栈内的代码
+2. 在执行事件触发线程里面的宏任务之前,先会看看微任务队列里面是否有微任务,有就会先一步调用所有的微任务
+3. 调用完微任务再触发一个宏任务
+4. 执行完一个宏任务会再去找微任务
+
+这也是为什么setTimeOut和setInterVal有时会不准确,如果js解析线程还没解析完栈内的代码,就不能执行定时器的回调了,即使是定时器的时间到了,也没办法
+
+执行过程
+1. 执行一个宏任务并将之出队（主程序也是一个宏任务）
+2. 执行一对微任务并将之出队
+3. 执行渲染操作，更新界面
+4. 处理worker相关的任务
+当某个宏任务执行完后,会查看是否有微任务队列。
+如果有，先执行微任务队列中的所有任务，如果没有，会读取宏任务队列中排在最前的任务，执行宏任务的过程中，遇到微任务，依次加入微任务队列。
+栈空后，再次读取微任务队列里的任务，依次类推。
+```js
+例1:
+setTimeout(function() {
+    console.log(1)
+}, 0);
+new Promise(function(a, b) {
+    console.log(2);
+    for(var i = 0; i < 10; i++) {
+        i == 9 && a();
+    }
+    console.log(3);
+}).then(function() {
+    console.log(4)
+});
+console.log(5)
+// 结果: 2，3，5，4，1
+// promise的定义是同步的，then是异步的
+例2:
+console.log(1);
+setTimeout(function() {
+  console.log(2);
+}, 0);
+Promise.resolve().then(function() {
+  console.log(3);
+}).then(function() {
+  console.log(4);
+});
+console.log(5);
+// 结果: 1,5,3,4,2
+
+例3:
+Promise.resolve().then(()=>{ // promise1
+  console.log('promise1')
+  setTimeout(()=>{ // setTimeout1
+    console.log('setTimeout1')
+  },0)
+})
+setTimeout(()=>{ // setTimeout2
+  console.log('setTimeout2')
+  Promise.resolve().then(()=>{ // promise2
+    console.log('promise2')
+  })
+},0)
+// 结果：promise1,setTimeout2,promise2,setTimeout1
+// 分析:
+第一轮：执行宏任务（主函数） --> 清空微任务队列
+执行同步：主函数执行完毕，没有同步代码，生成一个微任务promise1, 一个宏任务setTimeout2。 // 微: [promise1]; 宏: [setTimeout2]
+清空微任务队列：执行微任务promise1: 打印promise1并且生成一个宏任务setTimeout1。 // 微: []; 宏: [setTimeout2, setTimeout1]
+第二轮：执行下一个宏任务（setTimeout2）--> 清空微任务队列
+执行同步: 执行setTimeout2：打印setTimeout2并且生成一个微任务promise2 // 微: [promise2]; 宏: [setTimeout1]
+清空微任务队列: 执行promise2：打印promise2 // 微: []; 宏: [setTimeout1]
+第三轮：执行下一个宏任务（setTimeout1）--> 清空微任务队列
+执行同步：执行setTimeout1：打印setTimeout1 // 微: []; 宏: []
+清空微任务队列: 无任务
+```
+
+
