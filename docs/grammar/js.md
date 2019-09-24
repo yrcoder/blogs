@@ -1952,17 +1952,225 @@ vm._update(vnode) {
 * 渲染到html中
 
 ### 组件化 React
+react以及组件化的一些核心概念
+react的实现流程
+```js
+// to-do-list
+class List extends component {
+    render() {
+        const list = this.props.data
+        return <ul>
+            {
+                list.map((item, index) => <li key={index}>{item}</li>)
+            }
+        </ul>
+    }
+}
 
-1. 对组件化的理解
-   封装，复用
+class Input extends component {
+    state = {
+        title: ''
+    }
+    changeValue(e) {
+        this.setState({
+            title: e.target.value
+        })
+    }
+    submit() {
+        this.props.addTitle(this.state.title)
+        this.setState({
+            title: ''
+        })
+    }
+    render() {
+        const { title } = this.state
+        return <div>
+            <input value={title} onChange={this.changeValue}/>
+            <button onClick={this.submit}>submit</button>
+        </div>
+    }
+}
 
--   封装：视图,数据,变化逻辑（数据驱动视图变化）
--   复用：props 传递数据
+class Todo extends component {
+    state = {
+        list: ['a', 'b', 'c'],
+    }
+    addTitle(title) {
+        const currentList = this.state.list
+        this.setState({
+            list: currentList.concat(title)
+        })
+    }
+    render() {
+        const { list } = this.state
+        return <div>
+            <Input addTitle={this.addTitle}></Input>
+            <List data={list}></List>
+        </div>
+    }
+}
 
-2. jsx 是什么
-3. jsx 和 vdom 的关系
-4. 简述 setState
-5. 如何比较 react 和 vue
+```
+题目1: 对组件化的理解
+1. 封装
+把视图，数据,变化逻辑（数据驱动视图变化）封装起来：把我要的数据给我，其他就不用管了
+2. 复用
+props 传递数据: 不同的config展示不同的效果，复用
+
+题目2: jsx 是什么
+jsx和vue的模版一样，最终要渲染成html
+jsx语法无法被浏览器解析
+jsx解析成js才能运行
+jsx成为一个独立到标准：说明本身功能已经完备，和其他标准兼容，扩展性没有问题
+
+jsx其实是语法糖，开发环境将jsx编写成js代码，jsx的写法降低了学习成本和编码工作量，但是加大了debug工作量
+
+编译jsx为js的插件
+插件：npm i --save-dev babel-plugin-transform-react-jsx
+配置 .babelrc：`{ "plugins": ["transform-react-jsx"]}`
+执行命令：babel --plugins transform-react-jsx demo.jsx
+
+```js
+// jsx
+<div>
+    <img src="avatar.png" className="profile"/>
+    <h3>{[user.firstName, user.lastName].join(' ')}</h3>
+</div>
+// jsx会解析成
+React.createElement('div', {id: 'div1'}, child1, child2, ...)
+React.createElement('div', {id: 'div1'}, [...])
+
+React.createElement('div', null,
+    React.createElement('img', { src: 'avatar.png', className: 'profile'}),
+    React.createElement('h3', null, [user.firstName, user.lastName].join(' ')),
+)
+
+React.createElement('ul', null, [1,2,3].map((item, index) => {
+    return React.createElement('li', {key: index}, item)
+}))
+// 所以，react组件中必须引入React
+```
+
+题目3: jsx 和 vdom 的关系
+为何需要vdom: jsx就是模版，最终要渲染成html，数据驱动视图，需要用vdom的方式渲染
+React.createElement 和 h 都生成vnode, h函数第一次渲染是一个dom节点，React.createElement还可以是自定义组件
+何时 patch：初次渲染 ReactDOM.render + 修改state后的re-render（正好符合vdom的应用场景）
+* 初次渲染 - ReactDOM.render(<App />, container), 会触发patch(container, vnode), container === decument.getElementById('app')
+* rerender - setState, 会触发patch(vnode, newVnode)
+
+自定义组件的解析
+自定义组件编译，第一个传入的是构造函数。
+初始化实例然后执行render
+* div直接渲染成<div>即可，vdom可以做到
+* 自定义组件（class）,vdom默认不认识
+* 因此，Input等自定义组件组件定义的时候必须声明render函数
+* 根据props初始化实例，然后执行实例的render函数。render函数返回的还是vnode对象
+```js
+import Input from './input/index.js'
+import List from './List/index.js'
+function render() {
+    render() {
+        const { list } = this.state
+        return <div>
+            <Input addTitle={this.addTitle}></Input>
+            <List data={list}></List>
+        </div>
+    }
+}
+
+// 编译为
+import Input from './input/index.js'
+import List from './List/index.js'
+function render() {
+    return React.createElement('div', null,
+        React.createElement('Input', {addTitle: this.addTitle.bind(this)} ),
+        React.createElement('List', {data: this.state.list} ),
+    )
+}
+
+React.createElement('List', {data: this.state.list} )
+// 等价于
+var list = new List({data: this.state.list}) // 生成实例，返回实例的render函数
+var vnode = list.render()
+// 每个组件都返回一个render函数，不管有多少层组件，都会一层一层的执行render函数，最终转化成html
+```
+题目4: 简述 setState 的过程
+
+setState的异步（为什么需要异步）
+1. 可能会一次执行多次setState。
+2. 你无法规定，限制用户如何使用setState
+3. 没有必要每次setState都重新渲染，考虑性能
+4. 即便是每次重新渲染，用户也看不到中间效果（js执行的时候，dom渲染是停止的）
+vue修改属性也是异步
+set中执行updateComponent是异步的
+
+setState的过程
+
+```js
+// setState的异步
+addTitle(title) {
+    const currentList = this.state.list
+    console.log(this.state.list) // []
+    this.setState({ // 异步
+        list: currentList.concat(title)
+    })
+    console.log(this.state.list) // []
+}
+
+addTitle(title = 'aaa') {
+    const currentList = this.state.list
+    this.setState({
+        list: currentList.concat(title)
+    })
+    this.setState({
+        list: currentList.concat(title + 1)
+    })
+    this.setState({
+        list: currentList.concat(title + 2)
+    })
+    console.log(this.state.list) // [aaa2], 直接执行最后一个，前面两个没有执行
+}
+
+// setState的过程
+addTitle(title) {
+    const currentList = this.state.list
+    this.setState({ // 异步
+        list: currentList.concat(title)
+    }, () => {
+        // 每个组件都extend React.Component, Component父类中定义的方法
+        // setState中会默认执行这个回调
+        this.renderComponent()
+    })
+}
+// 模拟Component
+class Component {
+    constructor(props) {}
+
+    renderComponent() {
+        const prevVnode = this._vnode
+        const newVnode = this.render()
+        patch(prevVnode, newVnode)
+        this._vnode = newVnode
+    }
+}
+```
+题目5: 如何比较 react 和 vue
+两者的本质区别：
+* vue - 本质是 MVVM 框架，由 MVC 发展而来
+* React - 本质是前端组件化框架，由后台组件化发展而来
+看模版和组件化的区别：
+* vue - 使用模版（最初由angular提出）
+* React - 使用JSX（已经标准化）
+* 模版语法上 - 更倾向 jsx, JSX只有一个规则，大括号中可以放变量表达式
+* 模版分离上 - 更倾向 vue, react中模版和js混合在一起，未分离
+* react组件化 - react本身就是组件化，没有组件化就不是react
+* vue组件化 - vue也支持组件化，不过是在MVVM上的扩展
+两者的共同点：
+* 都支持组件化
+* 都是数据驱动视图
+选型：
+国内使用，首推vue。文档易读易学，社区够大
+团队水平较高，推荐react。组件化和jsx
 
 ## app 混合开发
 
