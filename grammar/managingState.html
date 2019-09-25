@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>mobx | YRcoder</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="preload" href="/blogs/assets/css/0.styles.49137356.css" as="style"><link rel="preload" href="/blogs/assets/js/app.2b612f2a.js" as="script"><link rel="preload" href="/blogs/assets/js/15.043efc1f.js" as="script"><link rel="prefetch" href="/blogs/assets/js/19.32209c0d.js"><link rel="prefetch" href="/blogs/assets/js/2.d8d0300f.js"><link rel="prefetch" href="/blogs/assets/js/3.78bce9f9.js"><link rel="prefetch" href="/blogs/assets/js/4.a3a81660.js"><link rel="prefetch" href="/blogs/assets/js/5.43029159.js"><link rel="prefetch" href="/blogs/assets/js/6.875575e2.js"><link rel="prefetch" href="/blogs/assets/js/7.c9ffc06c.js"><link rel="prefetch" href="/blogs/assets/js/8.93c6ec89.js"><link rel="prefetch" href="/blogs/assets/js/9.84e0ec54.js"><link rel="prefetch" href="/blogs/assets/js/10.db99257f.js"><link rel="prefetch" href="/blogs/assets/js/11.687313e6.js"><link rel="prefetch" href="/blogs/assets/js/12.28f8784f.js"><link rel="prefetch" href="/blogs/assets/js/13.0b2e299e.js"><link rel="prefetch" href="/blogs/assets/js/14.ca8ee814.js"><link rel="prefetch" href="/blogs/assets/js/16.9a7002c8.js"><link rel="prefetch" href="/blogs/assets/js/17.e74890e2.js"><link rel="prefetch" href="/blogs/assets/js/18.faaea426.js"><link rel="prefetch" href="/blogs/assets/js/20.fce76639.js"><link rel="prefetch" href="/blogs/assets/js/21.1ac604c1.js"><link rel="prefetch" href="/blogs/assets/js/22.5cc26646.js"><link rel="prefetch" href="/blogs/assets/js/23.26b6189b.js"><link rel="prefetch" href="/blogs/assets/js/24.243fe967.js"><link rel="prefetch" href="/blogs/assets/js/25.00d13d8e.js"><link rel="prefetch" href="/blogs/assets/js/26.9793daa6.js"><link rel="prefetch" href="/blogs/assets/js/27.5e040fb5.js"><link rel="prefetch" href="/blogs/assets/js/28.eac84346.js"><link rel="prefetch" href="/blogs/assets/js/29.ac1518e6.js"><link rel="prefetch" href="/blogs/assets/js/30.cb0249c5.js"><link rel="prefetch" href="/blogs/assets/js/31.1f406963.js"><link rel="prefetch" href="/blogs/assets/js/32.27c448e1.js"><link rel="prefetch" href="/blogs/assets/js/33.66d1b1d4.js"><link rel="prefetch" href="/blogs/assets/js/34.8f89af58.js"><link rel="prefetch" href="/blogs/assets/js/35.95d09688.js"><link rel="prefetch" href="/blogs/assets/js/36.0cdd6acb.js"><link rel="prefetch" href="/blogs/assets/js/37.f7075148.js"><link rel="prefetch" href="/blogs/assets/js/38.13ffb522.js"><link rel="prefetch" href="/blogs/assets/js/39.4edced61.js"><link rel="prefetch" href="/blogs/assets/js/40.5e43f35a.js">
+    <link rel="stylesheet" href="/blogs/assets/css/0.styles.49137356.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blogs/" class="home-link router-link-active"><!----> <span class="site-name">YRcoder</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blogs/grammar/htmlCss.html" class="nav-link">语法</a></div><div class="nav-item"><a href="/blogs/ruminate/前端的总结.html" class="nav-link">反刍</a></div><div class="nav-item"><a href="/blogs/other/createNote.html" class="nav-link">other</a></div><div class="nav-item"><a href="/blogs/excerpt/excerpt.html" class="nav-link">摘抄</a></div> <a href="https://github.com/yrcoder" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/blogs/grammar/htmlCss.html" class="nav-link">语法</a></div><div class="nav-item"><a href="/blogs/ruminate/前端的总结.html" class="nav-link">反刍</a></div><div class="nav-item"><a href="/blogs/other/createNote.html" class="nav-link">other</a></div><div class="nav-item"><a href="/blogs/excerpt/excerpt.html" class="nav-link">摘抄</a></div> <a href="https://github.com/yrcoder" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading open"><span>一层语法</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/blogs/grammar/htmlCss.html" class="sidebar-link">html</a></li><li><a href="/blogs/grammar/less.html" class="sidebar-link">less</a></li><li><a href="/blogs/grammar/js.html" class="sidebar-link">JavaScript</a></li><li><a href="/blogs/grammar/es6.html" class="sidebar-link">ES6</a></li><li><a href="/blogs/grammar/vue.html" class="sidebar-link">vue</a></li><li><a href="/blogs/grammar/react.html" class="sidebar-link">react</a></li><li><a href="/blogs/grammar/managingState.html" class="active sidebar-link">mobx</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blogs/grammar/managingState.html#mobx-api" class="sidebar-link">mobx API</a></li><li class="sidebar-sub-header"><a href="/blogs/grammar/managingState.html#应用" class="sidebar-link">应用</a></li></ul></li><li><a href="/blogs/grammar/router.html" class="sidebar-link">router</a></li><li><a href="/blogs/grammar/debug.html" class="sidebar-link">调试</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading"><span>二层语法</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/blogs/grammar/webpack.html" class="sidebar-link">webpack</a></li><li><a href="/blogs/grammar/git.html" class="sidebar-link">git</a></li><li><a href="/blogs/grammar/vueSSR.html" class="sidebar-link">vueSSR</a></li><li><a href="/blogs/grammar/reactSSR.html" class="sidebar-link">ReactSSR</a></li><li><a href="/blogs/grammar/nginx.html" class="sidebar-link">nginx</a></li><li><a href="/blogs/grammar/http.html" class="sidebar-link">http</a></li><li><a href="/blogs/grammar/node.html" class="sidebar-link">node</a></li></ul></div></li><li><div class="sidebar-group"><p class="sidebar-heading"><span>三层语法</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/blogs/grammar/reactDesignPattern.html" class="sidebar-link">react 设计模式和最佳实战</a></li><li><a href="/blogs/grammar/jsDesignPattern.html" class="sidebar-link">javascript 设计模式</a></li><li><a href="/blogs/grammar/zepto源码.html" class="sidebar-link">zepto 设计和源码分析</a></li><li><a href="/blogs/grammar/vue源码.html" class="sidebar-link">vue 源码</a></li><li><a href="/blogs/grammar/react源码.html" class="sidebar-link">react 源码</a></li></ul></div></li></ul> </div> <div class="page"> <div class="content"><h1 id="mobx"><a href="#mobx" aria-hidden="true" class="header-anchor">#</a> mobx</h1> <h2 id="mobx-api"><a href="#mobx-api" aria-hidden="true" class="header-anchor">#</a> mobx API</h2> <ol><li>可观察的数据</li></ol> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> observable<span class="token punctuation">,</span> isArrayLike <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'mobx'</span>
+<span class="token comment">// 用 observable 或者 observable.box 将数据变成可观察的数据，即封装了一层</span>
+<span class="token comment">// array object map</span>
+<span class="token keyword">const</span> arr <span class="token operator">=</span> <span class="token function">observable</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+Array<span class="token punctuation">.</span><span class="token function">isArray</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span> <span class="token comment">// false</span>
+<span class="token function">isArrayLike</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span> <span class="token comment">// true</span>
+
+<span class="token keyword">const</span> obj <span class="token operator">=</span> <span class="token function">observable</span><span class="token punctuation">(</span><span class="token punctuation">{</span> a<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> b<span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token comment">// extendObservable() ，给可观察的对象添加新的属性</span>
+
+<span class="token comment">// number string boolean原始数据类型使用observable.box</span>
+<span class="token keyword">let</span> num <span class="token operator">=</span> observable<span class="token punctuation">.</span><span class="token function">box</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> str <span class="token operator">=</span> observable<span class="token punctuation">.</span><span class="token function">box</span><span class="token punctuation">(</span><span class="token string">'abc'</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> bool <span class="token operator">=</span> observable<span class="token punctuation">.</span><span class="token function">box</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+
+num<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
+str<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token string">'xyz'</span><span class="token punctuation">)</span>
+bool<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>num<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> str<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> bool<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 类，注解只能修饰类和类成员</span>
+<span class="token keyword">class</span> <span class="token class-name">Store</span> <span class="token punctuation">{</span>
+    @observable array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    @observable obj <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    @observable map <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    @observable str <span class="token operator">=</span> <span class="token string">''</span>
+    @observable num <span class="token operator">=</span> <span class="token number">0</span>
+    @observable bool <span class="token operator">=</span> <span class="token boolean">false</span>
+<span class="token punctuation">}</span>
+</code></pre></div><ol start="2"><li>对可观察的数据作出反应</li></ol> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> observable<span class="token punctuation">,</span> computed<span class="token punctuation">,</span> autorun<span class="token punctuation">,</span> when<span class="token punctuation">,</span> Reaction <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'mobx'</span>
+
+<span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Store</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">// computed传人一个无参数的函数，结果foo是个可观察的数据。更多的是作为修饰类的注解</span>
+<span class="token keyword">let</span> foo <span class="token operator">=</span> <span class="token function">computed</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> store<span class="token punctuation">.</span>str <span class="token operator">+</span> <span class="token string">'/'</span> <span class="token operator">+</span> store<span class="token punctuation">.</span>num
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+foo<span class="token punctuation">.</span><span class="token function">observe</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>change<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 当store.str，store.num改变的时候执行</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>change<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Store</span> <span class="token punctuation">{</span>
+    <span class="token comment">// computed也可以引用其他computed的值，但不可循环引用</span>
+    @computed <span class="token keyword">get</span> <span class="token function">mixed</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> store<span class="token punctuation">.</span>str <span class="token operator">+</span> <span class="token string">'/'</span> <span class="token operator">+</span> store<span class="token punctuation">.</span>num
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// autorun, 当引用是数据发生变化时，自动执行回调函数(autoran的参数)</span>
+<span class="token function">autoran</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>store<span class="token punctuation">.</span>str<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+store<span class="token punctuation">.</span>str <span class="token operator">=</span> <span class="token string">'zzz'</span>
+<span class="token comment">// computed的值也是可以被观察的</span>
+<span class="token function">autoran</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>store<span class="token punctuation">.</span>mixed<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+store<span class="token punctuation">.</span>str <span class="token operator">=</span> <span class="token string">'aaa'</span>
+
+<span class="token comment">// when(true, fn)当第一个参数(可观察数据)为true时就去执行第二个函数</span>
+<span class="token function">when</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> store<span class="token punctuation">.</span>bool<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;it's true&quot;</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+store<span class="token punctuation">.</span>bool <span class="token operator">=</span> <span class="token boolean">true</span>
+
+<span class="token comment">// reaction(one, fn(one))第一个参数的返回值回作为第二个参数的参数</span>
+<span class="token function">reaction</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">[</span>store<span class="token punctuation">.</span>str<span class="token punctuation">,</span> store<span class="token punctuation">.</span>num<span class="token punctuation">]</span><span class="token punctuation">,</span> arr <span class="token operator">=&gt;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>arr<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+store<span class="token punctuation">.</span>str <span class="token operator">=</span> <span class="token string">'aaa'</span> <span class="token comment">// 只有当更改的时候才调用，when 无论如何都会先调用一次</span>
+</code></pre></div><ol start="3"><li>修改可观察的数据</li></ol> <div class="language-js extra-class"><pre class="language-js"><code>    每次手动修改可观察数据都会触发autoran等执行函数，太频繁。比如一个点击操作可以同时更改多个变量，但是视图的更新需要一次就够了
+    action可以把多次对autoran的触发合并成一次
+
+<span class="token keyword">import</span> <span class="token punctuation">{</span> action<span class="token punctuation">,</span> runInAction <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'mobx'</span>
+    <span class="token keyword">class</span> <span class="token class-name">Store</span> <span class="token punctuation">{</span>
+        @action <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>str <span class="token operator">=</span> <span class="token string">'aaa'</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>num <span class="token operator">=</span> <span class="token number">33</span>
+        <span class="token punctuation">}</span>
+        @action<span class="token punctuation">.</span>bound <span class="token function">barBound</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>str <span class="token operator">=</span> <span class="token string">'aaa'</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>num <span class="token operator">=</span> <span class="token number">33</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    store<span class="token punctuation">.</span><span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// 只会触发一次</span>
+    <span class="token keyword">const</span> barBound <span class="token operator">=</span> store<span class="token punctuation">.</span>barBound
+    <span class="token function">barBound</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token function">runInAction</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        store<span class="token punctuation">.</span>str <span class="token operator">=</span> <span class="token string">'aaa'</span>
+        store<span class="token punctuation">.</span>num <span class="token operator">=</span> <span class="token number">33</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token comment">// modify调试比较友好，像方法名</span>
+    <span class="token function">runInAction</span><span class="token punctuation">(</span><span class="token string">'modify'</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        store<span class="token punctuation">.</span>str <span class="token operator">=</span> <span class="token string">'aaa'</span>
+        store<span class="token punctuation">.</span>num <span class="token operator">=</span> <span class="token number">33</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><h1 id="mobx-react"><a href="#mobx-react" aria-hidden="true" class="header-anchor">#</a> mobx-react</h1> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// 定义store  store.js</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> observable<span class="token punctuation">,</span> action <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'mobx'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">class</span> <span class="token class-name">LoginStore</span> <span class="token punctuation">{</span>
+    <span class="token comment">// @observable 定义state的关键字，@action 定义action的关键字，好像let，const。没有mutation。一个关键字只能定义一个变量</span>
+    @observable
+    aaa <span class="token operator">=</span> <span class="token number">1</span>
+
+    @action
+    <span class="token function-variable function">changeStatus1</span> <span class="token operator">=</span> number <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>aaa <span class="token operator">=</span> number
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 将定义好的store注入组件 index.js</span>
+<span class="token keyword">import</span> ReactDOM <span class="token keyword">from</span> <span class="token string">'react-dom'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Provider <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'mobx-react'</span>
+<span class="token keyword">import</span> AppStore <span class="token keyword">from</span> <span class="token string">'./stores/AppStore'</span>
+<span class="token keyword">const</span> stores <span class="token operator">=</span> <span class="token punctuation">{</span>
+    appStore<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">AppStore</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span>
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>Provider <span class="token punctuation">{</span><span class="token operator">...</span>stores<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span>app <span class="token operator">/</span><span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>Provider<span class="token operator">&gt;</span><span class="token punctuation">,</span>
+    document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'root'</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+
+<span class="token comment">// 组件中引用 app.js</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> observer<span class="token punctuation">,</span> inject <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'mobx-react'</span>
+<span class="token comment">// @inject() 注入；@observer 引用</span>
+<span class="token comment">// store里的state被注入在props中，好像从父组件中传进来的</span>
+@<span class="token function">inject</span><span class="token punctuation">(</span><span class="token string">'appStore'</span><span class="token punctuation">)</span>
+@observer
+<span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    doSomething <span class="token operator">=</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>appStore<span class="token punctuation">.</span><span class="token function">changeStatus</span><span class="token punctuation">(</span><span class="token number">123123</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
+                <span class="token operator">&lt;</span>button
+                    onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">doSomething</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">}</span><span class="token punctuation">}</span>
+                <span class="token operator">&gt;</span>
+                    获取
+                <span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+                <span class="token operator">&lt;</span>p<span class="token operator">&gt;</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>appStore<span class="token punctuation">.</span>aaa<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">&gt;</span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="应用"><a href="#应用" aria-hidden="true" class="header-anchor">#</a> 应用</h2> <div class="tip custom-block"><p class="custom-block-title">吾注</p> <ol><li>store 里定义可观察的变量和更改变量的方法<code>@observable @computed @action from mob</code>类</li> <li>将类的实例注入到 react 根组件<code>Provider from 'mobx-react'</code>，直接绑定各个 store 实例，而不是写一个总 store</li> <li>在组件中注入<code>@inject('nav')</code>,监听组件当对应变量变化的时候重新渲染<code>@observer</code>。<code>@observer和@inject from mobx-react</code>。</li> <li>同时引入 mobx 和 react-mobx</li></ol></div> <div class="warning custom-block"><p class="custom-block-title">用 `create-react-app` 用 mobx 的时候会因为不能使用注入语法而报错</p> <ol><li>git add .</li> <li>git commit -am &quot;保存&quot;
+必须先保存才可以安装，不然检测到注入语法还是会报错的</li> <li>npm run eject</li> <li>npm install --save-dev babel-plugin-transform-decorators-legacy</li> <li>npm install @babel/plugin-proposal-decorators</li> <li>在 package.json 里修改 babel</li></ol> <div class="language-js extra-class"><pre class="language-js"><code><span class="token string">&quot;babel&quot;</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  <span class="token string">&quot;plugins&quot;</span><span class="token punctuation">:</span><span class="token punctuation">[</span>
+    <span class="token punctuation">[</span>
+      <span class="token string">&quot;@babel/plugin-proposal-decorators&quot;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">&quot;legacy&quot;</span><span class="token punctuation">:</span><span class="token boolean">true</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span>
+      <span class="token string">&quot;@babel/plugin-proposal-class-properties&quot;</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">&quot;loose&quot;</span><span class="token punctuation">:</span><span class="token boolean">true</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;presets&quot;</span><span class="token punctuation">:</span><span class="token punctuation">[</span>
+    <span class="token string">&quot;react-app&quot;</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div></div> <ol><li>创建 store</li></ol> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> observable<span class="token punctuation">,</span> action<span class="token punctuation">,</span> computed <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'mobx'</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Request</span> <span class="token punctuation">{</span>
+    @observable _requests <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    @computed <span class="token keyword">get</span> <span class="token function">requests</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>_requests
+    <span class="token punctuation">}</span>
+    @action <span class="token function">addRequests</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> key <span class="token operator">=</span> <span class="token operator">+</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>_requests<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> val
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">new</span> <span class="token class-name">Request</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre></div><ol start="2"><li>将 store 注入 react 根组件</li></ol> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token keyword">import</span> ReactDOM <span class="token keyword">from</span> <span class="token string">'react-dom'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> Provider <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'mobx-react'</span>
+<span class="token keyword">import</span> store <span class="token keyword">from</span> <span class="token string">'./store'</span>
+<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./view/home/App'</span>
+
+ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span>Provider <span class="token punctuation">{</span><span class="token operator">...</span>store<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span>App <span class="token operator">/</span><span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>Provider<span class="token operator">&gt;</span><span class="token punctuation">,</span>
+    document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'root'</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+</code></pre></div><ol start="3"><li>在组件中引用</li></ol> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> React<span class="token punctuation">,</span> <span class="token punctuation">{</span> Component <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> inject<span class="token punctuation">,</span> observer <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'mobx-react'</span>
+<span class="token keyword">import</span> <span class="token string">'./App.css'</span>
+
+@<span class="token function">inject</span><span class="token punctuation">(</span><span class="token string">'nav'</span><span class="token punctuation">)</span>
+@observer
+<span class="token keyword">class</span> <span class="token class-name">App</span> <span class="token keyword">extends</span> <span class="token class-name">Component</span> <span class="token punctuation">{</span>
+    <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+            <span class="token operator">&lt;</span>section className<span class="token operator">=</span><span class="token string">&quot;App&quot;</span><span class="token operator">&gt;</span>
+                <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>nav<span class="token punctuation">.</span>menus<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+                <span class="token operator">&lt;</span>button
+                    onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+                        <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>nav<span class="token punctuation">.</span><span class="token function">addMenus</span><span class="token punctuation">(</span><span class="token operator">+</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                    <span class="token punctuation">}</span><span class="token punctuation">}</span>
+                <span class="token operator">&gt;</span>
+                    添加menus
+                <span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+            <span class="token operator">&lt;</span><span class="token operator">/</span>section<span class="token operator">&gt;</span>
+        <span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> App
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/blogs/grammar/react.html" class="prev">
+          react
+        </a></span> <span class="next"><a href="/blogs/grammar/router.html">
+          router
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/blogs/assets/js/15.043efc1f.js" defer></script><script src="/blogs/assets/js/app.2b612f2a.js" defer></script>
+  </body>
+</html>

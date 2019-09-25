@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>R 语言 | YRcoder</title>
+    <meta name="description" content="">
+    
+    
+    <link rel="preload" href="/blogs/assets/css/0.styles.49137356.css" as="style"><link rel="preload" href="/blogs/assets/js/app.2b612f2a.js" as="script"><link rel="preload" href="/blogs/assets/js/31.1f406963.js" as="script"><link rel="prefetch" href="/blogs/assets/js/19.32209c0d.js"><link rel="prefetch" href="/blogs/assets/js/2.d8d0300f.js"><link rel="prefetch" href="/blogs/assets/js/3.78bce9f9.js"><link rel="prefetch" href="/blogs/assets/js/4.a3a81660.js"><link rel="prefetch" href="/blogs/assets/js/5.43029159.js"><link rel="prefetch" href="/blogs/assets/js/6.875575e2.js"><link rel="prefetch" href="/blogs/assets/js/7.c9ffc06c.js"><link rel="prefetch" href="/blogs/assets/js/8.93c6ec89.js"><link rel="prefetch" href="/blogs/assets/js/9.84e0ec54.js"><link rel="prefetch" href="/blogs/assets/js/10.db99257f.js"><link rel="prefetch" href="/blogs/assets/js/11.687313e6.js"><link rel="prefetch" href="/blogs/assets/js/12.28f8784f.js"><link rel="prefetch" href="/blogs/assets/js/13.0b2e299e.js"><link rel="prefetch" href="/blogs/assets/js/14.ca8ee814.js"><link rel="prefetch" href="/blogs/assets/js/15.043efc1f.js"><link rel="prefetch" href="/blogs/assets/js/16.9a7002c8.js"><link rel="prefetch" href="/blogs/assets/js/17.e74890e2.js"><link rel="prefetch" href="/blogs/assets/js/18.faaea426.js"><link rel="prefetch" href="/blogs/assets/js/20.fce76639.js"><link rel="prefetch" href="/blogs/assets/js/21.1ac604c1.js"><link rel="prefetch" href="/blogs/assets/js/22.5cc26646.js"><link rel="prefetch" href="/blogs/assets/js/23.26b6189b.js"><link rel="prefetch" href="/blogs/assets/js/24.243fe967.js"><link rel="prefetch" href="/blogs/assets/js/25.00d13d8e.js"><link rel="prefetch" href="/blogs/assets/js/26.9793daa6.js"><link rel="prefetch" href="/blogs/assets/js/27.5e040fb5.js"><link rel="prefetch" href="/blogs/assets/js/28.eac84346.js"><link rel="prefetch" href="/blogs/assets/js/29.ac1518e6.js"><link rel="prefetch" href="/blogs/assets/js/30.cb0249c5.js"><link rel="prefetch" href="/blogs/assets/js/32.27c448e1.js"><link rel="prefetch" href="/blogs/assets/js/33.66d1b1d4.js"><link rel="prefetch" href="/blogs/assets/js/34.8f89af58.js"><link rel="prefetch" href="/blogs/assets/js/35.95d09688.js"><link rel="prefetch" href="/blogs/assets/js/36.0cdd6acb.js"><link rel="prefetch" href="/blogs/assets/js/37.f7075148.js"><link rel="prefetch" href="/blogs/assets/js/38.13ffb522.js"><link rel="prefetch" href="/blogs/assets/js/39.4edced61.js"><link rel="prefetch" href="/blogs/assets/js/40.5e43f35a.js">
+    <link rel="stylesheet" href="/blogs/assets/css/0.styles.49137356.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blogs/" class="home-link router-link-active"><!----> <span class="site-name">YRcoder</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blogs/grammar/htmlCss.html" class="nav-link">语法</a></div><div class="nav-item"><a href="/blogs/ruminate/前端的总结.html" class="nav-link">反刍</a></div><div class="nav-item"><a href="/blogs/other/createNote.html" class="nav-link">other</a></div><div class="nav-item"><a href="/blogs/excerpt/excerpt.html" class="nav-link">摘抄</a></div> <a href="https://github.com/yrcoder" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/blogs/grammar/htmlCss.html" class="nav-link">语法</a></div><div class="nav-item"><a href="/blogs/ruminate/前端的总结.html" class="nav-link">反刍</a></div><div class="nav-item"><a href="/blogs/other/createNote.html" class="nav-link">other</a></div><div class="nav-item"><a href="/blogs/excerpt/excerpt.html" class="nav-link">摘抄</a></div> <a href="https://github.com/yrcoder" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <!----> </div> <div class="page"> <div class="content"><h1 id="r-语言"><a href="#r-语言" aria-hidden="true" class="header-anchor">#</a> R 语言</h1> <h1 id="入门"><a href="#入门" aria-hidden="true" class="header-anchor">#</a> 入门</h1> <ol><li>安装 R 和 RStudio
+<ul><li>R:https://cran.r-project.org/;安装之后会有R命令行</li> <li>Rstudio:https://www.rstudio.com</li></ul></li> <li>包（package）
+扩展 R 基本功能的机制/集成了众多函数
+安装包
+install.packages(报名)
+在 GitHub 上安装
+加载包
+library(包名)
+查看有哪些包可以用
+data()
+查看包里数据集的详情
+?数据集的名称</li> <li>获取帮助
+<ul><li>?函数名(R 的帮助文档) // ?lm 获取线性回归的帮助文档</li> <li>Stackoverflow // 常见的搜索问题的网站</li> <li>如何提问：操作系统，版本，哪一步产生的错误，预期是什么，结果是什么，其他有用的信息 // Win7 R 3.2.0 lm() &quot;seg fault on large data frame&quot;</li></ul></li></ol> <h1 id="简介"><a href="#简介" aria-hidden="true" class="header-anchor">#</a> 简介</h1> <ul><li><p>R 可以完成数据分析的所有步骤
+数据获取 ==&gt; 数据清理 ==&gt; 数据分析 ==&gt; 结果报告 ==&gt; 发布</p></li> <li><p>大数据问题竞赛的平台 www.kaggle.com</p></li> <li><p>RPubs 可以发布（类似 github）</p></li> <li><p>探索性数据分析（了解数据，作图）</p></li> <li><p>统计推断（基于数据得出正式结论的过程）
+_ 数据是有噪音的（不确定性）数据有偏差
+_ 统计推断告诉我们一个结论 + 和结论是错误的概率（出错的概率小于 5%的话，结论是成立的）</p></li> <li><p>回归分析</p> <ul><li>线性回归分析
+<ul><li>线性模型拟合数据</li> <li>预测变量</li> <li>结果变量</li></ul></li> <li>预测（用历史数据，预测出）</li> <li>拟合的线是保证预测数据和真实数据的误差是最小的</li></ul></li> <li><p>机器学习-分类问题</p> <ul><li>通过海量数据来训练模型，并用模型来预测</li> <li>分类问题，给计算机一堆图片，分出几类，当再给一张图片的时候能够识别出该图片是哪一类</li> <li>测试集和训练集</li></ul></li> <li><p>开发数据产品</p> <ul><li>GooleVis API
+<ul><li>R 制作 HTML，调用 Google charts</li> <li>交互式 html 图表</li></ul></li> <li>Manipulate</li> <li>rCharts(使用 R 制作交互式 javascript 可视化产品)</li> <li>Shiny(制作嵌入网页的交互式 R 程序的平台)</li> <li>Slidify（制作和发布基于 R 的报告，类似于 PPT）</li></ul></li> <li><p>q() // 退出 R</p></li> <li><p>demo()</p></li> <li><p>help()</p></li> <li><p>help.start()</p></li></ul> <h1 id="基础"><a href="#基础" aria-hidden="true" class="header-anchor">#</a> 基础</h1> <h2 id="r-的数据结构"><a href="#r-的数据结构" aria-hidden="true" class="header-anchor">#</a> R 的数据结构</h2> <ul><li><p>注释是 #</p></li> <li><p>代码写在文件里，点击 Run 运行</p></li> <li><p>对象的 5 种基本类型
+字符（character）：双引号
+数值（numeric: real numbers）
+整数（integer）：大写 L
+复数（complex: 1+2i）
+逻辑（logical: True/False）：大写</p></li> <li><p>赋值
+x &lt;- 1 // 声明一个变量 x,赋值为 1
+class(x) // 查看变量 x 的类型, numeric
+x &lt;- 2L // 整数,大写的 L
+class(x) // integer
+x1 = 1:4 // 1 到 4，x1 的值是 1,2,3,4 的集合（暂时这样理解）
+用 = 等号也是可以赋值的，99%的不会报错
+大小写敏感</p></li> <li><p>R 对象的属性
+名称(name)
+维度（dimensions:matrix, array）
+类型（class）
+长度（length）</p></li> <li><p>向量（vector）
+只包含同一类型的对象</p> <ul><li><p>创建向量
+vector(&quot;元素类型&quot;, 长度)
+x = vector(&quot;character&quot;, 10)
+x1 = 1:4
+x2 = c(1,2,3)
+x3 = c(TRUE, 10, &quot;a&quot;) // 会强制把元素转成字符型元素， &quot;TRUE&quot; &quot;10&quot; &quot;a&quot;
+数据类型强制转换
+as.numeric(x3) // NA 的意思是缺失值，如果不能转化到转为缺失值
+as.logical(x)
+as.character(x)
+// 数据类型
+class(x1)
+
+names(x1) = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;)</p></li> <li><p>矩阵(matrix)
+向量 + 维度属性（整数向量: nrow, ncol）
+x = matrix(内容, nrow = 行数, ncol = 列数)
+x = matrix(1: 6, nrow = 3, ncol = 2) // 矩阵填充的时候是按照列的方式填充的
+矩阵的维度
+dim(x)
+矩阵有多少属性
+attributes(x)
+把向量变成矩阵
+y &lt;- 1:6 // 等号会报错
+dim(y) = c(2,3)
+矩阵拼接
+rbind(y,x) // 按行拼接
+cbind(y,x) // 按列拼接</p></li> <li><p>数组(array)
+与矩阵类似，数组的维度可以大于 2，矩阵只能等于 2
+创建数组
+array(内容, dim=维度)
+x = array(1:24, dim=c(4,6))
+x = array(1:24, dim=c(2,3,4)) // 4 个两行 3 列的矩阵</p></li> <li><p>列表(list)
+可以包含不同类型的元素
+l = list(&quot;aa&quot;, 2, TRUE, 1+2i)
+l = list(a = 1, b = 2, c = 3)
+list(c(1,2,3), c(4,5,6,6))</p> <p>x = matrix(1:6, nrow = 2, ncol=3)
+dimnames(x) &lt;- list(c(&quot;a&quot;, &quot;b&quot;), c(&quot;c&quot;, &quot;d&quot;, &quot;e&quot;))// 给矩阵命名</p></li> <li><p>因子（factor）
+分类数据/有序（年级） vs 无序（男女）
+整数向量 + 标签（label）(优于整数向量)
+常用 lm(),glm()
+创建
+factor(c(&quot;female&quot;, &quot;male&quot;))
+x = factor(c(&quot;female&quot;, &quot;male&quot;), levels=c(&quot;male&quot;, &quot;female&quot;)) // levels 基线水平
+对因子的了解
+table(x)
+去掉因子的 level 属性，只看数据
+unclass(x)
+class(unclass(x)) // integer</p></li> <li><p>缺失值(NA/NaN: NaN 属于 NA, NA 不属于 NaN)
+is.na()
+is.nan()</p></li> <li><p>数据框(data frame)
+存储表格数据(tabular data)
+视为各元素长度相同等列表
+_ 每个元素代表一列数据
+_ 每个元素等长度代表行数
+_ 元素类型可以不同
+创建数据框
+data.frame(第一列的内容, 第二列的内容, 第三列的内容, ...) // 行名
+df = data.frame(id = c(1,2,3,4), name = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;), gender = c(TRUE, TRUE, FALSE, FALSE))
+数据框有多少行
+nrow(df)
+多少列
+ncol(df)
+转换成矩阵
+data.matrix(df)</p></li> <li><p>日期（Date）
+距离 1970-1-1 的天数
+date()
+Sys.Date()
+x &lt;- date()
+class(x) // character
+x1 &lt;- Sys.Date() // 2018-09-22 今天的日期
+class(x1) // Date
+x3 &lt;- as.Date(&quot;2015-01-01&quot;) // 日月两位
+x4 &lt;- as.Date(&quot;2014-01-01&quot;)
+x4 - x3 // Time difference of 365 days
+as.numeric(x4-x3) // 365
+weekdays(x3)
+months(x3)
+quarters(x3) // 季度
+julian(x3) // 距离 1970-1-1 多少天</p></li> <li><p>时间 （POSIXct/ POSIXlt）
+距离 1070-01-01 的秒数 / Sys.time()
+POSIXct: 整数，常用于存储数据框
+POSIXlt: 列表，还包含星期年月日等信息
+类型转化
+as.POSIXlt(x)
+as.POSIXct(x)
+x &lt;- Sys.time()
+p &lt;- as.POSIXlt(x)
+names(unclass(p)) // 看看有多少属性 ？
+p$sec // 值
+格式化时间
+x1 &lt;- &quot;Jan 1, 2015 01:01&quot;
+strptime(存时间的变量, format)
+strptime(x1, &quot;%B %d, %Y %H:%M&quot;)
+%B 月份
+%d 日
+%Y 年
+%H 小时
+%M 分钟</p></li></ul></li></ul> <h2 id="数据操作"><a href="#数据操作" aria-hidden="true" class="header-anchor">#</a> 数据操作</h2> <p>数组从下标 1 开始</p> <ul><li>构建子集（subsetting）
+<ul><li>基本</li> <li>矩阵</li> <li>数据框</li> <li>列表</li> <li>缺失值</li> <li>向量</li> <li>总结</li></ul></li> <li>重要函数的使用
+<ul><li>lapply()</li> <li>apply()</li> <li>mapply()</li> <li>tapply()</li> <li>split()</li> <li>排序</li> <li>总结</li></ul></li></ul> <h1 id="数据可视化"><a href="#数据可视化" aria-hidden="true" class="header-anchor">#</a> 数据可视化</h1> <p>为了解决某个问题，或者为某个决策提供依据，进行数据分析</p> <p>定义研究的问题
+定义理想的数据集
+确定能够获取什么数据
+获取数据
+清理数据</p> <p>数据是多元的，会有很多变量，把不关心的变量清理出去</p> <p>探索性分析（数据可视化）
+统计分析/建模（机器学习）</p> <p>解释/交流结果（数据可视化）
+挑战结果（有没有其他可能）
+书写报告（Reproducible 原则）</p> <p>假设驱动：在做分析之前已经知道自己要解决的问题是什么，结果是什么。假设验证法
+数据驱动：不做假设，看看数据给的结果可以有哪些启发</p> <h2 id="数据基础"><a href="#数据基础" aria-hidden="true" class="header-anchor">#</a> 数据基础</h2> <p>观测（observation）：一条数据（一个记录）
+变量（variable）：一列
+数据矩阵（data matrix）：多个变量，多个记录（表格）</p> <p>变量的类型：
+数值（定量分析）：连续（在给定区间取值，无限），离散（在给定数值集合内取值，有限）。可以进行运算
+分类（定性）：取值空间有限，不能进行运算。无序（不可比较），有序（顺序有意义）</p> <p>关注变量的关系（对应不同的可视化方法和统计分析方法）
+--两个分类变量
+--两个数值变量
+--一个数值变量，一个分类变量</p> <p>数值变量的特征和可视化
+数据集中趋势的测量 - 均值，中位数（中间的数），众数
+数据的分散趋势的测量 - 值域（range：max-min），方差（），标准差(方差开方)，四分位距
+稳健统计量
+受极端值影响小：中位数，四分位差
+受极端值影响大：均值，标准差，值域</p> <p>一个变量的可视化
+柱状图，点图（分布）。正态分布（单峰）。单峰，多峰，无峰
+箱图：（中位数，分位点，极端值）。中间最黑的线对应的是中位数</p> <p>两个变量的关系
+散点图：方向，形状，强度，极端值（相关性，线性，抛物线）</p> <p>分类变量的特征和可视化（频率）
+一个分类变量
+频率表：（百分比）
+条形图：
+两个分类变量的关系
+关联表
+相对频率表：列，用百分比计数相对频率表
+分段条形图，相对频率分段条形图，马赛克图，
+依存关系只是代表相关，并不代表因果。</p> <p>一个分类变量和一个数值变量的关系
+并排箱图：</p> <h2 id="r-的三大绘图系统"><a href="#r-的三大绘图系统" aria-hidden="true" class="header-anchor">#</a> R 的三大绘图系统</h2> <p>基本绘图系统：
+空白的调色板：需要事先计划
+图 + 修饰/添加 = 执行一系列函数
+适于 2D</p> <p>Lattice 绘图系统
+绘图 = 使用一次函数调用
+特别适合用于观测变量间的交互：在变量 Z 的不同水平，变量 Y 如何随变量 X 变化</p> <p>ggplot2 绘图系统
+用语法来绘图
+图：动词、名词、形容词
+数据映射到几何客体（points/lines/bars）的美学属性（颜色、形状、大小）
+前两种的合体</p> <p>基本绘图系统</p> <ul><li>绘图函数（graphics 包）</li></ul> <ul><li>plot/hist 柱状图/boxplot/points/lines/text/title/axis</li> <li>调用函数会启动一个图形设备，并在设备上绘图（如果没有正在运行的图形设备）</li></ul> <ul><li><p>各函数
+plot(x,y, ...)
+xlab X 轴的意义/ylab/lwd 线宽/lty 线的类型/pch 点的实心空心等/col 颜色</p> <p>?par</p> <p>par()
+bg/mar 边距/las 汉字横排版或者竖排版/mfrow 当前等画板分成几行几列，按行填充/mfcol 当前等画板分成几行几列，按列填充
+par('bg') // 可以 run 打印出默认值
+par(mfrow = c(1,2)) // 一行，两列</p> <p>with(数据集, 函数名)
+with(aaa, Month==3)
+with(aaa, Month %in% c(6,7,8), point())
+title(mian=&quot;这是一个图表&quot;)</p> <p>legend('topright', pch=1, col=c('red', 'blue', 'black'), legend=c('aaa', 'bbb', 'ddd'))</p></li> <li><p>Lattice 绘图系统 (绘图函数主要在 lattice 包里)
+xyplot(散点图)/bwplot/histogram（柱状图）/stripplot/dotplot/splom/levelplot/contourplot
+xyplot(公式, 数据)
+xyplot(y ~ x | f * g, 数据)
+panel 函数：控制每个面板内的绘图</p> <p>grid 包
+实现了独立于 base 的绘图系统
+lattice 包是基于 grid 创建的，很少直接从 grid 里调用函数</p> <p>base 绘图函数直接在图形设备上绘图
+lattice 绘图函数返回 trellis 类对象</p></li></ul> <h1 id="机器学习"><a href="#机器学习" aria-hidden="true" class="header-anchor">#</a> 机器学习</h1> <p>机器学习：利用计算机从历史数据找出规律，并把这些规律用到对未来不确定场景的决策。</p> <p>确定的场景：太阳从东方升起
+不确定的场景：某公司的季度销量。有很多不确定的因素</p> <p>对不确定的场景进行判断和决策
+依靠规律
+规律是靠计算机从历史数据中挖出来的</p> <p>数据分析也是从历史的数据中找规律，但是是人找。
+机器学习：是计算机找</p> <p>数据，从数据中找规律，（这个就说机器学习的算法）。</p> <h2 id="从数据中找规律"><a href="#从数据中找规律" aria-hidden="true" class="header-anchor">#</a> 从数据中找规律</h2> <p>统计学：采样，描述统计，得出结论，假设检验，统计推断
+计算机：不是抽样，全样计算。</p> <p>观察数据
+上下波动
+总体上升</p> <p>用模型刻画（拟合）规律（函数---函数曲线---拟合）
+正确的总体趋势
+对每一年都有偏差</p> <p>一个纬度可以可视化
+但百维只能是纯数学运算了</p> <p>用数据替代专家
+经济驱动，数据变现（大数据）</p> <h2 id="典型应用（数据变成钱）"><a href="#典型应用（数据变成钱）" aria-hidden="true" class="header-anchor">#</a> 典型应用（数据变成钱）</h2> <p>关联规则
+购物篮分析
+啤酒+尿片
+聚类
+用户细分精准营销
+不同品牌，不同用户（全球通（商务人员），动感地带（学生），神州行（普通白领））
+为什么这么分，计算机计算然后分类
+朴素贝叶斯和决策树
+垃圾邮件识别（朴素贝叶斯）
+信用卡欺诈（风险识别，决策树）
+ctr 预估和协同过滤
+互联网广告（百度）
+展示顺序（ctr 预估，用户可能点击的概率）
+推荐系统（协同过滤）捆绑购买</p> <p>自然语言处理
+情感分析：通过你的一段文字来评判你是一个积极的用户还是消极的用户
+实体识别：把文章的主干提取出来</p> <p>深度学习
+图像识别</p> <p>数据分析和机器学习的区别
+数据特点：
+交易数据（钱，账单，转账） &amp; 行为数据（搜索历史，点击历史，浏览历史，评论）
+少量数据 &amp; 海量数据
+采样分析 &amp; 全量分析
+一致性高（同时成功，同时失败） &amp; 一致性不高
+mySQc &amp; moogoodB</p> <p>报告历史的事情 &amp; 预测未来的事情
+用户驱动，交互式分析 &amp; 数据驱动，自动进行知识发展
+分析师 &amp; 数据 + 算法
+目标用户：公司高层 &amp; 目标用户：个体</p> <p>常用的算法分类</p> <h3 id="计算机基础和编程"><a href="#计算机基础和编程" aria-hidden="true" class="header-anchor">#</a> 计算机基础和编程</h3> <p>数据结构（堆栈，队列，多维数组，树，图等）
+算法（搜索，排序，优化，动态规划等）
+可计算性和复杂性（P vs NP，NP 完整问题，大 O 符号，近似算法等
+计算机体系结构（内存，缓存，带宽，死锁，分布式处理等）</p> <h3 id="概率统计"><a href="#概率统计" aria-hidden="true" class="header-anchor">#</a> 概率统计</h3> <p>概率（条件概率，贝叶斯规则，似然性，独立性等）
+从其衍生的技术（贝叶斯网络，马尔可夫决定过程，隐马尔可夫模型等）的形式表征，这些是处理现实世界不确定性的手段。
+统计学领域提供各种措施（平均值，中位数，方差等），分布（统一，正态，二项式，泊松等）和分析方法（方差分析，假设检验等） 这是从观测数据建立和验证模型所必需的</p> <h3 id="数据建模和评估"><a href="#数据建模和评估" aria-hidden="true" class="header-anchor">#</a> 数据建模和评估</h3> <p>数据建模是估计给定数据集的基础结构的过程，其目的是找到有用的模式（相关性，聚类，特征向量等）和/或预测以前看不见的实例（分类，回归，异常检测等）的属性。
+这个估计过程的关键部分是不断评估给定模型的好坏。
+根据手头的任务，您将需要选择适当的准确度/误差测量（例如分类的对数损失，回归的平方误差等）和评估策略（训练分析，顺序 vs.随机交叉验证等）。
+迭代学习算法通常直接利用产生的错误来调整模型（例如神经网络的反向传播），所以理解这些措施相比于仅仅应用标准算法是非常重要的</p> <h3 id="应用机器学习算法和库"><a href="#应用机器学习算法和库" aria-hidden="true" class="header-anchor">#</a> 应用机器学习算法和库</h3> <p>机器学习算法的标准实现通过库/包/ API 广泛提供（例如，scikit-learn，Theano，Spark MLlib，H2O，TensorFlow 等），但是有效地应用它们涉及选择合适的模型（决策树，最近邻，神经网络，支持向量机，混合模型等），拟合数据的学习过程（线性回归，梯度下降，遗传算法，bagging，boosting 和其他模型特定方法），以及了解超参数如何影响学习。 您还需要了解不同方法的相对优点和缺点，以及一些其他的概念（偏差和方差，过拟合和欠拟合，缺失数据，数据泄漏等）。 数据科学和机器学习的挑战，如 Kaggle 的挑战，是一个接触不同种类的问题及其细微差别的很好的方式</p> <h3 id="软件工程和系统设计"><a href="#软件工程和系统设计" aria-hidden="true" class="header-anchor">#</a> 软件工程和系统设计</h3> <p>在任务结束时，机器学习工程师的典型输出或可交付成果是软件。
+通常它是一个适合更大的产品和服务生态系统的小部件。
+您需要了解这些不同的部分如何协同工作，与他们进行沟通（使用库调用，REST API，数据库查询等），并为您的组件构建适合的接口以供其他人依赖。
+这可能需要谨慎的系统设计以避免瓶颈，并且随着数据量的增加，您的算法可以很好地扩展。
+软件工程最佳实践（包括需求分析，系统设计，模块化，版本控制，测试，文档等）对于生产力，协作，质量和可维护性是无价的</p></div> <div class="page-edit"><!----> <!----></div> <!----> </div> <!----></div></div>
+    <script src="/blogs/assets/js/31.1f406963.js" defer></script><script src="/blogs/assets/js/app.2b612f2a.js" defer></script>
+  </body>
+</html>
