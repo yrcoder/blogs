@@ -1002,9 +1002,6 @@ export default {
 AMD： require.js, CMD：commonjs
 ES6: import export
 
-```js
-```
-
 题目2: class 与 js 构造函数的区别
 new 一个对象，以构造函数为模版创造一个对象。该对象有方法有属性，在构造函数中操作将要创造的新对象就叫this
 class 是构造函数的语法糖
@@ -1509,12 +1506,14 @@ $('#btn-change').click(function() {
 // 页面加载完立即执行（初次渲染）
 render(data)
 ```
+
 题目2: vdom 如何使用，核心API是什么？
 snabbdom: 一个vdom的技术实现库
 h('标签名', {...属性...}, [...子元素...])
 h('标签名', {...属性...}, '...')
 patch(container, vnode)
 patch(vnode, newVnode)
+
 ```js
 <ul id="list">
     <li class="item">item1</li>
@@ -1593,6 +1592,7 @@ document.getElementById('btn-change').addEventListener('click', function() {
     render(data)
 })
 ```
+
 题目3: 了解 diff 算法（vdom 的核心算法）
 1. 什么是diff算法
 linux命令: diff log1.txt log2.txt; 返回两个文件中哪里不一样
@@ -1910,8 +1910,8 @@ render函数执行之后返回的是 vnode
 updateComponent 实现了vdom的patch, 新旧对比
 页面首次渲染执行updateComponent
 data每次修改都执行updateComponent
-```js
 
+```js
 function updateComponent() {
     // vm._render 即上面的render函数，返回 vnode
     vm._update(vm._render())
@@ -1954,6 +1954,7 @@ vm._update(vnode) {
 ### 组件化 React
 react以及组件化的一些核心概念
 react的实现流程
+
 ```js
 // to-do-list
 class List extends component {
@@ -2009,8 +2010,8 @@ class Todo extends component {
         </div>
     }
 }
-
 ```
+
 题目1: 对组件化的理解
 1. 封装
 把视图，数据,变化逻辑（数据驱动视图变化）封装起来：把我要的数据给我，其他就不用管了
@@ -2026,9 +2027,9 @@ jsx成为一个独立到标准：说明本身功能已经完备，和其他标�
 jsx其实是语法糖，开发环境将jsx编写成js代码，jsx的写法降低了学习成本和编码工作量，但是加大了debug工作量
 
 编译jsx为js的插件
-插件：npm i --save-dev babel-plugin-transform-react-jsx
+插件：`npm i --save-dev babel-plugin-transform-react-jsx`
 配置 .babelrc：`{ "plugins": ["transform-react-jsx"]}`
-执行命令：babel --plugins transform-react-jsx demo.jsx
+执行命令：`babel --plugins transform-react-jsx demo.jsx`
 
 ```js
 // jsx
@@ -2055,16 +2056,17 @@ React.createElement('ul', null, [1,2,3].map((item, index) => {
 为何需要vdom: jsx就是模版，最终要渲染成html，数据驱动视图，需要用vdom的方式渲染
 React.createElement 和 h 都生成vnode, h函数第一次渲染是一个dom节点，React.createElement还可以是自定义组件
 何时 patch：初次渲染 ReactDOM.render + 修改state后的re-render（正好符合vdom的应用场景）
-* 初次渲染 - ReactDOM.render(<App />, container), 会触发patch(container, vnode), container === decument.getElementById('app')
-* rerender - setState, 会触发patch(vnode, newVnode)
+* 初次渲染 - `ReactDOM.render(<App />, container)`, 会触发`patch(container, vnode)`, `container === decument.getElementById('app')`
+* rerender - setState, 会触发 `patch(vnode, newVnode)`
 
 自定义组件的解析
 自定义组件编译，第一个传入的是构造函数。
 初始化实例然后执行render
-* div直接渲染成<div>即可，vdom可以做到
+* div直接渲染成`<div>`即可，vdom可以做到
 * 自定义组件（class）,vdom默认不认识
 * 因此，Input等自定义组件组件定义的时候必须声明render函数
 * 根据props初始化实例，然后执行实例的render函数。render函数返回的还是vnode对象
+
 ```js
 import Input from './input/index.js'
 import List from './List/index.js'
@@ -2094,6 +2096,7 @@ var list = new List({data: this.state.list}) // 生成实例，返回实例的re
 var vnode = list.render()
 // 每个组件都返回一个render函数，不管有多少层组件，都会一层一层的执行render函数，最终转化成html
 ```
+
 题目4: 简述 setState 的过程
 
 setState的异步（为什么需要异步）
@@ -2768,7 +2771,7 @@ $1-$2-$3
 
 /*
 js 正则处理字符串
-*/
+
 js中通过内置对象RegExp支持正则表达式
 
 有两种方法实例化RegExp对象
@@ -2776,6 +2779,7 @@ js中通过内置对象RegExp支持正则表达式
 构造函数: const reg = new RegExp('\\bis\\b', 'g')
 修饰符: g全文搜索, i忽略大小写, m多行搜索（有换行符默认第二行开头也不会匹配,加上m会被匹配）
 字符串:  'my name is lyr'.replace(reg, "要替换成的字符串");
+*/
 ```
 ## js事件循环，宏微任务
 异步执行顺序的差异: 要明白这个问题需要去了解js的事件循环模型 (js的执行栈，作用域链，变量提升，js的单线程原因)
@@ -2833,7 +2837,7 @@ js在执行宏任务前先会把微任务执行完清空,执行完一个宏任�
 
 总结就是：每一次宏任务执行完之后就会执行自己的微任务队列
 ```js
-例1:
+// 例1:
 setTimeout(function() {
     console.log(1)
 }, 0);
@@ -2849,7 +2853,7 @@ new Promise(function(a, b) {
 console.log(5)
 // 结果: 2，3，5，4，1
 // promise的定义是同步的，then是异步的
-例2:
+// 例2:
 console.log(1);
 setTimeout(function() {
   console.log(2);
@@ -2862,7 +2866,7 @@ Promise.resolve().then(function() {
 console.log(5);
 // 结果: 1,5,3,4,2
 
-例3:
+// 例3:
 Promise.resolve().then(()=>{ // promise1
   console.log('promise1')
   setTimeout(()=>{ // setTimeout1
@@ -2876,7 +2880,8 @@ setTimeout(()=>{ // setTimeout2
   })
 },0)
 // 结果：promise1,setTimeout2,promise2,setTimeout1
-// 分析:
+```
+分析:
 第一轮：执行宏任务（主函数） --> 清空微任务队列
 执行同步：主函数执行完毕，没有同步代码，生成一个微任务promise1, 一个宏任务setTimeout2。 // 微: [promise1]; 宏: [setTimeout2]
 清空微任务队列：执行微任务promise1: 打印promise1并且生成一个宏任务setTimeout1。 // 微: []; 宏: [setTimeout2, setTimeout1]
@@ -2886,7 +2891,6 @@ setTimeout(()=>{ // setTimeout2
 第三轮：执行下一个宏任务（setTimeout1）--> 清空微任务队列
 执行同步：执行setTimeout1：打印setTimeout1 // 微: []; 宏: []
 清空微任务队列: 无任务
-```
 
 ## 浏览器的基本工作原理
 核心问题：在地址栏输入 google.com 直到您在浏览器屏幕上看到 Google 首页的整个过程中都发生了些什么
